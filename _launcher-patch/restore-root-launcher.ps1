@@ -1,0 +1,5 @@
+[CmdletBinding(PositionalBinding=$false)]param([string]$BillfishRoot,[string]$BackupDir,[string]$FixtureRoot,[switch]$DryRun)
+if ([string]::IsNullOrWhiteSpace($BillfishRoot)) { $BillfishRoot = Split-Path -Parent $PSScriptRoot }
+Set-StrictMode -Version 3.0;$ErrorActionPreference='Stop';. (Join-Path $PSScriptRoot 'RootTopology.Transactions.ps1')
+$stateRoot=if($FixtureRoot){[IO.Path]::GetFullPath($FixtureRoot)}else{$PSScriptRoot};$pointer=Join-Path $stateRoot 'latest-root-topology-backup.txt';if(-not$BackupDir-and(Test-Path -LiteralPath $pointer -PathType Leaf)){$BackupDir=(Get-Content -LiteralPath $pointer -TotalCount 1).Trim()};if(-not$BackupDir-and(Test-Path -LiteralPath ($pointer+'.pending.json') -PathType Leaf)){$pending=Get-Content -LiteralPath ($pointer+'.pending.json') -Raw|ConvertFrom-Json;$BackupDir=[string]$pending.backupDir};if(-not$BackupDir){throw 'Active v4 topology backup not found.'}
+Restore-BillfishRootTopology -BillfishRoot $BillfishRoot -BackupDir $BackupDir -V4StatePointerPath $pointer -FixtureRoot $FixtureRoot -DryRun:$DryRun

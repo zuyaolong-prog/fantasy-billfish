@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "targetRelativePath": "ui_plugins/preview.dll",
+  "entries": [
+    {
+      "sha256": "962947229E0E76AE1B882FB3D86308B8DC7E38B7CF51CCB4173E588E0E69021D",
+      "size": 828928,
+      "pluginVersion": "3.1.5.12",
+      "qtAbi": "Qt 5.15.8 x64",
+      "description": "Billfish 3.1.5.12 stock ui_plugins/preview.dll"
+    }
+  ]
+}

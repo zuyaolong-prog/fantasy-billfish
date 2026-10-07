@@ -1,0 +1,100 @@
+{
+  "schemaVersion": 1,
+  "files": [
+    {
+      "path": "Billfish.exe",
+      "sha256": "85E2DA01084ED9E580D6A2CE5DD04903EEB49BD8F6B41F25358ABD80D66E4BDD",
+      "size": 70932193
+    },
+    {
+      "path": "Billfish.core.exe",
+      "sha256": "47ABF9BF0464D88C1CA259965BBDD00165317FBF1FEA8308C339C548C405C24F",
+      "size": 1863664
+    },
+    {
+      "path": "plugins/media_runtime/libFFmpeg64.dll",
+      "sha256": "967368B625BF356DDE9B48F40634F4FC948D9406015F925FA6FBA242747D4CC6",
+      "size": 279552
+    },
+    {
+      "path": "plugins/media_runtime/libFFmpeg64_orig.dll",
+      "sha256": "7DA6F783AB3D09C7BDD061334C180CE6A3E0ABE0095FC22FED50CE7ED29C2191",
+      "size": 44630528
+    },
+    {
+      "path": "plugins/media_runtime/dav1d.dll",
+      "sha256": "1A948D2A84D62992E1A1A494E7C940D3B5F5B68179DFE4152D73588C44B99A76",
+      "size": 1866240
+    },
+    {
+      "path": "plugins/media_runtime/libMediaSDK64.dll",
+      "sha256": "65334ED3EAED54C14F1BF7AAE0D5D7409888029A70F9FD127473DEE56BD2E6F6",
+      "size": 11402752
+    },
+    {
+      "path": "ui_plugins/preview.dll",
+      "sha256": "666DF56878B561E1016BED1F5A92E442EDCB49A7D2CF77924CD373FF63C0016F",
+      "size": 452608
+    },
+    {
+      "path": "ui_plugins/preview.stock.bin",
+      "sha256": "962947229E0E76AE1B882FB3D86308B8DC7E38B7CF51CCB4173E588E0E69021D",
+      "size": 828928
+    },
+    {
+      "path": "ui_plugins/treemodule.dll",
+      "sha256": "B26E12F54B569DA9AA9803103615BCDCE99FADE2377AAE542346CCF601D8B956",
+      "size": 432640
+    },
+    {
+      "path": "tools/ffmpeg/bin/avcodec-62.dll",
+      "sha256": "079EDDAD62D8F0240A3BFB05A6E89BF3D8817E60F9C2800BF11CB2275F229AFD",
+      "size": 105470976
+    },
+    {
+      "path": "tools/ffmpeg/bin/avdevice-62.dll",
+      "sha256": "C3225B1FB8B2BDF7603BBF3B1444F4EC40C3C17A8A724691980B734F9D19B877",
+      "size": 3621888
+    },
+    {
+      "path": "tools/ffmpeg/bin/avfilter-11.dll",
+      "sha256": "C95FEFDABD17C42F4EA3811A62755526D758EA57F7A9F19C2C0618A39AABE40F",
+      "size": 65697792
+    },
+    {
+      "path": "tools/ffmpeg/bin/avformat-62.dll",
+      "sha256": "A08510F8E175CAF49C1F1F68D9D2C9381AC99481BADB16D590F7205234E98E6F",
+      "size": 21975552
+    },
+    {
+      "path": "tools/ffmpeg/bin/avutil-60.dll",
+      "sha256": "9B8D79CCFC2F492480DDE04E1857E83C12719208EE88888EA08DCDB41950AA0B",
+      "size": 2936832
+    },
+    {
+      "path": "tools/ffmpeg/bin/ffmpeg.exe",
+      "sha256": "597A04C3E6650CE5142ED51400AE0D2B4C31835EEA3A6BA9555F3C011192EF29",
+      "size": 527360
+    },
+    {
+      "path": "tools/ffmpeg/bin/ffprobe.exe",
+      "sha256": "85BED89C48DCB9253982FA4ABDFE85136C9B38905B3E54DF71ED35B2C94D3229",
+      "size": 225280
+    },
+    {
+      "path": "tools/ffmpeg/bin/swresample-6.dll",
+      "sha256": "158605534BC44D6819C1FDC3B7B53D91833FFA859B2A9F3AC47A56430F35D54E",
+      "size": 722944
+    },
+    {
+      "path": "tools/ffmpeg/bin/swscale-9.dll",
+      "sha256": "80A197DB3C105C465F088789F63B879CA0B649881695C63A11121D9626143210",
+      "size": 1910272
+    },
+    {
+      "path": "_hdr-preview-patch/tools/mpv/mpv.exe",
+      "sha256": "D07A4431E3B44CA62ACB5127656A9505780CBBA50350C05332B4B00070D5B585",
+      "size": 118056960
+    }
+  ]
+}

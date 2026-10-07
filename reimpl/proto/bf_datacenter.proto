@@ -1,0 +1,66 @@
+syntax = "proto3";
+
+package billfish.datacenter.v1;
+
+message BFResponseInfo {
+  int32 code = 1;
+  string message = 2;
+}
+
+enum BFImportMode {
+  IMPORT_NONE = 0;
+  IMPORT_COPY = 1;
+  IMPORT_CUT = 2;
+  IMPORT_INDEX = 3;
+}
+
+message BFFile {
+  int64 id = 1;
+  int64 pid = 2;
+  string name = 3;
+  string ext_name = 4;
+  string path = 5;
+  int64 size = 6;
+  string hash = 7;
+  bool is_recycle = 8;
+}
+
+message BFImportRequest {
+  repeated string entries = 1;
+  BFImportMode mode = 2;
+  int64 target_folder_id = 3;
+  bool recursive = 4;
+}
+
+message BFImportResponse {
+  BFResponseInfo info = 1;
+  repeated int64 imported_ids = 2;
+}
+
+message BFSearchSummaryRequest {
+  string query = 1;
+  int32 limit = 2;
+  int32 offset = 3;
+  bool include_recycle = 4;
+}
+
+message BFSearchSummaryResponse {
+  BFResponseInfo info = 1;
+  repeated BFFile items = 2;
+}
+
+message BFRemoveOrRestoreRequest {
+  repeated int64 file_ids = 1;
+  string action = 2;
+}
+
+message BFExportRequest {
+  string mode = 1;  // Folder or Packet
+  repeated int64 file_ids = 2;
+  string destination = 3;
+}
+
+service BFDataCenterService {
+  rpc Import(BFImportRequest) returns (BFImportResponse);
+  rpc SearchSummary(BFSearchSummaryRequest) returns (BFSearchSummaryResponse);
+}

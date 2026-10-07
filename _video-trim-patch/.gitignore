@@ -1,0 +1,16 @@
+# Generated C++ build output and publishable payload.
+/build/
+/prepared/
+/.prepared-staging-*/
+/.prepared-previous-*/
+
+# Runtime transaction state and recovery material.
+/state/
+/backups/
+/logs/
+
+# Test/editor noise.
+*.tmp
+*.log
+.DS_Store
+Thumbs.db
