@@ -508,13 +508,13 @@
     },
     {
       "path": "tools/export-portable.py",
-      "sha256": "A47521A55A8305D1BE38B775A1541AB55480CF0B7F466B7A1629586F7DF7BDBF",
-      "size": 9040
+      "sha256": "7E77A1BBB03E89847BA6DB6AB56ADD37A39A39505B47B33189C302320AC9194E",
+      "size": 10104
     },
     {
       "path": "docs/portable-migration.md",
-      "sha256": "20463D0D76ED1971E7450520F97099658A327B93D045ECB43873DD756E17F94F",
-      "size": 6301
+      "sha256": "1595DC7AD3FBD51F3095D3BEBB4CB2C73930314D16765F90966DBF3D5654439A",
+      "size": 7023
     },
     {
       "path": "browser-extension/maintained/tests/automatic-capture.test.cjs",
