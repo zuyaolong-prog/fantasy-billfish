@@ -71,3 +71,19 @@ fixture suite 覆盖 v3 to v4, idempotence, install/restore 全 phase failure, p
 ```powershell
 & .\_launcher-patch\tests\run-tests.ps1
 ```
+
+## Local Eagle package ingress
+
+The unified entry accepts one local package with `Billfish.exe "C:\Downloads\plugin.eagleplugin"` or `Billfish.exe --install-plugin "C:\Downloads\plugin.eagleplugin"`. The explicit command also accepts `.zip` packages. Package arguments are consumed by the launcher and never reach the vendor core. Other Billfish arguments keep their existing pass-through behavior.
+
+The launcher uses `BILLFISH_PYTHON` or Python on PATH, matching the existing automation host. It waits up to 60 seconds for the current-user host, sends one `plugins.install` request with `source_path`, waits up to 120 seconds for the final result, then opens Billfish's plugin settings. New plugins remain disabled until enabled in that page. A timeout reports its `job_id`; query `jobs.get` with that ID before retrying installation. Failure to open settings after a completed installation reports that installation has succeeded and must not be repeated.
+
+`plugin-package-association.ps1` is a current-user registration tool. Its default `Status` action is read-only and reports the effective Windows executable and command with `AssocQueryString`, together with the presence of a protected `UserChoice`. `Register -BackupPath <new JSON file>` adds the Billfish-owned `Billfish.EaglePlugin` ProgID and its `.eagleplugin\OpenWithProgids` value. Add `-SetDefault` to make Billfish the current-user `.eagleplugin` default when no protected `UserChoice` exists. If `UserChoice` exists, the script refuses that default change before mutation; register without `-SetDefault`, then use the standard Windows Open With default-app dialog. `Restore -BackupPath <same JSON file>` restores the previous ProgID tree, that one OpenWith value, and the previous current-user extension default when changed, preserving other applications' entries. No action writes the protected `UserChoice` or the `eagle://` protocol. Registration and default changes require the user's authorization. Keep the backup until the registration is no longer needed.
+
+Focused checks without starting Billfish or writing registry:
+
+```powershell
+& .\_launcher-patch\tests\plugin-ingress.ps1
+python .\_launcher-patch\tests\test_plugin_ingress.py
+& .\_launcher-patch\plugin-package-association.ps1 -Action Status
+```

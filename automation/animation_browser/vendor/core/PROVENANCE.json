@@ -1,0 +1,14 @@
+{
+  "role": "Internal frozen renderer resource for the single Billfish 3D preview plugin",
+  "sourcePluginId": "89fb801f-7761-4de6-b7ce-3785a084edaf",
+  "sourcePluginVersion": "1.9.0",
+  "coreSha256": "8adb5ffe1af73c5808397b8de590fb7dbc6389d24144660da60728e2c33a38ff",
+  "resourceManifest": "resources.sha256.json",
+  "resourceFiles": 19,
+  "resourceBytes": 36633972,
+  "preservation": "Original lib files, including embedded third-party notices and decoder resources, are retained byte-for-byte. No Core or licensing code was changed. This record does not create a new license grant.",
+  "registration": "This resource directory is not an installed plugin and has no plugin manifest, main entry or viewer.html. The single plugin id remains billfish.animation-browser.",
+  "testedRepresentativeInputs": ["OBJ cube", "STL cube", "glTF cube", "animated Samba FBX"],
+  "coverage": "The original declared 23 3D formats plus HDR/EXR viewer-only declarations are retained. Representative rendering tests do not establish that every format has been individually exercised.",
+  "trustBoundary": "Core executes as trusted CJS in the context-isolated preload world. The page keeps Node disabled and a strict script CSP; public viewport methods accept no arbitrary source path. This is not an OS or Node filesystem sandbox. Original relative model resources remain supported."
+}

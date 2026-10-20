@@ -1,0 +1,7 @@
+{
+  "name": "com.billfish.capture",
+  "description": "Billfish maintained browser video capture bridge",
+  "path": "@@HOST_PATH@@",
+  "type": "stdio",
+  "allowed_origins": ["chrome-extension://aloippladlgkfkcabiknfpokgcppcjkp/"]
+}

@@ -199,6 +199,22 @@ bool ImmersionPlayback::eventFilter(QObject* watched, QEvent* event) {
     }
     auto* widget = qobject_cast<QWidget*>(watched);
     if (!widget) return false;
+    if (event->type() == QEvent::MouseButtonDblClick &&
+        static_cast<QMouseEvent*>(event)->button() == Qt::LeftButton &&
+        !QApplication::activePopupWidget() && !QApplication::activeModalWidget()) {
+        for (const auto& player : players_) {
+            if (!player.immersion || !player.video || !player.page || !player.video->isVisible() ||
+                widget->window() != player.page->window()) continue;
+            if (widget == player.video ||
+                (widget->inherits("MediaWidget") &&
+                 ancestor(widget, "PreviewVideoWidget") == player.video)) {
+                // Immersive video double-click returns to the ordinary preview.
+                // Ordinary video double-click returns to the grid instead.
+                capture(player.video, false);
+                break;
+            }
+        }
+    }
     if (event->type() == QEvent::MouseButtonRelease &&
         static_cast<QMouseEvent*>(event)->button() == Qt::LeftButton) {
         auto* button = qobject_cast<QAbstractButton*>(widget);

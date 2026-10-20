@@ -1,0 +1,6 @@
+@echo off
+chcp 65001 >nul
+rem Chromium nativeMessaging host wrapper: preserve binary stdin/stdout handles.
+rem URL data travels through stdin only, never through command-line expansion.
+"@@PYTHON@@" -I "@@SCRIPT@@" "%~1"
+exit /b %errorlevel%

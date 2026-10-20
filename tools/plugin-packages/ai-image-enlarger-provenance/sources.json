@@ -1,0 +1,29 @@
+{
+  "retrievedAtUtc": "2026-10-18T12:28:34.402032+00:00",
+  "sources": [
+    {
+      "path": "realesrgan-ncnn-vulkan-LICENSE",
+      "url": "https://raw.githubusercontent.com/xinntao/Real-ESRGAN-ncnn-vulkan/master/LICENSE",
+      "size": 2228,
+      "sha256": "5abb941454de437b0e90d78dcb72e3688f74e14bcd4e24393273cb5cd0e9c937"
+    },
+    {
+      "path": "Real-ESRGAN-LICENSE",
+      "url": "https://raw.githubusercontent.com/xinntao/Real-ESRGAN/master/LICENSE",
+      "size": 1519,
+      "sha256": "4a699ec4863d96a91fc265948a0c90033f7e8735d515524dcf3444736406e0c2"
+    },
+    {
+      "path": "realesrgan-ncnn-vulkan-README.md",
+      "url": "https://raw.githubusercontent.com/xinntao/Real-ESRGAN-ncnn-vulkan/master/README.md",
+      "size": 6052,
+      "sha256": "b7e6d9b329d057aba2dee56bf6fa8bdb7b79e90df959b39b92ed2873255f028b"
+    },
+    {
+      "path": "Real-ESRGAN-README.md",
+      "url": "https://raw.githubusercontent.com/xinntao/Real-ESRGAN/master/README.md",
+      "size": 16548,
+      "sha256": "d0a13607913ea94e65a91ac864b969683a41a45b0aec16e0ae64271649d0364d"
+    }
+  ]
+}

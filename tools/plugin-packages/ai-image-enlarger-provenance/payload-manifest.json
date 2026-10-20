@@ -1,0 +1,91 @@
+{
+  "downloadedAtUtc": "2026-10-18T12:27:47.092351+00:00",
+  "source": "C:\\Users\\Administrator\\AppData\\Roaming\\Eagle\\Plugins\\ai-image-enlarger\\modules\\image-enlarger\\index.js",
+  "sourceSha256": "e1e302a2e4addce18cb9bb10692bf5db17c646a5aad0c44cb7bd96dfd0a69b35",
+  "dependencies": [
+    {
+      "name": "realesrgan-x4plus-anime.param",
+      "type": "model",
+      "url": "https://r2-plugin.eagle.cool/image-enlarger/models/realesrgan-x4plus-anime.param",
+      "size": 30290,
+      "expectedSampleMd5": "cf5b2df335675a5b3fa5e5ce47eca847",
+      "path": "payload/models/realesrgan-x4plus-anime.param",
+      "actualSize": 30290,
+      "sampleMd5": "cf5b2df335675a5b3fa5e5ce47eca847",
+      "sha256": "2b8fb6e0ae4d2d85704ca08c119a2f5ea40add4f2ecd512eb7f4cd44b6127ed4",
+      "verified": true
+    },
+    {
+      "name": "realesrgan-x4plus.param",
+      "type": "model",
+      "url": "https://r2-plugin.eagle.cool/image-enlarger/models/realesrgan-x4plus.param",
+      "size": 116029,
+      "expectedSampleMd5": "49dce87479b2b5ffb4405aa449a9ce26",
+      "path": "payload/models/realesrgan-x4plus.param",
+      "actualSize": 116029,
+      "sampleMd5": "49dce87479b2b5ffb4405aa449a9ce26",
+      "sha256": "35330ececcea33b6c397a72548e788d5d53becee4734c50b7fada36e89f10a86",
+      "verified": true
+    },
+    {
+      "name": "realesrgan-x4plus-anime.bin",
+      "type": "model",
+      "url": "https://r2-plugin.eagle.cool/image-enlarger/models/realesrgan-x4plus-anime.bin",
+      "size": 8943500,
+      "expectedSampleMd5": "d1036ffcccfe945901f8ba824735cbcb",
+      "path": "payload/models/realesrgan-x4plus-anime.bin",
+      "actualSize": 8943500,
+      "sampleMd5": "d1036ffcccfe945901f8ba824735cbcb",
+      "sha256": "fe01c269cfd10cdef8e018ab66ebe750cf79c7af4d1f9c16c737e1295229bacc",
+      "verified": true
+    },
+    {
+      "name": "realesrgan-x4plus.bin",
+      "type": "model",
+      "url": "https://r2-plugin.eagle.cool/image-enlarger/models/realesrgan-x4plus.bin",
+      "size": 33424520,
+      "expectedSampleMd5": "fcb6b30c7169869ddc1eaf2a965ef880",
+      "path": "payload/models/realesrgan-x4plus.bin",
+      "actualSize": 33424520,
+      "sampleMd5": "fcb6b30c7169869ddc1eaf2a965ef880",
+      "sha256": "713ee713b0353afaa27976f0563a64a5043bd70b9bd8936c2e26e25ebcdbcddf",
+      "verified": true
+    },
+    {
+      "name": "realesrgan-ncnn-vulkan.exe",
+      "type": "binary",
+      "url": "https://r2-plugin.eagle.cool/image-enlarger/realesrgan-ncnn-vulkan.exe",
+      "size": 6161408,
+      "expectedSampleMd5": "a098cc6eba1814cd8229d9f2bc989be4",
+      "path": "payload/realesrgan-ncnn-vulkan.exe",
+      "actualSize": 6161408,
+      "sampleMd5": "a098cc6eba1814cd8229d9f2bc989be4",
+      "sha256": "07e49f7cbb4ede01ae4dd4c399d3a7e5846e3d2085c3128eff881e55cb7b1a0c",
+      "verified": true
+    },
+    {
+      "name": "vcomp140.dll",
+      "type": "library",
+      "url": "https://r2-plugin.eagle.cool/image-enlarger/vcomp140.dll",
+      "size": 182704,
+      "expectedSampleMd5": "12f8fc3cd4c9dd9d344be239b05857f2",
+      "path": "payload/vcomp140.dll",
+      "actualSize": 182704,
+      "sampleMd5": "12f8fc3cd4c9dd9d344be239b05857f2",
+      "sha256": "8f72ef2e483465444b2059fc6744d6cb22cd8d8a27f6fa56befd2a42dcd0f78b",
+      "verified": true
+    },
+    {
+      "name": "vcomp140d.dll",
+      "type": "library",
+      "url": "https://r2-plugin.eagle.cool/image-enlarger/vcomp140d.dll",
+      "size": 207736,
+      "expectedSampleMd5": "829756a44056089e7c12b2d3f4e39475",
+      "path": "payload/vcomp140d.dll",
+      "actualSize": 207736,
+      "sampleMd5": "829756a44056089e7c12b2d3f4e39475",
+      "sha256": "34980f5a28002967d4f2659b10a417b1b9a242e240195947c89195083d146c53",
+      "verified": true
+    }
+  ]
+}

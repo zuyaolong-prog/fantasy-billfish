@@ -1,0 +1,29 @@
+{
+  "id": "example.material-notes",
+  "name": "素材备注示例",
+  "version": "1.0.0",
+  "description": "为指定素材写入前缀与文件名组成的备注, 展示在线写入和进度回报.",
+  "platform": "win",
+  "arch": "x64",
+  "main": {"url": "index.html", "width": 600, "height": 240},
+  "billfish": {
+    "apiVersion": 1,
+    "permissions": ["items.get", "items.update"],
+    "commands": [
+    {
+      "id": "annotate",
+      "title": "按文件名填写备注",
+      "description": "覆盖选定素材的备注. 请先在测试库试用.",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "item_ids": {"type": "array", "minItems": 1, "maxItems": 100, "items": {"type": "string", "minLength": 1, "maxLength": 19}},
+          "note_prefix": {"type": "string", "maxLength": 1000, "default": "素材: "}
+        },
+        "required": ["item_ids"],
+        "additionalProperties": false
+      }
+    }
+    ]
+  }
+}

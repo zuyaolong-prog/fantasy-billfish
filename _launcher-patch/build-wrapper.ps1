@@ -73,6 +73,6 @@ finally {
     $tempFull = [System.IO.Path]::GetFullPath($TempRoot)
     $patchFull = [System.IO.Path]::GetFullPath($PatchDir).TrimEnd('\') + '\'
     if ($tempFull.StartsWith($patchFull, [System.StringComparison]::OrdinalIgnoreCase) -and (Test-Path -LiteralPath $tempFull)) {
-        Remove-Item -LiteralPath $tempFull -Recurse -Force
+        [System.IO.Directory]::Delete($tempFull, $true)
     }
 }

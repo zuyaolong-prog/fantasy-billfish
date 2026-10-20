@@ -7,17 +7,26 @@ from pathlib import Path
 
 
 SOURCE_ROOT_FILES = {
-    "README.md", "THIRD_PARTY_FFMPEG.md", "start-billfish.ps1",
-    ".gitignore", ".gitattributes",
+    "README.md", "THIRD_PARTY_FFMPEG.md", "THIRD_PARTY_ELECTRON.md", "start-billfish.ps1",
+    ".gitignore", ".gitattributes", "billfish-cli.cmd",
 }
 SOURCE_BINARY_SUFFIXES = {
     ".exe", ".dll", ".bin", ".pak", ".dat", ".zip", ".7z", ".gz",
     ".tar", ".com", ".lib", ".a", ".o", ".obj", ".pdb", ".exp",
     ".pyc", ".db", ".cache", ".bak", ".lnk", ".png", ".jpg",
     ".jpeg", ".webp", ".gif", ".ico", ".pdf", ".ttf", ".woff",
-    ".woff2",
+    ".woff2", ".eagleplugin",
 }
-SOURCE_ATTRIBUTES = "* text=auto\n*.ps1 text eol=crlf\n*.cmd text eol=crlf\n*.bat text eol=crlf\n"
+SOURCE_ATTRIBUTES = """* text=auto
+*.ps1 text eol=crlf
+*.cmd text eol=crlf
+*.bat text eol=crlf
+# Frozen resources and rebuild inputs must retain their recorded bytes.
+automation/animation_browser/vendor/** -text
+browser-extension/maintained/** -text
+_sidebar-patch/src/** -text
+_animation-browser-parser/vendor/** -text
+"""
 SOURCE_RUNTIME_IGNORE = """
 # Runtime payloads are distributed in the portable Release archive.
 *.exe
@@ -45,18 +54,85 @@ SOURCE_RUNTIME_IGNORE = """
 /x86/
 /_hdr-preview-patch/tools/mpv/
 /tools/ffmpeg/bin/
+/tools/electron/
+/tools/python/*.pyd
+/tools/python/*.cat
 """
+REQUIRED_SOURCE_FILES = {
+    b"start-billfish.ps1", b"THIRD_PARTY_ELECTRON.md",
+    b"_animation-browser-parser/CMakeLists.txt", b"_animation-browser-parser/src/main.cpp",
+    b"_animation-browser-parser/vendor/ufbx/ufbx.c", b"_animation-browser-parser/vendor/ufbx/ufbx.h",
+    b"_animation-browser-parser/vendor/ufbx/LICENSE",
+    b"_animation-browser-parser/vendor/nlohmann/json.hpp", b"_animation-browser-parser/vendor/nlohmann/LICENSE.MIT",
+    b"_video-trim-patch/src/automation/format_preview_bridge.cpp",
+    b"_video-trim-patch/src/automation/native_adapter.cpp",
+    b"_sidebar-patch/src/BfFolderTreeView.qml",
+    b"automation/animation_catalog_helper.py",
+    b"automation/animation_browser/backend/service.cjs", b"automation/animation_browser/ui/app.mjs",
+    b"automation/plugin_runtime/animation-browser-runtime.cjs",
+    b"_launcher-patch/PluginIngress.Core.ps1",
+    b"_launcher-patch/deliver-plugin-package.py",
+    b"_launcher-patch/plugin-package-association.ps1",
+    b"automation/billfish_api/online.py", b"automation/billfish_api/errors.py",
+    b"automation/plugin_runtime/main.cjs", b"automation/plugin_runtime/preload.cjs",
+    b"automation/plugin_runtime/eagle-sdk.cjs", b"automation/plugin_runtime/schema.cjs",
+    b"automation/plugin_runtime/context-menu.cjs", b"automation/plugin_runtime/extra-modules.cjs",
+    b"automation/plugin_runtime/vendor/i18next.cjs", b"automation/plugin_runtime/vendor/i18next.LICENSE",
+    b"automation/plugin_runtime/package_installer.py",
+    b"automation/plugin_runtime/package.json", b"automation/plugin_runtime/package-lock.json",
+    b"automation/media_transfer.py", b"automation/MEDIA_TRANSFER.md",
+    b"automation/browser_native_host.py",
+    b"browser-extension/maintained/README.md", b"browser-extension/maintained/manifest.json",
+    b"browser-extension/maintained/provenance.json", b"browser-extension/maintained/identity.json",
+    b"browser-extension/maintained/build-fork.cjs",
+    b"browser-extension/maintained/maintained/video-background.js",
+    b"browser-extension/maintained/maintained/video-common.js",
+    b"browser-extension/maintained/maintained/video-content.js",
+    b"browser-extension/native-host/README.md",
+    b"browser-extension/native-host/manage-native-host.ps1",
+    b"browser-extension/native-host/billfish-capture-host.cmd.in",
+    b"browser-extension/native-host/com.billfish.capture.json.in",
+    b"tools/video-download/LICENSE", b"tools/video-download/THIRD_PARTY_LICENSES.txt",
+    b"tools/video-download/PROVENANCE.md", b"tools/video-download/SHA2-256SUMS",
+    b"tools/initialize-portable.ps1", b"tools/initialize-portable.cmd",
+    b"docs/portable-migration.md", b"tools/python/PROVENANCE.md",
+    b"tools/python/LICENSE.txt", b"tools/python/runtime-files.json", b"tools/python/python314._pth",
+}
+REQUIRED_PORTABLE_FILES = {
+    b"Billfish.exe", b"Billfish.core.exe", b"ui_plugins/preview.stock.bin",
+    b"_launcher-patch/portable-runtime.json", b"Qt5WebEngineCore.dll",
+    b"_hdr-preview-patch/tools/mpv/mpv.exe", b"tools/ffmpeg/bin/ffmpeg.exe",
+    b"tools/ffmpeg/bin/ffprobe.exe",
+    b"tools/video-download/yt-dlp.exe",
+} | {
+    ("tools/electron/" + name).encode("utf-8") for name in (
+        "electron.exe", "LICENSE", "LICENSES.chromium.html", "version",
+        "chrome_100_percent.pak", "chrome_200_percent.pak", "resources.pak",
+        "icudtl.dat", "snapshot_blob.bin", "v8_context_snapshot.bin",
+        "d3dcompiler_47.dll", "dxcompiler.dll", "dxil.dll", "ffmpeg.dll",
+        "libEGL.dll", "libGLESv2.dll", "vk_swiftshader.dll",
+        "vk_swiftshader_icd.json", "vulkan-1.dll",
+        "resources/default_app.asar", "locales/en-US.pak", "locales/zh-CN.pak",
+    )
+}
 
 
 def is_source(encoded_path):
     relative = Path(encoded_path.decode("utf-8"))
+    if relative.name == "AGENTS.md":
+        return False
     if len(relative.parts) == 1:
         return relative.name in SOURCE_ROOT_FILES
     top = relative.parts[0]
-    if not (top.startswith("_") and top.endswith("patch") or top in {"reimpl", "reimpl-cpp", "tools"}):
+    if not (top.startswith("_") and top.endswith("patch") or top in {"_animation-browser-parser", "reimpl", "reimpl-cpp", "tools", "automation", "docs", "browser-extension"}):
         return False
-    if "bin" in relative.parts[:-1] or relative.as_posix().startswith("_hdr-preview-patch/tools/mpv/"):
+    if "bin" in relative.parts[:-1] or relative.as_posix().startswith(("_hdr-preview-patch/tools/mpv/", "tools/electron/")):
         return False
+    if relative.as_posix().startswith("tools/python/"):
+        return relative.name in {"PROVENANCE.md", "LICENSE.txt", "runtime-files.json", "python314._pth"}
+    # Keep the maintained extension loadable, including its small packaged UI assets.
+    if relative.as_posix().startswith("browser-extension/maintained/") and relative.suffix.lower() in {".png", ".gif", ".wasm"}:
+        return True
     return relative.suffix.lower() not in SOURCE_BINARY_SUFFIXES
 
 
@@ -87,17 +163,24 @@ def main():
     included = sorted(files - ignored)
     if args.source_only:
         included = [path for path in included if is_source(path)]
-    required = {
-        b"Billfish.exe", b"Billfish.core.exe", b"ui_plugins/preview.stock.bin",
-        b"_launcher-patch/portable-runtime.json", b"Qt5WebEngineCore.dll",
-        b"_hdr-preview-patch/tools/mpv/mpv.exe", b"tools/ffmpeg/bin/ffmpeg.exe",
-        b"tools/ffmpeg/bin/ffprobe.exe",
-    }
-    if not args.source_only and required - set(included):
+    required = REQUIRED_SOURCE_FILES if args.source_only else REQUIRED_SOURCE_FILES | REQUIRED_PORTABLE_FILES
+    provenance = root / "browser-extension/maintained/provenance.json"
+    if provenance.is_file():
+        # The frozen fork's recorded baseline is authoritative for all 57 original
+        # resources, including indirect CSS/JS/image/WASM loads in bundled scripts.
+        declared = json.loads(provenance.read_text(encoding="utf-8"))["source_hashes"]
+        required = required | {("browser-extension/maintained/" + path).encode("utf-8") for path in declared}
+    python_manifest = root / "tools/python/runtime-files.json"
+    if not args.source_only and python_manifest.is_file():
+        declared = json.loads(python_manifest.read_text(encoding="utf-8"))["files"]
+        required = required | {("tools/python/" + file["path"]).encode("utf-8") for file in declared}
+    missing = required - set(included)
+    missing |= {path for path in required if not (root / path.decode("utf-8")).is_file()}
+    if missing:
+        description = "Source export requires maintained, unignored files: " if args.source_only else "Full portable export requires installed, unignored runtime files: "
         parser.error(
-            "Full portable export requires installed, unignored runtime files: "
-            + ", ".join(path.decode("utf-8") for path in sorted(required - set(included)))
-            + ". Use --source-only for a source checkout, or download the portable archive from GitHub Releases."
+            description + ", ".join(path.decode("utf-8") for path in sorted(missing))
+            + ("." if args.source_only else ". Use --source-only for a source checkout, or download the portable archive from GitHub Releases.")
         )
     destination.mkdir(parents=True, exist_ok=True)
     total = 0

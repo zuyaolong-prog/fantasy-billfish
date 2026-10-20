@@ -1,0 +1,88 @@
+{
+  "action": {
+    "default_icon": {
+      "16": "./assets/icons/16.png",
+      "32": "./assets/icons/32.png",
+      "64": "./assets/icons/64.png"
+    },
+    "default_popup": "popup/index.html",
+    "default_title": "__MSG_name__"
+  },
+  "author": "Billfish",
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "all_frames": false,
+      "css": [
+        "./styles/contentInject.css",
+        "./styles/scrollcapture.css"
+      ],
+      "js": [
+        "./maintained/video-common.js",
+        "./maintained/video-content.js",
+        "./content.js"
+      ],
+      "matches": [
+        "http://*/*",
+        "https://*/*"
+      ]
+    }
+  ],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self' 'wasm-unsafe-eval'; object-src 'self'"
+  },
+  "default_locale": "en",
+  "description": "__MSG_desc__",
+  "homepage_url": "https://www.billfish.cn/",
+  "host_permissions": [
+    "http://*/*",
+    "https://*/*"
+  ],
+  "icons": {
+    "16": "./assets/icons/16.png",
+    "32": "./assets/icons/32.png",
+    "48": "./assets/icons/48.png",
+    "64": "./assets/icons/64.png",
+    "128": "./assets/icons/128.png",
+    "256": "./assets/icons/256.png",
+    "512": "./assets/icons/512.png",
+    "1024": "./assets/icons/1024.png"
+  },
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAyzJqV4ipBODDxjQnhkhQXJSR1ur9mlA8tJVE+0u9jk6KeNg3U0anm818rSRxUsYUIBgRzIk+4ZJ+UDBhwnbTOEItUiYpVWCxcIAhWLk8BlLrEyZFoGYpuuE4mwdrMSZK8U66d7j/j+f823thuaLScV5+vpjs/mLbBVjMtgGJg/91/FOgCO9Ph486Z7VAxZ/kfTb+RJshb4BO2kU7KVOdO9aOPVk5aurXY2HR+nZxGAo/hqzDpLVKinOHP6Ov79qeMAGt47Z8ou0x/LFoeCnbv5wwGBaA1HNtH0Lsa2FQb3TWZhha9jm0vMmhu9oTCBJUXL10gqHnkXgPO4nzZWPYOQIDAQAB",
+  "manifest_version": 3,
+  "name": "Billfish 采集 - 维护版",
+  "permissions": [
+    "tabs",
+    "storage",
+    "activeTab",
+    "webRequest",
+    "scripting",
+    "contextMenus",
+    "nativeMessaging"
+  ],
+  "version": "4.2.0",
+  "web_accessible_resources": [
+    {
+      "matches": [
+        "http://*/*",
+        "https://*/*"
+      ],
+      "resources": [
+        "assets/*",
+        "assets/icons/*",
+        "edit/*",
+        "file/*",
+        "background.js",
+        "policy.js",
+        "loader.js",
+        "kb-wasm.js",
+        "kb-wasm.wasm",
+        "swcache/*/*",
+        "styles/*"
+      ],
+      "use_dynamic_url": true
+    }
+  ]
+}

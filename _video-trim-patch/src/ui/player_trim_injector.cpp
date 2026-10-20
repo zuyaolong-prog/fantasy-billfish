@@ -1,4 +1,7 @@
 #include "ui/player_trim_injector.hpp"
+#include "automation/app_input_scope.hpp"
+
+#include <utility>
 
 #include "ui/trim_editor_dialog.hpp"
 #include "ui/trim_diagnostics.hpp"
@@ -99,8 +102,10 @@ bool isPreviewFileIdSignal(const QMetaMethod& method) {
 
 }  // namespace
 
-PlayerTrimInjector::PlayerTrimInjector(QObject* pluginInstance, QObject* parent)
-    : QObject(parent), pluginInstance_(pluginInstance), scanTimer_(new QTimer(this)) {
+PlayerTrimInjector::PlayerTrimInjector(QObject* pluginInstance, QObject* parent,
+                                       std::function<QString()> currentLibraryRoot)
+    : QObject(parent), pluginInstance_(pluginInstance),
+      currentLibraryRoot_(std::move(currentLibraryRoot)), scanTimer_(new QTimer(this)) {
     setObjectName(QStringLiteral("BillfishVideoTrimInjector"));
     scanTimer_->setObjectName(QStringLiteral("BillfishVideoTrimScanDebounce"));
     scanTimer_->setSingleShot(true);
@@ -270,7 +275,7 @@ bool PlayerTrimInjector::tryInject(QWidget* searchRoot) {
             existingResolver->deleteLater();
         }
 
-        auto* resolver = new TrimPanel(playerRoot);
+        auto* resolver = new TrimPanel(playerRoot, currentLibraryRoot_);
         resolver->setObjectName(QString::fromLatin1(kResolverObjectName));
         resolver->hide();
         (void)resolver->refreshRuntimeBindings(
@@ -535,6 +540,16 @@ void PlayerTrimInjector::openEditor(QWidget* playerRoot, QWidget* previewControl
         const QString reason = resolver->statusText().trimmed().isEmpty()
             ? fallback
             : resolver->statusText().trimmed();
+        if (billfish::automation::AppInputScope::active()) {
+            auto* warning = new QMessageBox(QMessageBox::Warning, QStringLiteral("剪辑视频"),
+                                            reason, QMessageBox::Ok, playerRoot);
+            warning->setObjectName(QStringLiteral("BillfishVideoTrimSourceError"));
+            warning->setAttribute(Qt::WA_ShowWithoutActivating, true);
+            warning->setAttribute(Qt::WA_DeleteOnClose, true);
+            warning->setWindowModality(Qt::NonModal);
+            warning->show();
+            return;
+        }
         if (QGuiApplication::platformName() == QStringLiteral("offscreen")) {
             trimDiagnostic(QStringLiteral("path-resolution source=open status=offscreen-rejected reason=%1")
                                .arg(reason));
@@ -573,10 +588,14 @@ void PlayerTrimInjector::openEditor(QWidget* playerRoot, QWidget* previewControl
         // keeps that editor alive until the worker has stopped safely.
         QPointer<TrimEditorDialog> previousEditor = editorDialog_;
         if (!previousEditor->close()) {
+            const bool appInput = billfish::automation::AppInputScope::active();
+            previousEditor->setAttribute(Qt::WA_ShowWithoutActivating, appInput);
             previousEditor->show();
             previousEditor->showNormal();
-            previousEditor->raise();
-            previousEditor->activateWindow();
+            if (!appInput) {
+                previousEditor->raise();
+                previousEditor->activateWindow();
+            }
             return;
         }
         if (previousEditor != nullptr) {
@@ -587,25 +606,30 @@ void PlayerTrimInjector::openEditor(QWidget* playerRoot, QWidget* previewControl
 
     auto* dialog = new TrimEditorDialog(playerRoot);
     dialog->setAttribute(Qt::WA_DeleteOnClose, true);
+    const bool appInput = billfish::automation::AppInputScope::active();
+    dialog->setAttribute(Qt::WA_ShowWithoutActivating, appInput);
     editorDialog_ = dialog;
     editorDialog_->setSource(sourcePath, durationMs, initialPositionMs);
     editorDialog_->show();
     editorDialog_->showNormal();
-    editorDialog_->raise();
-    editorDialog_->activateWindow();
+    if (!appInput) {
+        editorDialog_->raise();
+        editorDialog_->activateWindow();
+    }
 }
 
-void installPlayerTrimInjection(QObject* pluginInstance) {
+void installPlayerTrimInjection(QObject* pluginInstance,
+                                std::function<QString()> currentLibraryRoot) {
     auto* application = qobject_cast<QApplication*>(QCoreApplication::instance());
     if (application == nullptr) {
         return;
     }
-    const auto install = [application, pluginInstance] {
+    const auto install = [application, pluginInstance, currentLibraryRoot] {
         if (application->findChild<PlayerTrimInjector*>(QStringLiteral("BillfishVideoTrimInjector"),
                                                         Qt::FindDirectChildrenOnly) != nullptr) {
             return;
         }
-        auto* injector = new PlayerTrimInjector(pluginInstance, application);
+        auto* injector = new PlayerTrimInjector(pluginInstance, application, currentLibraryRoot);
         injector->start();
     };
     if (QThread::currentThread() == application->thread()) {

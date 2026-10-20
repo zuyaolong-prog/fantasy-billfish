@@ -6,6 +6,7 @@
 #include <QWidget>
 #include <QList>
 #include <QStringList>
+#include <functional>
 
 class QAbstractButton;
 class QLabel;
@@ -26,7 +27,8 @@ class TrimPanel final : public QWidget {
 public:
     static constexpr auto kObjectName = "BillfishVideoTrimPanel";
 
-    explicit TrimPanel(QWidget* parent = nullptr);
+    explicit TrimPanel(QWidget* parent = nullptr,
+                       std::function<QString()> currentLibraryRoot = {});
     ~TrimPanel() override;
 
     [[nodiscard]] TimelineTrimOverlay* timelineOverlay() const noexcept;
@@ -147,6 +149,7 @@ private:
     QString sourcePath_;
     QString probingSourcePath_;
     QString sourceResolutionError_;
+    std::function<QString()> currentLibraryRoot_;
     qint64 mediaDurationMs_{-1};
     qint64 currentFileId_{-1};
     qint64 lastObservedFileId_{-1};

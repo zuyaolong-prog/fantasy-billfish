@@ -1,4 +1,8 @@
 #include "ui/trim_panel.hpp"
+#include "automation/app_input_scope.hpp"
+#include "automation/scoped_popup.hpp"
+
+#include <utility>
 
 #include "ui/timeline_trim_overlay.hpp"
 #include "ui/trim_diagnostics.hpp"
@@ -17,11 +21,15 @@
 #include <QLabel>
 #include <QMetaMethod>
 #include <QMenu>
+#include <QMouseEvent>
+#include <QMessageBox>
 #include <QPalette>
 #include <QProgressBar>
 #include <QSet>
 #include <QSlider>
 #include <QStandardPaths>
+#include <QStyle>
+#include <QStyleOptionToolButton>
 #include <QThread>
 #include <QToolButton>
 #include <QUrl>
@@ -41,6 +49,40 @@ constexpr auto kInputPathProperty = "billfish.trim.inputPath";
 constexpr auto kFileIdSignalName = "signalPreviewFileIdChanged";
 constexpr auto kVideoFramesSignalName = "videoFramesChanged";
 constexpr auto kVideoTotalFramesSignalName = "videoTotalFramesChanged";
+
+class TrimExportButton final : public QToolButton {
+public:
+    using QToolButton::QToolButton;
+
+protected:
+    void mousePressEvent(QMouseEvent* event) override {
+        if (billfish::automation::AppInputScope::active() && event->button() == Qt::LeftButton && menu()) {
+            QStyleOptionToolButton option;
+            initStyleOption(&option);
+            const QRect menuRect = style()->subControlRect(
+                QStyle::CC_ToolButton, &option, QStyle::SC_ToolButtonMenu, this);
+            if (menuRect.isValid() && menuRect.contains(event->pos())) {
+                appMenuPress_ = true;
+                billfish::automation::showScopedPopup(menu(), mapToGlobal(rect().bottomLeft()));
+                event->accept();
+                return;
+            }
+        }
+        QToolButton::mousePressEvent(event);
+    }
+
+    void mouseReleaseEvent(QMouseEvent* event) override {
+        if (appMenuPress_ && event->button() == Qt::LeftButton) {
+            appMenuPress_ = false;
+            event->accept();
+            return;
+        }
+        QToolButton::mouseReleaseEvent(event);
+    }
+
+private:
+    bool appMenuPress_ = false;
+};
 
 QString stageText(const TrimStage stage) {
     switch (stage) {
@@ -164,7 +206,8 @@ QString primaryToolButtonStyle(const bool dark) {
 }
 }  // namespace
 
-TrimPanel::TrimPanel(QWidget* parent) : QWidget(parent) {
+TrimPanel::TrimPanel(QWidget* parent, std::function<QString()> currentLibraryRoot)
+    : QWidget(parent), currentLibraryRoot_(std::move(currentLibraryRoot)) {
     setObjectName(QString::fromLatin1(kObjectName));
     setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
     setMinimumWidth(0);
@@ -200,7 +243,10 @@ TrimPanel::TrimPanel(QWidget* parent) : QWidget(parent) {
     previewButton_ = makeToolButton(QString{}, QStringLiteral("BillfishVideoTrimPreviewButton"));
     previewButton_->setCheckable(true);
     previewButton_->setFixedSize(40, 40);
-    exportButton_ = makeToolButton(QStringLiteral("导出片段"), QStringLiteral("BillfishVideoTrimExportButton"));
+    exportButton_ = new TrimExportButton(this);
+    exportButton_->setText(QStringLiteral("导出片段"));
+    exportButton_->setObjectName(QStringLiteral("BillfishVideoTrimExportButton"));
+    exportButton_->setToolButtonStyle(Qt::ToolButtonTextOnly);
     exportButton_->setAutoRaise(false);
     exportButton_->setPopupMode(QToolButton::MenuButtonPopup);
     exportButton_->setFixedSize(104, 42);
@@ -567,6 +613,48 @@ void TrimPanel::chooseExportPath() {
     const QString filter = extension.isEmpty()
         ? QStringLiteral("视频文件 (*)")
         : QStringLiteral("视频文件 (*.%1);;所有文件 (*)").arg(extension);
+    if (billfish::automation::AppInputScope::active()) {
+        auto* dialog = new QFileDialog(this);
+        dialog->setOption(QFileDialog::DontUseNativeDialog, true);
+        // QFileDialog's built-in overwrite prompt uses a nested modal loop.
+        // Keep the same decision visible through an asynchronous Qt message box.
+        dialog->setOption(QFileDialog::DontConfirmOverwrite, true);
+        dialog->setObjectName(QStringLiteral("BillfishVideoTrimExportDialog"));
+        dialog->setWindowTitle(QStringLiteral("导出片段"));
+        dialog->setAcceptMode(QFileDialog::AcceptSave);
+        dialog->setFileMode(QFileDialog::AnyFile);
+        dialog->setNameFilter(filter);
+        dialog->setDefaultSuffix(extension);
+        dialog->setDirectory(QFileInfo(suggested).absolutePath());
+        dialog->selectFile(QFileInfo(suggested).fileName());
+        dialog->setWindowModality(Qt::NonModal);
+        dialog->setAttribute(Qt::WA_ShowWithoutActivating, true);
+        dialog->setAttribute(Qt::WA_DeleteOnClose, true);
+        connect(dialog, &QFileDialog::fileSelected, this, [this, extension](QString selected) {
+            if (selected.isEmpty()) return;
+            if (QFileInfo(selected).suffix().isEmpty() && !extension.isEmpty()) {
+                selected += QStringLiteral(".") + extension;
+            }
+            if (QFileInfo::exists(selected)) {
+                auto* confirm = new QMessageBox(QMessageBox::Question, QStringLiteral("确认另存为"),
+                    QStringLiteral("文件 %1 已存在. 是否替换?").arg(QFileInfo(selected).fileName()),
+                    QMessageBox::Yes | QMessageBox::No, this);
+                confirm->setObjectName(QStringLiteral("BillfishVideoTrimOverwriteConfirm"));
+                confirm->setDefaultButton(QMessageBox::No);
+                confirm->setWindowModality(Qt::NonModal);
+                confirm->setAttribute(Qt::WA_ShowWithoutActivating, true);
+                confirm->setAttribute(Qt::WA_DeleteOnClose, true);
+                connect(confirm, &QMessageBox::finished, this, [this, selected](int result) {
+                    if (result == QMessageBox::Yes) (void)exportToPath(selected);
+                });
+                confirm->show();
+            } else {
+                (void)exportToPath(selected);
+            }
+        });
+        dialog->show();
+        return;
+    }
     QString selected = QFileDialog::getSaveFileName(
         this, QStringLiteral("导出片段"), suggested, filter);
     if (!selected.isEmpty() && QFileInfo(selected).suffix().isEmpty() && !extension.isEmpty()) {
@@ -1140,20 +1228,11 @@ bool TrimPanel::resolveFileId(const qint64 fileId) {
         invalidateResolvedSource(QStringLiteral("当前视频标识无效，已拒绝剪辑"));
         return false;
     }
-    QString libraryRoot = qEnvironmentVariable("BILLFISH_LIBRARY_ROOT").trimmed();
-    int discoveredRootCount = 0;
+    const QString libraryRoot = currentLibraryRoot_ ? currentLibraryRoot_().trimmed() : QString();
     if (libraryRoot.isEmpty()) {
-        const QStringList roots = BillfishFileLocator::discoverLibraryRoots();
-        discoveredRootCount = roots.size();
-        if (roots.size() == 1) {
-            libraryRoot = roots.constFirst();
-        }
-    }
-    if (libraryRoot.isEmpty()) {
-        sourceResolutionError_ = QStringLiteral("未设置 BILLFISH_LIBRARY_ROOT，无法定位当前素材");
-        trimDiagnostic(QStringLiteral("path-resolution source=file-id status=missing-library fileId=%1 discoveredRoots=%2 error=%3")
+        sourceResolutionError_ = QStringLiteral("当前素材库尚未就绪，无法定位当前视频");
+        trimDiagnostic(QStringLiteral("path-resolution source=file-id status=missing-library fileId=%1 error=%2")
                            .arg(fileId)
-                           .arg(discoveredRootCount)
                            .arg(sourceResolutionError_));
         setStatus(sourceResolutionError_, true);
         invalidateResolvedSource(sourceResolutionError_);

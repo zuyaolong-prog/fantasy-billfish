@@ -33,7 +33,7 @@ internal static class Program
                 return Fail("PowerShell was not found. Install PowerShell 7 or restore Windows PowerShell.");
             }
 
-            LauncherCommand command = new(powershellPath, billfishRoot, scriptPath, args);
+            LauncherCommand command = new(powershellPath, billfishRoot, scriptPath, NormalizePluginArguments(args));
             if (IsDryRun())
             {
                 WriteDryRun(command);
@@ -64,8 +64,8 @@ internal static class Program
             {
                 string detail = string.Join(Environment.NewLine, streams.Where(value => !string.IsNullOrWhiteSpace(value)).Select(value => value.Trim()));
                 string message = string.IsNullOrWhiteSpace(detail)
-                    ? $"Billfish launcher preflight failed with exit code {process.ExitCode}."
-                    : $"Billfish launcher preflight failed with exit code {process.ExitCode}.{Environment.NewLine}{Environment.NewLine}{detail}";
+                    ? $"Billfish launcher operation failed with exit code {process.ExitCode}."
+                    : $"Billfish launcher operation failed with exit code {process.ExitCode}.{Environment.NewLine}{Environment.NewLine}{detail}";
                 ReportFailure(message);
             }
             return process.ExitCode;
@@ -78,6 +78,23 @@ internal static class Program
         {
             return Fail(ex.Message);
         }
+    }
+
+    private static IReadOnlyList<string> NormalizePluginArguments(string[] args)
+    {
+        if (args.Contains("--install-plugin", StringComparer.OrdinalIgnoreCase))
+        {
+            if (args.Length != 2 || !args[0].Equals("--install-plugin", StringComparison.OrdinalIgnoreCase) || string.IsNullOrWhiteSpace(args[1]))
+            {
+                throw new ArgumentException("Usage: Billfish.exe --install-plugin <local .eagleplugin or .zip file>");
+            }
+            return ["-InstallPlugin", Path.GetFullPath(args[1])];
+        }
+        if (args.Length == 1 && args[0].EndsWith(".eagleplugin", StringComparison.OrdinalIgnoreCase))
+        {
+            return ["-InstallPlugin", Path.GetFullPath(args[0])];
+        }
+        return args;
     }
 
     private static string? ResolvePowerShell()

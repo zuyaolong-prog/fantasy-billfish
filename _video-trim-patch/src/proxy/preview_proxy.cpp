@@ -1,6 +1,11 @@
 #include "ui/player_trim_injector.hpp"
+#include "automation/runtime_host.hpp"
+#include "automation/native_adapter.hpp"
+#include "shell/compact_shell.hpp"
+#include "shell/legacy_feature_gate.hpp"
 
 #include <QObject>
+#include <QCoreApplication>
 #include <QtGlobal>
 
 #include <Windows.h>
@@ -140,7 +145,17 @@ extern "C" Q_DECL_EXPORT QObject* qt_plugin_instance() {
     QObject* instance = stock.pluginInstance();
     if (instance != nullptr) {
         pinProxyModule();
-        billfish::trim::installPlayerTrimInjection(instance);
+        billfish::automation::installAutomationInjection(instance);
+        billfish::trim::installPlayerTrimInjection(instance, [] {
+            auto* application = QCoreApplication::instance();
+            auto* adapter = application ? application->findChild<billfish::automation::NativeAdapter*>() : nullptr;
+            if (!adapter) return QString();
+            const QJsonObject info = adapter->info();
+            return info.value(QStringLiteral("ready")).toBool()
+                ? info.value(QStringLiteral("library_root")).toString() : QString();
+        });
+        billfish::shell::installCompactShell();
+        billfish::shell::installLegacyFeatureGate();
     }
     return instance;
 }

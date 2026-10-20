@@ -1,0 +1,14 @@
+{
+   "desc": {
+      "message": "快速、轻松管理您的设计素材-让您拥有更多的时间专注于设计本身。"
+   },
+   "name": {
+      "message": "Billfish - 免费素材管理工具V4.0"
+   },
+   "saveImageToBillfish": {
+      "message": "将图片保存至 Billfish"
+   },
+   "saveVideoToBillfish": {
+      "message": "将视频保存至 Billfish"
+   }
+}

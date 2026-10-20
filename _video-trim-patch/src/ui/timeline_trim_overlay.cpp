@@ -1,4 +1,5 @@
 #include "ui/timeline_trim_overlay.hpp"
+#include "automation/app_input_scope.hpp"
 
 #include <QEvent>
 #include <QMouseEvent>
@@ -119,7 +120,10 @@ bool TimelineTrimOverlay::eventFilter(QObject* watched, QEvent* event) {
         }
         activeHandle_ = hit;
         dragging_ = true;
-        timeline_->grabMouse();
+        ownsMouseGrab_ = !billfish::automation::AppInputScope::active();
+        if (ownsMouseGrab_) {
+            timeline_->grabMouse();
+        }
         moveActiveHandle(valueForPosition(mouse->pos().x()));
         emit handlePressed();
         return true;
@@ -139,11 +143,15 @@ bool TimelineTrimOverlay::eventFilter(QObject* watched, QEvent* event) {
         }
         moveActiveHandle(valueForPosition(mouse->pos().x()));
         dragging_ = false;
-        timeline_->releaseMouse();
+        if (ownsMouseGrab_) {
+            timeline_->releaseMouse();
+        }
+        ownsMouseGrab_ = false;
         emit handleReleased();
         return true;
     }
     case QEvent::UngrabMouse:
+        ownsMouseGrab_ = false;
         if (dragging_) {
             dragging_ = false;
             emit handleReleased();

@@ -1,0 +1,14 @@
+{
+   "desc": {
+      "message": "Quickly and easily manage your design materials-so you have more time to focus on the design itself."
+   },
+   "name": {
+      "message": "Billfish - Free material management tool"
+   },
+   "saveImageToBillfish": {
+      "message": "Save Image to Billfish"
+   },
+   "saveVideoToBillfish": {
+      "message": "Save Video to Billfish"
+   }
+}

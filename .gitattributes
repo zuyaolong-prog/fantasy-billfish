@@ -2,3 +2,8 @@
 *.ps1 text eol=crlf
 *.cmd text eol=crlf
 *.bat text eol=crlf
+# Frozen resources and rebuild inputs must retain their recorded bytes.
+automation/animation_browser/vendor/** -text
+browser-extension/maintained/** -text
+_sidebar-patch/src/** -text
+_animation-browser-parser/vendor/** -text

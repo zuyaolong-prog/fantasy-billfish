@@ -7,21 +7,27 @@
 #include "ui/immersion_controls.hpp"
 #include "ui/immersion_playback.hpp"
 #include "ui/video_playback_shortcuts.hpp"
+#include "automation/app_input_scope.hpp"
 
 #include <QAction>
 #include <QApplication>
 #include <QDir>
 #include <QDialog>
+#include <QDialogButtonBox>
 #include <QCursor>
 #include <QGridLayout>
 #include <QMenu>
+#include <QMouseEvent>
+#include <QMessageBox>
 #include <QFile>
 #include <QFileInfo>
+#include <QFileDialog>
 #include <QHBoxLayout>
 #include <QJsonObject>
 #include <QLibrary>
 #include <QLabel>
 #include <QKeyEvent>
+#include <QInputMethodEvent>
 #include <QLineEdit>
 #include <QPluginLoader>
 #include <QPushButton>
@@ -34,6 +40,7 @@
 #include <QTemporaryDir>
 #include <QTest>
 #include <QTime>
+#include <QTimer>
 #include <QToolButton>
 #include <QVBoxLayout>
 #include <QWidget>
@@ -335,6 +342,17 @@ class MediaWidget final : public QWidget {
     Q_OBJECT
 public:
     using QWidget::QWidget;
+signals:
+    void doubleClicked();
+protected:
+    void mouseDoubleClickEvent(QMouseEvent* event) override {
+        if (event->button() == Qt::LeftButton) {
+            emit doubleClicked();
+            event->accept();
+        } else {
+            QWidget::mouseDoubleClickEvent(event);
+        }
+    }
 };
 
 struct ImmersionFixture final {
@@ -455,6 +473,8 @@ private slots:
     void immersionDoesNotSeekDifferentNavigation();
     void immersionControlsFollowBottomHover();
     void overlayPreservesStockSliderContract();
+    void appInputDragsTrimHandleWithoutSystemMouseGrab();
+    void appInputOpensTrimEditorWithoutActivatingWindow();
     void panelUsesOneTimelineAndSetPointsUsePlayhead();
     void panelShowsSelectionRelativeTime();
     void selectionChangeSeeksOutOfRangePlayheadToIn();
@@ -467,6 +487,7 @@ private slots:
     void sourceDoesNotPropagateAcrossPlayerRoots();
     void injectorRejectsAmbiguousPreviewScope();
     void samePreviewHostReopensCurrentSourceAndExportsIt();
+    void nativeLibrarySwitchResolvesSameIdWithoutStartupRoot();
     void injectionPreservesHostSliderWidth();
     void unknownDurationIsProbedOffTheGuiThread();
     void actionsAndModesAreVisible();
@@ -480,6 +501,7 @@ private slots:
     void injectorSupportsExplicitOverride();
     void injectorDebouncesEventStorms();
     void exportRunsCoreOffTheGuiThread();
+    void appInputOverwriteConfirmationRequiresExplicitDecision();
     void exportFailureReturnsToInteractiveState();
     void previewProxyForwardsTheQtPluginContract();
 };
@@ -745,28 +767,35 @@ void VideoTrimUiTest::playbackShortcutsOverrideStockNavigationOnlyInPreview() {
 
 void VideoTrimUiTest::immersionTransfersPlayback_data() {
     QTest::addColumn<bool>("playing");
-    QTest::addColumn<bool>("escapeExit");
+    QTest::addColumn<int>("transition");
     QTest::addColumn<bool>("lazyTarget");
-    QTest::newRow("paused-button-exit") << false << false << false;
-    QTest::newRow("playing-shortcut-exit") << true << true << false;
-    QTest::newRow("paused-first-entry") << false << false << true;
-    QTest::newRow("playing-first-entry") << true << true << true;
+    QTest::newRow("paused-button-exit") << false << 0 << false;
+    QTest::newRow("playing-shortcut-exit") << true << 1 << false;
+    QTest::newRow("paused-first-entry") << false << 0 << true;
+    QTest::newRow("playing-first-entry") << true << 1 << true;
+    QTest::newRow("paused-double-click-exit") << false << 2 << false;
+    QTest::newRow("playing-double-click-exit") << true << 2 << false;
+    QTest::newRow("paused-first-entry-double-click-exit") << false << 2 << true;
+    QTest::newRow("playing-first-entry-double-click-exit") << true << 2 << true;
 }
 
 void VideoTrimUiTest::immersionTransfersPlayback() {
     QFETCH(bool, playing);
-    QFETCH(bool, escapeExit);
+    QFETCH(int, transition);
     QFETCH(bool, lazyTarget);
     ImmersionFixture fixture(!lazyTarget);
     const auto state = playing ? sdk_player::SdkPlayer::Playing : sdk_player::SdkPlayer::Paused;
     fixture.ordinarySdk->positionMs = 20'967;
     fixture.ordinarySdk->state = state;
+    const auto enterAndLoad = [&fixture] {
+        fixture.pages->setCurrentWidget(fixture.immersion);
+        fixture.ordinarySdk->positionMs = 0;
+        fixture.ordinarySdk->state = sdk_player::SdkPlayer::Stopped;
+        emit fixture.immersionSdk->mediaStatusChanged(1);
+        fixture.ready(fixture.immersionSdk);
+    };
     fixture.enter->click();
-    fixture.pages->setCurrentWidget(fixture.immersion);
-    fixture.ordinarySdk->positionMs = 0;
-    fixture.ordinarySdk->state = sdk_player::SdkPlayer::Stopped;
-    emit fixture.immersionSdk->mediaStatusChanged(1);
-    fixture.ready(fixture.immersionSdk);
+    enterAndLoad();
     if (lazyTarget) billfish::trim::ImmersionPlayback::install(fixture.immersionControl);
     QTRY_COMPARE(fixture.immersionSdk->positionMs, qlonglong{20'967});
     QTRY_COMPARE(fixture.immersionSdk->state, state);
@@ -782,13 +811,17 @@ void VideoTrimUiTest::immersionTransfersPlayback() {
         emit fixture.ordinarySdk->mediaStatusChanged(2);
         fixture.ordinarySdk->play();
     };
-    if (escapeExit) {
+    if (transition == 1) {
         QShortcut shortcut(QKeySequence(Qt::Key_Escape), fixture.immersion);
         connect(&shortcut, &QShortcut::activated, this, exitAndLoad);
         QSignalSpy activated(&shortcut, &QShortcut::activated);
         QApplication::setActiveWindow(&fixture.root);
         QTest::keyClick(fixture.immersionVideo, Qt::Key_Escape);
         QCOMPARE(activated.count(), 1);
+    } else if (transition == 2) {
+        auto* surface = qobject_cast<MediaWidget*>(fixture.immersionSurface);
+        connect(surface, &MediaWidget::doubleClicked, this, exitAndLoad);
+        QTest::mouseDClick(surface, Qt::LeftButton);
     } else {
         fixture.exit->click();
         exitAndLoad();
@@ -927,6 +960,104 @@ void VideoTrimUiTest::overlayPreservesStockSliderContract() {
     QVERIFY(overlay.inValue() > 300);
     QCOMPARE(slider.value(), stockValueBeforeHandleDrag);
     QCOMPARE(rangeSpy.count(), 0);
+}
+
+void VideoTrimUiTest::appInputDragsTrimHandleWithoutSystemMouseGrab() {
+    MediaSlider slider;
+    slider.setRange(100, 1100);
+    slider.setValue(600);
+    slider.resize(620, 44);
+    slider.show();
+    QCoreApplication::processEvents();
+    TimelineTrimOverlay overlay(&slider);
+    overlay.setSelection(300, 900);
+    QSignalSpy pressed(&overlay, &TimelineTrimOverlay::handlePressed);
+    QSignalSpy released(&overlay, &TimelineTrimOverlay::handleReleased);
+    QWidget* originalGrabber = QWidget::mouseGrabber();
+    const auto sendMouse = [&slider](QEvent::Type type, QPoint position,
+                                     Qt::MouseButton button, Qt::MouseButtons buttons) {
+        QMouseEvent event(type, position, slider.mapToGlobal(position), button, buttons, Qt::NoModifier);
+        billfish::automation::AppInputScope scope;
+        QCoreApplication::sendEvent(&slider, &event);
+    };
+    sendMouse(QEvent::MouseButtonPress, QPoint(132, 22), Qt::LeftButton, Qt::LeftButton);
+    QCOMPARE(pressed.count(), 1);
+    QCOMPARE(QWidget::mouseGrabber(), originalGrabber);
+    sendMouse(QEvent::MouseMove, QPoint(210, 22), Qt::NoButton, Qt::LeftButton);
+    sendMouse(QEvent::MouseButtonRelease, QPoint(210, 22), Qt::LeftButton, Qt::NoButton);
+    QCOMPARE(released.count(), 1);
+    QVERIFY(overlay.inValue() > 300);
+    QCOMPARE(slider.value(), 600);
+    QCOMPARE(QWidget::mouseGrabber(), originalGrabber);
+}
+
+void VideoTrimUiTest::appInputOpensTrimEditorWithoutActivatingWindow() {
+    // Offscreen forces activation and lacks the Windows native interface used by QMessageBox.
+    if (QGuiApplication::platformName() != QStringLiteral("windows")) {
+        QSKIP("Foreground and visible error-window behavior requires the Windows platform plugin");
+    }
+    QTemporaryDir temporary;
+    QVERIFY(temporary.isValid());
+    const QString input = temporary.filePath(QStringLiteral("source.mp4"));
+    QVERIFY(writeFile(input, "durationMs=10000\n"));
+    PlayerFixture fixture(input);
+    QObject plugin;
+    PlayerTrimInjector injector(&plugin);
+    QVERIFY(injector.tryInject(&fixture.root));
+    auto* action = fixture.root.findChild<QAction*>(
+        QString::fromLatin1(PlayerTrimInjector::kOpenActionObjectName));
+    QVERIFY(action != nullptr);
+    QWidget activeWindow;
+    activeWindow.show();
+    activeWindow.activateWindow();
+    QCoreApplication::processEvents();
+    QCOMPARE(QApplication::activeWindow(), &activeWindow);
+    QWidget* originalGrabber = QWidget::mouseGrabber();
+    {
+        billfish::automation::AppInputScope scope;
+        action->trigger();
+    }
+    QCOMPARE(QApplication::activeWindow(), &activeWindow);
+    QCoreApplication::processEvents();
+    QPointer<TrimEditorDialog> editor = fixture.root.findChild<TrimEditorDialog*>();
+    QVERIFY(editor != nullptr);
+    QVERIFY(editor->isVisible());
+    QVERIFY(editor->testAttribute(Qt::WA_ShowWithoutActivating));
+    QCOMPARE(QWidget::mouseGrabber(), originalGrabber);
+    QCOMPARE(QApplication::activeWindow(), &activeWindow);
+    editor->close();
+    QTRY_VERIFY(editor.isNull());
+
+    // A real user invocation retains the existing foreground behavior.
+    action->trigger();
+    QCoreApplication::processEvents();
+    editor = fixture.root.findChild<TrimEditorDialog*>();
+    QVERIFY(editor != nullptr);
+    QVERIFY(!editor->testAttribute(Qt::WA_ShowWithoutActivating));
+    QCOMPARE(QApplication::activeWindow(), editor.data());
+    editor->close();
+    QTRY_VERIFY(editor.isNull());
+
+    // Missing sources remain visible to app snapshots without modal focus capture.
+    QVERIFY(QFile::remove(input));
+    activeWindow.activateWindow();
+    QCoreApplication::processEvents();
+    QCOMPARE(QApplication::activeWindow(), &activeWindow);
+    {
+        billfish::automation::AppInputScope scope;
+        action->trigger();
+    }
+    QCOMPARE(QApplication::activeWindow(), &activeWindow);
+    QCoreApplication::processEvents();
+    auto* warning = fixture.root.findChild<QMessageBox*>(QStringLiteral("BillfishVideoTrimSourceError"));
+    QVERIFY(warning != nullptr);
+    QVERIFY(warning->isVisible());
+    QVERIFY(!warning->text().isEmpty());
+    QVERIFY(warning->testAttribute(Qt::WA_ShowWithoutActivating));
+    QVERIFY(warning->testAttribute(Qt::WA_DeleteOnClose));
+    QCOMPARE(warning->windowModality(), Qt::NonModal);
+    QCOMPARE(QApplication::activeWindow(), &activeWindow);
+    warning->close();
 }
 
 void VideoTrimUiTest::panelUsesOneTimelineAndSetPointsUsePlayhead() {
@@ -1086,9 +1217,8 @@ void VideoTrimUiTest::panelLoopsSelectedRange() {
 void VideoTrimUiTest::fileIdSignalIsConnectedByMetaObject() {
     QTemporaryDir libraryRoot;
     QVERIFY(libraryRoot.isValid());
-    ScopedEnvironment rootEnvironment("BILLFISH_LIBRARY_ROOT", QFile::encodeName(libraryRoot.path()));
     PlayerFixture fixture;
-    TrimPanel panel;
+    TrimPanel panel(nullptr, [&libraryRoot] { return libraryRoot.path(); });
     QVERIFY(panel.attachToPlayer(&fixture.root, &fixture.details));
     const QString before = panel.statusText();
     emit fixture.details.signalPreviewFileIdChanged(42);
@@ -1099,11 +1229,10 @@ void VideoTrimUiTest::fileIdSignalIsConnectedByMetaObject() {
 void VideoTrimUiTest::currentFileIdIsSynchronizedWithoutUserSwitch() {
     QTemporaryDir libraryRoot;
     QVERIFY(libraryRoot.isValid());
-    ScopedEnvironment rootEnvironment("BILLFISH_LIBRARY_ROOT", QFile::encodeName(libraryRoot.path()));
     PlayerFixture fixture;
     fixture.details.setCurrentFileId(42);
     emit fixture.details.signalPreviewFileIdChanged(42);
-    TrimPanel panel;
+    TrimPanel panel(nullptr, [&libraryRoot] { return libraryRoot.path(); });
     QVERIFY(panel.attachToPlayer(&fixture.root, &fixture.details, 42));
     QVERIFY(!panel.statusText().contains(QStringLiteral("未能读取当前视频路径")));
     QVERIFY(panel.statusText().contains(QStringLiteral("billfish.db"), Qt::CaseInsensitive));
@@ -1112,14 +1241,13 @@ void VideoTrimUiTest::currentFileIdIsSynchronizedWithoutUserSwitch() {
 void VideoTrimUiTest::lateFileIdSourceIsReboundAfterInjection() {
     QTemporaryDir libraryRoot;
     QVERIFY(libraryRoot.isValid());
-    ScopedEnvironment rootEnvironment("BILLFISH_LIBRARY_ROOT", QFile::encodeName(libraryRoot.path()));
     QWidget root;
     auto* layout = new QVBoxLayout(&root);
     auto* control = new PreviewControlWidget(&root);
     layout->addWidget(control);
     root.show();
     QObject plugin;
-    PlayerTrimInjector injector(&plugin);
+    PlayerTrimInjector injector(&plugin, nullptr, [&libraryRoot] { return libraryRoot.path(); });
     QVERIFY(injector.tryInject(&root));
     auto* panel = root.findChild<TrimPanel*>();
     QVERIFY(panel != nullptr);
@@ -1236,6 +1364,52 @@ void VideoTrimUiTest::injectorRejectsAmbiguousPreviewScope() {
     QVERIFY(root.findChild<TrimEditorDialog*>() == nullptr);
 }
 
+void VideoTrimUiTest::nativeLibrarySwitchResolvesSameIdWithoutStartupRoot() {
+    QTemporaryDir startupLibrary;
+    QTemporaryDir activeLibrary;
+    QVERIFY(startupLibrary.isValid());
+    QVERIFY(activeLibrary.isValid());
+    QString databaseError;
+    for (const QString& root : {startupLibrary.path(), activeLibrary.path()}) {
+        QVERIFY(QDir().mkpath(QDir(root).filePath(QStringLiteral("Media"))));
+        QVERIFY(writeFile(QDir(root).filePath(QStringLiteral("Media/a.mp4")), "media"));
+        QVERIFY2(createBillfishVideoLibrary(root, &databaseError), qPrintable(databaseError));
+    }
+    ScopedEnvironment startupRoot("BILLFISH_LIBRARY_ROOT", QFile::encodeName(startupLibrary.path()));
+    const QString sqlitePath = QDir(QString::fromLocal8Bit(BILLFISH_TEST_ROOT))
+                                   .filePath(QStringLiteral("sqlite3.dll"));
+    ScopedEnvironment sqliteEnvironment("BILLFISH_SQLITE3", QFile::encodeName(sqlitePath));
+    QString currentRoot = activeLibrary.path();
+    PlayerFixture fixture;
+    fixture.details.setCurrentFileId(42);
+    QObject plugin;
+    PlayerTrimInjector injector(&plugin, nullptr, [&currentRoot] { return currentRoot; });
+    QVERIFY(injector.tryInject(&fixture.root));
+    emit fixture.details.signalPreviewFileIdChanged(42);
+    auto* panel = fixture.root.findChild<TrimPanel*>();
+    QVERIFY(panel != nullptr);
+    QCOMPARE(QDir::cleanPath(panel->sourcePath()),
+             QDir::cleanPath(QDir(currentRoot).filePath(QStringLiteral("Media/a.mp4"))));
+
+    // File IDs are library-local: switching libraries must update even the same ID.
+    currentRoot = startupLibrary.path();
+    QVERIFY(panel->refreshRuntimeBindings(&fixture.root, &fixture.details, 42, &fixture.control));
+    QCOMPARE(QDir::cleanPath(panel->sourcePath()),
+             QDir::cleanPath(QDir(currentRoot).filePath(QStringLiteral("Media/a.mp4"))));
+
+    // A native library transition cannot silently fall back to the startup root.
+    currentRoot.clear();
+    QVERIFY(!panel->refreshRuntimeBindings(&fixture.root, &fixture.details, 42, &fixture.control));
+    QVERIFY(panel->sourcePath().isEmpty());
+
+    currentRoot = activeLibrary.path();
+    QVERIFY(!panel->refreshRuntimeBindings(&fixture.root, &fixture.details, 999, &fixture.control));
+    QVERIFY(panel->sourcePath().isEmpty());
+    QVERIFY(panel->refreshRuntimeBindings(&fixture.root, &fixture.details, 42, &fixture.control));
+    QCOMPARE(QDir::cleanPath(panel->sourcePath()),
+             QDir::cleanPath(QDir(currentRoot).filePath(QStringLiteral("Media/a.mp4"))));
+}
+
 void VideoTrimUiTest::samePreviewHostReopensCurrentSourceAndExportsIt() {
     QTemporaryDir temporary;
     QTemporaryDir libraryRoot;
@@ -1250,8 +1424,6 @@ void VideoTrimUiTest::samePreviewHostReopensCurrentSourceAndExportsIt() {
     QString databaseError;
     QVERIFY2(createBillfishVideoLibrary(libraryRoot.path(), &databaseError),
              qPrintable(databaseError));
-    ScopedEnvironment rootEnvironment("BILLFISH_LIBRARY_ROOT",
-                                      QFile::encodeName(libraryRoot.path()));
     const QString sqlitePath = QDir(QString::fromLocal8Bit(BILLFISH_TEST_ROOT))
                                    .filePath(QStringLiteral("sqlite3.dll"));
     ScopedEnvironment sqliteEnvironment("BILLFISH_SQLITE3", QFile::encodeName(sqlitePath));
@@ -1286,7 +1458,7 @@ void VideoTrimUiTest::samePreviewHostReopensCurrentSourceAndExportsIt() {
     QCoreApplication::processEvents();
 
     QObject plugin;
-    PlayerTrimInjector injector(&plugin);
+    PlayerTrimInjector injector(&plugin, nullptr, [&libraryRoot] { return libraryRoot.path(); });
     QVERIFY(injector.tryInject(&root));
     emit details->signalPreviewFileIdChanged(42);
     auto* action = host->findChild<QAction*>(
@@ -1446,6 +1618,40 @@ void VideoTrimUiTest::actionsAndModesAreVisible() {
     QCOMPARE(panel->trimMode(), TrimMode::AccurateReencode);
     exportButton->menu()->actions().at(1)->trigger();
     QCOMPARE(panel->trimMode(), TrimMode::FastCopy);
+    const auto sendAppClick = [](QWidget* widget, const QPoint& point) {
+        billfish::automation::AppInputScope scope;
+        QMouseEvent press(QEvent::MouseButtonPress, point, widget->mapToGlobal(point),
+                          Qt::LeftButton, Qt::LeftButton, Qt::NoModifier);
+        QCoreApplication::sendEvent(widget, &press);
+        QMouseEvent release(QEvent::MouseButtonRelease, point, widget->mapToGlobal(point),
+                            Qt::LeftButton, Qt::NoButton, Qt::NoModifier);
+        QCoreApplication::sendEvent(widget, &release);
+    };
+    QWidget* originalGrabber = QWidget::mouseGrabber();
+    const Qt::WindowFlags originalMenuFlags = exportButton->menu()->windowFlags();
+    const bool originalMenuNoActivate = exportButton->menu()->testAttribute(Qt::WA_ShowWithoutActivating);
+    bool nestedMenuLoop = false;
+    QTimer menuWatchdog;
+    menuWatchdog.setSingleShot(true);
+    connect(&menuWatchdog, &QTimer::timeout, exportButton, [&] {
+        nestedMenuLoop = true;
+        exportButton->menu()->close();
+    });
+    menuWatchdog.start(250);
+    sendAppClick(exportButton, QPoint(exportButton->width() - 2, exportButton->height() / 2));
+    menuWatchdog.stop();
+    QVERIFY2(!nestedMenuLoop, "App input must return without a nested menu event loop");
+    auto* menu = exportButton->menu();
+    QVERIFY(menu->isVisible());
+    QCOMPARE(menu->windowType(), Qt::Tool);
+    QVERIFY(menu->testAttribute(Qt::WA_ShowWithoutActivating));
+    QCOMPARE(QWidget::mouseGrabber(), originalGrabber);
+    sendAppClick(menu, menu->actionGeometry(menu->actions().first()).center());
+    QCOMPARE(panel->trimMode(), TrimMode::AccurateReencode);
+    QVERIFY(!menu->isVisible());
+    QCOMPARE(QWidget::mouseGrabber(), originalGrabber);
+    QCOMPARE(menu->windowFlags(), originalMenuFlags);
+    QCOMPARE(menu->testAttribute(Qt::WA_ShowWithoutActivating), originalMenuNoActivate);
     const QString snapshotPath = QString::fromLocal8Bit(qgetenv("BILLFISH_UI_SNAPSHOT"));
     if (!snapshotPath.isEmpty()) {
         QVERIFY(editor->grab().save(snapshotPath));
@@ -1737,7 +1943,30 @@ void VideoTrimUiTest::exportRunsCoreOffTheGuiThread() {
     QSignalSpy finishedSpy(&panel, &TrimPanel::exportFinished);
     QSignalSpy failureSpy(&panel, &TrimPanel::operationFailed);
     QSignalSpy progressSpy(&panel, &TrimPanel::operationProgress);
-    QVERIFY(panel.exportToPath(outputWithoutExtension));
+    auto* exportButton = panel.findChild<QToolButton*>(QStringLiteral("BillfishVideoTrimExportButton"));
+    QVERIFY(exportButton != nullptr);
+    {
+        billfish::automation::AppInputScope scope;
+        exportButton->click();
+    }
+    QPointer<QFileDialog> saveDialog = panel.findChild<QFileDialog*>(QStringLiteral("BillfishVideoTrimExportDialog"));
+    QVERIFY(saveDialog != nullptr);
+    QVERIFY(saveDialog->isVisible());
+    QVERIFY(saveDialog->testOption(QFileDialog::DontUseNativeDialog));
+    QVERIFY(saveDialog->testAttribute(Qt::WA_ShowWithoutActivating));
+    QCOMPARE(saveDialog->windowModality(), Qt::NonModal);
+    auto* fileName = saveDialog->findChild<QLineEdit*>(QStringLiteral("fileNameEdit"));
+    auto* buttons = saveDialog->findChild<QDialogButtonBox*>();
+    QVERIFY(fileName != nullptr);
+    QVERIFY(buttons != nullptr && buttons->button(QDialogButtonBox::Save) != nullptr);
+    fileName->selectAll();
+    {
+        billfish::automation::AppInputScope scope;
+        QInputMethodEvent text;
+        text.setCommitString(outputWithoutExtension);
+        QCoreApplication::sendEvent(fileName, &text);
+        QTest::mouseClick(buttons->button(QDialogButtonBox::Save), Qt::LeftButton);
+    }
     QVERIFY(panel.isBusy());
     QTRY_VERIFY_WITH_TIMEOUT(!panel.isBusy(), 15'000);
     QCOMPARE(finishedSpy.count(), 1);
@@ -1747,6 +1976,72 @@ void VideoTrimUiTest::exportRunsCoreOffTheGuiThread() {
     QFile outputFile(output);
     QVERIFY(outputFile.open(QIODevice::ReadOnly));
     QVERIFY(outputFile.readAll().contains("durationMs=2000"));
+    outputFile.close();
+}
+
+void VideoTrimUiTest::appInputOverwriteConfirmationRequiresExplicitDecision() {
+    // Qt 5.15.2 QMessageBox dereferences the platform native interface on Windows.
+    // Its offscreen integration returns null; exercise this platform dialog on qwindows.
+    if (QGuiApplication::platformName() != QStringLiteral("windows")) {
+        QSKIP("Overwrite confirmation requires the Windows platform plugin");
+    }
+    QTemporaryDir temporary;
+    const QString input = temporary.filePath(QStringLiteral("source.mp4"));
+    const QString output = temporary.filePath(QStringLiteral("clip.mp4"));
+    const QByteArray original("existing-output");
+    QVERIFY(writeFile(input, "fake-media\ndurationMs=10000\n"));
+    QVERIFY(writeFile(output, original));
+    FakeFfmpegPair tools;
+    QString toolError;
+    QVERIFY2(createFakeFfmpegPair(temporary.path(), &tools, &toolError), qPrintable(toolError));
+    ScopedEnvironment ffmpeg("BILLFISH_FFMPEG", QFile::encodeName(tools.ffmpegPath));
+    ScopedEnvironment ffprobe("BILLFISH_FFPROBE", QFile::encodeName(tools.ffprobePath));
+    PlayerFixture fixture(input);
+    TrimPanel panel;
+    QVERIFY(panel.attachToPlayer(&fixture.root));
+    panel.timelineOverlay()->setSelection(1000, 3000);
+    QSignalSpy finishedSpy(&panel, &TrimPanel::exportFinished);
+    auto* exportButton = panel.findChild<QToolButton*>(QStringLiteral("BillfishVideoTrimExportButton"));
+    QVERIFY(exportButton != nullptr);
+    for (const auto answer : {QMessageBox::No, QMessageBox::Yes}) {
+        {
+            billfish::automation::AppInputScope scope;
+            exportButton->click();
+        }
+        QPointer<QFileDialog> saveDialog = panel.findChild<QFileDialog*>(QStringLiteral("BillfishVideoTrimExportDialog"));
+        QVERIFY(saveDialog != nullptr);
+        saveDialog->selectFile(output);
+        auto* buttons = saveDialog->findChild<QDialogButtonBox*>();
+        QVERIFY(buttons != nullptr && buttons->button(QDialogButtonBox::Save) != nullptr);
+        {
+            billfish::automation::AppInputScope scope;
+            QTest::mouseClick(buttons->button(QDialogButtonBox::Save), Qt::LeftButton);
+        }
+        QPointer<QMessageBox> confirm = panel.findChild<QMessageBox*>(QStringLiteral("BillfishVideoTrimOverwriteConfirm"));
+        QVERIFY(confirm != nullptr && confirm->isVisible());
+        QVERIFY(confirm->testAttribute(Qt::WA_ShowWithoutActivating));
+        QCOMPARE(confirm->windowModality(), Qt::NonModal);
+        QVERIFY(!panel.isBusy());
+        QFile before(output);
+        QVERIFY(before.open(QIODevice::ReadOnly));
+        QCOMPARE(before.readAll(), original);
+        before.close();
+        {
+            billfish::automation::AppInputScope scope;
+            QTest::mouseClick(confirm->button(answer), Qt::LeftButton);
+        }
+        if (answer == QMessageBox::No) {
+            QVERIFY(!panel.isBusy());
+            QCOMPARE(finishedSpy.count(), 0);
+        } else {
+            QTRY_COMPARE_WITH_TIMEOUT(finishedSpy.count(), 1, 15'000);
+        }
+        QTRY_VERIFY(confirm.isNull());
+        QTRY_VERIFY(saveDialog.isNull());
+    }
+    QFile after(output);
+    QVERIFY(after.open(QIODevice::ReadOnly));
+    QVERIFY(after.readAll().contains("durationMs=2000"));
 }
 
 void VideoTrimUiTest::exportFailureReturnsToInteractiveState() {
@@ -1787,6 +2082,17 @@ void VideoTrimUiTest::previewProxyForwardsTheQtPluginContract() {
     QVERIFY(GetModuleHandleW(L"preview.dll") != nullptr);
 }
 
-QTEST_MAIN(VideoTrimUiTest)
+int main(int argc, char* argv[]) {
+    // The proxy fixture starts application-owned runtime objects that live until
+    // QApplication destruction. Isolate their complete lifetime from the user profile.
+    QTemporaryDir profile;
+    if (!profile.isValid()) return 1;
+    const QString local = profile.filePath(QStringLiteral("Local"));
+    const QString roaming = profile.filePath(QStringLiteral("Roaming"));
+    if (!QDir().mkpath(local) || !QDir().mkpath(roaming)) return 1;
+    ScopedEnvironment localProfile("LOCALAPPDATA", QFile::encodeName(local));
+    ScopedEnvironment roamingProfile("APPDATA", QFile::encodeName(roaming));
+    QTEST_MAIN_IMPL(VideoTrimUiTest)
+}
 
 #include "test_video_trim_ui.moc"

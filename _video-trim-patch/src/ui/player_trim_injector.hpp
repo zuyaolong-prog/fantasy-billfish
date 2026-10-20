@@ -6,6 +6,7 @@
 #include <QList>
 #include <QString>
 #include <QtGlobal>
+#include <functional>
 
 class QTimer;
 class QAction;
@@ -28,7 +29,8 @@ public:
     static constexpr int kScanDebounceMs = 150;
     static constexpr int kMinimumScanIntervalMs = 1000;
 
-    explicit PlayerTrimInjector(QObject* pluginInstance, QObject* parent = nullptr);
+    explicit PlayerTrimInjector(QObject* pluginInstance, QObject* parent = nullptr,
+                                std::function<QString()> currentLibraryRoot = {});
 
     void start();
     [[nodiscard]] bool tryInject(QWidget* searchRoot);
@@ -56,6 +58,7 @@ private:
                                             TrimPanel* resolver);
 
     QPointer<QObject> pluginInstance_;
+    std::function<QString()> currentLibraryRoot_;
     QPointer<TrimEditorDialog> editorDialog_;
     QTimer* scanTimer_{nullptr};
     QElapsedTimer lastScan_;
@@ -70,6 +73,7 @@ private:
     QList<FileIdObservation> fileIdObservations_;
 };
 
-void installPlayerTrimInjection(QObject* pluginInstance);
+void installPlayerTrimInjection(QObject* pluginInstance,
+                                std::function<QString()> currentLibraryRoot);
 
 }  // namespace billfish::trim

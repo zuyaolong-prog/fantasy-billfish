@@ -1,0 +1,9 @@
+'use strict';
+const {contextBridge,ipcRenderer}=require('electron');
+const kind=process.argv.find(x=>x.startsWith('--transport-kind='))?.split('=')[1]||'core',listeners=new Set();
+const rows=[{id:'motion',name:'Transport Motion',duration:30,fps:30,clipIndex:0,format:kind==='core'?'gltf':'glb',compatibility:'full',association:{enabled:true}}];
+let state={rowId:null,time:0,duration:0,playing:false,speed:1,loop:true,hasAction:false};
+const publish=()=>{for(const listener of listeners)listener({...state});return {...state};};
+const timer=setInterval(()=>{if(state.playing){state.time=(state.time+.025*state.speed)%state.duration;publish();}},25);
+const core={load:async()=>({drawableCount:1,renderedFrame:1,rows,state:{...state}}),select:async rowId=>{state={...state,rowId,time:0,duration:30,hasAction:true,playing:false};return publish();},setPlaying:async value=>{state.playing=value;return publish();},seek:async value=>{state.time=Math.max(0,Math.min(30,value));return publish();},setSpeed:async value=>{state.speed=value;return publish();},setLoop:async value=>{state.loop=value;return publish();},onState:fn=>{listeners.add(fn);return()=>listeners.delete(fn);},frame:async()=>{},resetCamera:async()=>{},capture:async()=>({png:'data:image/png;base64,AA==',pose:{kind:'base'},state}),dispose:async()=>clearInterval(timer)};
+contextBridge.exposeInMainWorld('billfishAnimationBrowser',{initialize:async()=>({model:{path:'test-only.glb',renderer:kind==='core'?'core':'three'},rows:kind==='core'?[]:rows,profile:{},listSettings:{},source:'test-only.glb'}),onEvent:()=>()=>{},ready:async()=>({ok:true}),call:async(method)=>method==='clip.load'?{sourceFingerprint:'test-only',mapping:{bone:'bone'},clip:{version:1,name:'Transport Motion',duration:30,tracks:[{nodeId:'bone',property:'translation',times:[0,30],values:[0,0,0,30,0,0]}]}}:{},core});

@@ -1,0 +1,11 @@
+'use strict';
+const fs=require('node:fs/promises'),path=require('node:path'),assert=require('node:assert/strict'),{performance}=require('node:perf_hooks');
+const {createAnimationBrowserService}=require('../../animation_browser/backend/service.cjs');
+const root=path.resolve(process.argv[2]||'task-memory/task-billfish-animation-browser/backend/new-content-incremental');
+async function run(){await fs.mkdir(root,{recursive:true});const scope=path.join(root,'scope');await fs.mkdir(scope,{recursive:true});
+ const parsed=JSON.parse(await fs.readFile('task-memory/task-billfish-animation-browser/assets/fbx-structure.json','utf8')),files=parsed.files.filter(f=>f.path.toLowerCase()!=='f:\\tempfbx\\eb2010_00.fbx');
+ if(files.length<2)throw new Error('Real action source report is missing');
+ await fs.copyFile(files[0].path,path.join(scope,'first.fbx'));
+ const service=createAnimationBrowserService({cacheRoot:path.join(root,'cache'),profileRoot:path.join(root,'profiles'),parserPath:path.resolve('tools/animation-parser/billfish-animation-parser.exe')});
+ try{await service.openSession({sessionId:'increment',source:'F:/TempFBX/EB2010_00.fbx',itemId:'external',libraryRoot:'F:/TempFBX',discover:false});await service.call('increment','scope.set',{directory:scope});const before=(await service.call('increment','diagnostics.get')).stats,start=performance.now();await fs.copyFile(files[1].path,path.join(scope,'added.fbx'));await service.call('increment','scan.refresh');const after=(await service.call('increment','diagnostics.get')).stats,state=service.state(service.sessions.get('increment')),result={sourceFiles:files.slice(0,2).map(f=>f.path),scope,ms:performance.now()-start,rows:state.rows.length,before,after,metadataParseDelta:after.metadataParses-before.metadataParses,parserInspectDelta:after.parser.inspect-before.parser.inspect,allFull:state.rows.every(r=>r.compatibility==='full'),originalsModified:false};assert.equal(result.rows,2);assert.equal(result.metadataParseDelta,1);assert.equal(result.parserInspectDelta,1);assert.equal(result.allFull,true);await fs.writeFile(path.join(root,'results.json'),JSON.stringify(result,null,2));console.log(JSON.stringify(result,null,2));}finally{await service.shutdown();}}
+run().catch(e=>{console.error(e);process.exitCode=1;});

@@ -57,6 +57,7 @@ private:
     int knownMaximum_{0};
     Handle activeHandle_{Handle::None};
     bool dragging_{false};
+    bool ownsMouseGrab_{false};
 };
 
 }  // namespace billfish::trim

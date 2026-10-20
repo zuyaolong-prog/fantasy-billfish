@@ -1,0 +1,97 @@
+[
+  {
+    "path": "lib/core.cjs",
+    "bytes": 9715919,
+    "sha256": "8adb5ffe1af73c5808397b8de590fb7dbc6389d24144660da60728e2c33a38ff"
+  },
+  {
+    "path": "lib/3dm/rhino3dm.js",
+    "bytes": 142575,
+    "sha256": "9e0629a6888ccdf55f1a86d3c130f903ac02f461766a999ba965ef7a7800fd66"
+  },
+  {
+    "path": "lib/3dm/rhino3dm.wasm",
+    "bytes": 2535180,
+    "sha256": "610ebb224ecafc7a4978bdce30e626897c24de66ae2f6bdd6f485a386a011e73"
+  },
+  {
+    "path": "lib/basis/basis_transcoder.js",
+    "bytes": 57529,
+    "sha256": "8478b5b6d6b74e7d3082b89f6417321d8d1dc0307f2b30d4484bb11b441696a1"
+  },
+  {
+    "path": "lib/basis/basis_transcoder.wasm",
+    "bytes": 527333,
+    "sha256": "6cf17dc889352c42e9acf8897107978d127005fe3386c36a0e3845e27967630a"
+  },
+  {
+    "path": "lib/draco/draco_decoder.js",
+    "bytes": 719410,
+    "sha256": "30e4d486fa020737af10e3c56197693e5b904bdc05b8bfa5d7b06751dec6da04"
+  },
+  {
+    "path": "lib/draco/draco_decoder.wasm",
+    "bytes": 285747,
+    "sha256": "c55a594e8ffd18426d36b27fea9618af3df5e173640a3e56d46f09d76f0574f2"
+  },
+  {
+    "path": "lib/draco/draco_encoder.js",
+    "bytes": 928718,
+    "sha256": "d5c653caf242556ddff9370e86979b8b5c6131bc196be388698a85dc2e1bb59b"
+  },
+  {
+    "path": "lib/draco/draco_wasm_wrapper.js",
+    "bytes": 58763,
+    "sha256": "e8049906ef3f8f75d3456c22a3f31bfdfe5b5b5bd09ccdec613b9e9a49d554d8"
+  },
+  {
+    "path": "lib/draco/gltf/draco_decoder.js",
+    "bytes": 512465,
+    "sha256": "8625489da79a805f4f2a7d511c3e52d8b4085608a9d2a4d5f4f9de5db0aea04f"
+  },
+  {
+    "path": "lib/draco/gltf/draco_decoder.wasm",
+    "bytes": 192420,
+    "sha256": "a680d927bed9cb864ddbd63521868891af2bfbe755092761b4837487618df8ac"
+  },
+  {
+    "path": "lib/draco/gltf/draco_encoder.js",
+    "bytes": 954360,
+    "sha256": "6d4132d7b68d26d20a43a1ed59ff4b4a694fbaad41b339158db050dbd0e68f56"
+  },
+  {
+    "path": "lib/draco/gltf/draco_wasm_wrapper.js",
+    "bytes": 58456,
+    "sha256": "8bb2952d2ba7d67e1414f8df819410cb0434a666be53f671fff75f68843d76f6"
+  },
+  {
+    "path": "lib/hdr/background.hdr",
+    "bytes": 1672140,
+    "sha256": "9b3d611cadc32c3a0c7e084ce5611c0650293881c4a041e7fa13748fe0dc6451"
+  },
+  {
+    "path": "lib/ifc/web-ifc.wasm",
+    "bytes": 664780,
+    "sha256": "8bf8221734decf3404f7a23b0dfb952de2b92ebf382804eaa60fc27ddd79b74f"
+  },
+  {
+    "path": "lib/usdz/emHdBindings.data",
+    "bytes": 849069,
+    "sha256": "5e3f4f81d4c69b29fcdd45307d05523a019e216bc396a9ee8bd64fc506562bf8"
+  },
+  {
+    "path": "lib/usdz/emHdBindings.js",
+    "bytes": 360351,
+    "sha256": "12bd6750bc3e8b40c1302908efc169b126b1eac239a9e23ba1eddcd1d4a51549"
+  },
+  {
+    "path": "lib/usdz/emHdBindings.wasm",
+    "bytes": 16394889,
+    "sha256": "2ab4f5a240647ecddc97ce452207f9bf6a28c5eaec613152bfd289d7087871a0"
+  },
+  {
+    "path": "lib/usdz/emHdBindings.worker.js",
+    "bytes": 3868,
+    "sha256": "56ba82e82cc02ed7084dccc30c693f524352d8521c2adb21326d1d9022f40be2"
+  }
+]

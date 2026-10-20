@@ -1,0 +1,10 @@
+{
+  "name": "Billfish 采集 - 维护版",
+  "extension_id": "aloippladlgkfkcabiknfpokgcppcjkp",
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAyzJqV4ipBODDxjQnhkhQXJSR1ur9mlA8tJVE+0u9jk6KeNg3U0anm818rSRxUsYUIBgRzIk+4ZJ+UDBhwnbTOEItUiYpVWCxcIAhWLk8BlLrEyZFoGYpuuE4mwdrMSZK8U66d7j/j+f823thuaLScV5+vpjs/mLbBVjMtgGJg/91/FOgCO9Ph486Z7VAxZ/kfTb+RJshb4BO2kU7KVOdO9aOPVk5aurXY2HR+nZxGAo/hqzDpLVKinOHP6Ov79qeMAGt47Z8ou0x/LFoeCnbv5wwGBaA1HNtH0Lsa2FQb3TWZhha9jm0vMmhu9oTCBJUXL10gqHnkXgPO4nzZWPYOQIDAQAB",
+  "native_host": "com.billfish.capture",
+  "allowed_origin": "chrome-extension://aloippladlgkfkcabiknfpokgcppcjkp/",
+  "source_extension_id": "kjjmbhmmbfgbaannpbpoaabponeogaop",
+  "source_version": "4.0.5",
+  "version": "4.2.0"
+}

@@ -1,0 +1,11 @@
+{
+  "name": "billfish-plugin-runtime",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Independent Electron host for the supported Eagle JavaScript plugin contract",
+  "main": "main.cjs",
+  "dependencies": {
+    "electron": "38.8.6",
+    "i18next": "26.5.2"
+  }
+}

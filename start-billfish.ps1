@@ -2,6 +2,7 @@
 param(
     [AllowEmptyString()][string]$LibraryRoot,
     [switch]$DryRun,
+    [string]$InstallPlugin,
     [switch]$StandardRender,
     [switch]$SkipUiPreferences,
     [int]$LeftFolderHeight = 2000,
@@ -23,8 +24,13 @@ $CoreScript = Join-Path $PSScriptRoot '_launcher-patch\Launcher.Core.ps1'
 $AppDataRoot = if ([string]::IsNullOrWhiteSpace($TestAppDataRoot)) { $env:APPDATA } else { [System.IO.Path]::GetFullPath($TestAppDataRoot) }
 $UserConfig = Join-Path $AppDataRoot 'Billfish\config\user_config.ini'
 $PassThroughArgs = @($BillfishArgs | Where-Object { $null -ne $_ })
+$bundledPython = Join-Path $BillfishRoot 'tools\python\python.exe'
+if (-not $env:BILLFISH_PYTHON -and [IO.File]::Exists($bundledPython)) { $env:BILLFISH_PYTHON = $bundledPython }
 
 . $CoreScript
+. (Join-Path $PSScriptRoot '_launcher-patch\PluginIngress.Core.ps1')
+$pluginRequest = Resolve-BillfishPluginIngress -ExplicitPath $InstallPlugin -Arguments $PassThroughArgs
+$PassThroughArgs = @($pluginRequest.Arguments)
 
 function Add-ChromiumFlag {
     param([Parameter(Mandatory = $true)][string]$Flag)
@@ -81,52 +87,57 @@ try {
     # user-session mutex. This covers the complete health-check/start transaction.
     $running = @(Get-BillfishProcessByExecutablePath -ExecutablePath $BillfishExe -FixtureProcessPaths $TestProcessPaths)
     if ($running.Count -gt 0) {
-        [pscustomobject]@{ Outcome = 'AlreadyRunning'; Executable = $BillfishExe; ProcessIds = @($running.Id) }
-        exit 0
+        $plan = [pscustomobject]@{ Outcome = 'AlreadyRunning'; Executable = $BillfishExe; ProcessIds = @($running.Id); PluginPackage = $pluginRequest.SourcePath }
     }
-
-    $health = if($TestSkipPersistentPatchHealth){[pscustomobject]@{Healthy=$true;LibraryRoot=$resolvedLibraryRoot;LibraryDatabase=(Get-BillfishLibraryDatabaseStatus -BillfishRoot $BillfishRoot -LibraryRoot $resolvedLibraryRoot -SkipCheck);Patches=@()}}else{Get-BillfishPersistentPatchHealth -BillfishRoot $BillfishRoot -LibraryRoot $resolvedLibraryRoot -AppDataRoot $AppDataRoot -SkipLibraryDatabaseCheck:$TestSkipLibraryDatabaseCheck}
-    if (-not $health.Healthy) {
-        $details = @($health.Patches | Where-Object { -not $_.Healthy } | ForEach-Object {
-            "[$($_.Name)] " + ($_.Errors -join '; ')
-        }) -join [Environment]::NewLine
-        throw "Persistent patch health check failed. Billfish was not started.`n$details"
-    }
-
-    $env:BILLFISH_LIBRARY_ROOT = $resolvedLibraryRoot
-    $env:BILLFISH_INSTALL_ROOT = $BillfishRoot
-    if (-not $StandardRender) {
-        $env:QT_OPENGL = 'software'
-        Add-ChromiumFlag '--disable-gpu'
-        Add-ChromiumFlag '--disable-gpu-compositing'
-    }
-
-    if (-not $DryRun -and -not $SkipUiPreferences -and $LeftFolderHeight -gt 0) {
-        Set-IniValue -Path $UserConfig -Section 'ShowConfig' -Key 'LeftFolderHeight' -Value ([string]$LeftFolderHeight)
-    }
-    if (-not $DryRun) {
-        foreach ($key in @('EnableHardwareAcceleration', 'EnableHardwareAccelerationV2', 'EnableHardwareRender')) {
-            Set-IniValue -Path $UserConfig -Section 'ShowConfig' -Key $key -Value '0'
+    else {
+        $health = if($TestSkipPersistentPatchHealth){[pscustomobject]@{Healthy=$true;LibraryRoot=$resolvedLibraryRoot;LibraryDatabase=(Get-BillfishLibraryDatabaseStatus -BillfishRoot $BillfishRoot -LibraryRoot $resolvedLibraryRoot -SkipCheck);Patches=@()}}else{Get-BillfishPersistentPatchHealth -BillfishRoot $BillfishRoot -LibraryRoot $resolvedLibraryRoot -AppDataRoot $AppDataRoot -SkipLibraryDatabaseCheck:$TestSkipLibraryDatabaseCheck}
+        if (-not $health.Healthy) {
+            $details = @($health.Patches | Where-Object { -not $_.Healthy } | ForEach-Object {
+                "[$($_.Name)] " + ($_.Errors -join '; ')
+            }) -join [Environment]::NewLine
+            throw "Persistent patch health check failed. Billfish was not started.`n$details"
         }
-    }
 
-    $plan = [pscustomobject]@{
-        Outcome = if ($DryRun) { 'WouldStart' } else { 'Started' }
-        Executable = $BillfishExe
-        WorkingDirectory = $BillfishRoot
-        LibraryRoot = $resolvedLibraryRoot
-        LibraryResolution = $libraryResolution
-        LibraryDatabase = $health.LibraryDatabase
-        Arguments = $PassThroughArgs
-        PatchHealth = @($health.Patches | Select-Object Name, Healthy)
-    }
-    if ($DryRun) { $plan; exit 0 }
+        $env:BILLFISH_LIBRARY_ROOT = $resolvedLibraryRoot
+        $env:BILLFISH_INSTALL_ROOT = $BillfishRoot
+        if (-not $StandardRender) {
+            $env:QT_OPENGL = 'software'
+            Add-ChromiumFlag '--disable-gpu'
+            Add-ChromiumFlag '--disable-gpu-compositing'
+        }
 
-    $startParameters = @{ FilePath = $BillfishExe; WorkingDirectory = $BillfishRoot }
-    if ($PassThroughArgs.Count -gt 0) { $startParameters.ArgumentList = (ConvertTo-WindowsCommandLine -ArgumentList $PassThroughArgs) }
-    Start-Process @startParameters
-    $plan
+        if (-not $DryRun -and -not $SkipUiPreferences -and $LeftFolderHeight -gt 0) {
+            Set-IniValue -Path $UserConfig -Section 'ShowConfig' -Key 'LeftFolderHeight' -Value ([string]$LeftFolderHeight)
+        }
+        if (-not $DryRun) {
+            foreach ($key in @('EnableHardwareAcceleration', 'EnableHardwareAccelerationV2', 'EnableHardwareRender')) {
+                Set-IniValue -Path $UserConfig -Section 'ShowConfig' -Key $key -Value '0'
+            }
+        }
+
+        $plan = [pscustomobject]@{
+            Outcome = if ($DryRun) { 'WouldStart' } else { 'Started' }
+            Executable = $BillfishExe
+            WorkingDirectory = $BillfishRoot
+            LibraryRoot = $resolvedLibraryRoot
+            LibraryResolution = $libraryResolution
+            LibraryDatabase = $health.LibraryDatabase
+            Arguments = $PassThroughArgs
+            PluginPackage = $pluginRequest.SourcePath
+            PatchHealth = @($health.Patches | Select-Object Name, Healthy)
+        }
+        if ($DryRun) { $plan; exit 0 }
+
+        $startParameters = @{ FilePath = $BillfishExe; WorkingDirectory = $BillfishRoot }
+        if ($PassThroughArgs.Count -gt 0) { $startParameters.ArgumentList = (ConvertTo-WindowsCommandLine -ArgumentList $PassThroughArgs) }
+        Start-Process @startParameters
+    }
 }
 finally {
     Exit-BillfishLaunchMutex -Mutex $mutex
 }
+
+if (-not $DryRun -and $pluginRequest.SourcePath) {
+    Invoke-BillfishPluginIngress -BillfishRoot $BillfishRoot -SourcePath $pluginRequest.SourcePath
+}
+$plan

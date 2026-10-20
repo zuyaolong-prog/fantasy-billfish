@@ -1,0 +1,20 @@
+'use strict';
+const IDENTITY=[1,0,0,0,1,0,0,0,1];
+const mul=(a,b)=>Array.from({length:9},(_,i)=>{const r=Math.floor(i/3),c=i%3;return a[r*3]*b[c]+a[r*3+1]*b[c+3]+a[r*3+2]*b[c+6];});
+const transpose=a=>[a[0],a[3],a[6],a[1],a[4],a[7],a[2],a[5],a[8]];
+const det=a=>a[0]*(a[4]*a[8]-a[5]*a[7])-a[1]*(a[3]*a[8]-a[5]*a[6])+a[2]*(a[3]*a[7]-a[4]*a[6]);
+const vector=(a,v)=>[0,1,2].map(r=>a[r*3]*v[0]+a[r*3+1]*v[1]+a[r*3+2]*v[2]);
+function axisVector(axis){const v=[0,0,0],i='XYZ'.indexOf(axis?.[1]);if(i<0||!['+','-'].includes(axis[0]))throw new Error('Invalid signed coordinate axis');v[i]=axis[0]==='+'?1:-1;return v;}
+function sceneBasis(profile={}){const kind=profile.interpretation||'auto',axes=profile.sourceAxes||(kind==='max'?{right:'+X',up:'+Z',front:'-Y'}:{right:'+X',up:'+Y',front:'+Z'});const matrix=kind==='auto'&&!profile.sourceAxes?IDENTITY:[...axisVector(axes.right),...axisVector(axes.up),...axisVector(axes.front)];if(Math.abs(det(matrix))!==1)throw new Error('Axes do not form an orthogonal basis');return {matrix,unit:profile.sourceUnitMeters||1,selected:{interpretation:kind,sourceAxes:axes,sourceUnitMeters:profile.sourceUnitMeters||1}};}
+function wrapperMatrix(profile){const {matrix:a,unit:u}=sceneBasis(profile);return [a[0]*u,a[3]*u,a[6]*u,0,a[1]*u,a[4]*u,a[7]*u,0,a[2]*u,a[5]*u,a[8]*u,0,0,0,0,1];}
+function quatFromMatrix(m){const t=m[0]+m[4]+m[8];let x,y,z,w;if(t>0){const s=Math.sqrt(t+1)*2;w=.25*s;x=(m[7]-m[5])/s;y=(m[2]-m[6])/s;z=(m[3]-m[1])/s;}else if(m[0]>m[4]&&m[0]>m[8]){const s=Math.sqrt(1+m[0]-m[4]-m[8])*2;w=(m[7]-m[5])/s;x=.25*s;y=(m[1]+m[3])/s;z=(m[2]+m[6])/s;}else if(m[4]>m[8]){const s=Math.sqrt(1+m[4]-m[0]-m[8])*2;w=(m[2]-m[6])/s;x=(m[1]+m[3])/s;y=.25*s;z=(m[5]+m[7])/s;}else{const s=Math.sqrt(1+m[8]-m[0]-m[4])*2;w=(m[3]-m[1])/s;x=(m[2]+m[6])/s;y=(m[5]+m[7])/s;z=.25*s;}return [x,y,z,w];}
+function quaternionMultiply(a,b){const [x,y,z,w]=a,[X,Y,Z,W]=b;return [w*X+x*W+y*Z-z*Y,w*Y-x*Z+y*W+z*X,w*Z+x*Y-y*X+z*W,w*W-x*X-y*Y-z*Z];}
+function convertRootClip(clip,nodes,sourceProfile,targetProfile){const source=sceneBasis(sourceProfile),target=sceneBasis(targetProfile),basis=mul(transpose(target.matrix),source.matrix),unit=source.unit/target.unit;
+ if(basis.every((v,i)=>v===IDENTITY[i])&&unit===1)return clip;
+ const reflected=det(basis)<0,rotationBasis=reflected?mul(basis,[-1,0,0,0,1,0,0,0,1]):basis,q=quatFromMatrix(rotationBasis),result=structuredClone(clip),roots=nodes.filter(n=>n.parentId===null||n.parentId===undefined);
+ for(const root of roots){for(const property of ['translation','rotation','scale']){let track=result.tracks.find(t=>t.nodeId===root.id&&t.property===property);if(!track){if(root.rest?.matrix)throw Object.assign(new Error('Coordinate override on matrix-authored root requires a decomposable TRS root'),{code:'UNSUPPORTED_MATRIX_ROOT_OVERRIDE'});track={nodeId:root.id,property,times:[0],values:[...(root.rest?.[property]||(property==='rotation'?[0,0,0,1]:property==='scale'?[1,1,1]:[0,0,0]))],interpolation:'STEP'};result.tracks.push(track);}
+  const width=property==='rotation'?4:3;for(let i=0;i<track.values.length;i+=width){const v=track.values.slice(i,i+width);let out;if(property==='translation')out=vector(basis,v).map(x=>x*unit);else if(property==='scale')out=v.map((x,j)=>x*unit*(reflected&&j===0?-1:1));else out=quaternionMultiply(q,reflected?[v[0],-v[1],-v[2],v[3]]:v);if(ArrayBuffer.isView(track.values))track.values.set(out,i);else track.values.splice(i,width,...out);}
+ }}return result;
+}
+function applyModelBasis(doc,profile){const matrix=wrapperMatrix(profile);if(matrix.every((v,i)=>v===[1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1][i]))return;const j=doc.json;if(!j.scenes?.length){const childIds=new Set((j.nodes||[]).flatMap(n=>n.children||[]));j.scenes=[{nodes:j.nodes.map((_,i)=>i).filter(i=>!childIds.has(i))}];j.scene=0;}for(const scene of j.scenes){const index=j.nodes.length;j.nodes.push({name:'Billfish scene normalization',matrix,children:scene.nodes||[],extras:{billfishNormalization:true}});scene.nodes=[index];}}
+module.exports={sceneBasis,wrapperMatrix,convertRootClip,applyModelBasis};

@@ -3,8 +3,8 @@
   "files": [
     {
       "path": "Billfish.exe",
-      "sha256": "85E2DA01084ED9E580D6A2CE5DD04903EEB49BD8F6B41F25358ABD80D66E4BDD",
-      "size": 70932193
+      "sha256": "0FF265666A2B553980A6155CD6F43E5DDF6901DB217458F8407C9A9EF8894844",
+      "size": 70931220
     },
     {
       "path": "Billfish.core.exe",
@@ -33,8 +33,8 @@
     },
     {
       "path": "ui_plugins/preview.dll",
-      "sha256": "666DF56878B561E1016BED1F5A92E442EDCB49A7D2CF77924CD373FF63C0016F",
-      "size": 452608
+      "sha256": "002C700DEA52448467AD18C61CDD04957DB34E68D785B9D73AFFAE6372943B95",
+      "size": 1665536
     },
     {
       "path": "ui_plugins/preview.stock.bin",
@@ -43,7 +43,7 @@
     },
     {
       "path": "ui_plugins/treemodule.dll",
-      "sha256": "B26E12F54B569DA9AA9803103615BCDCE99FADE2377AAE542346CCF601D8B956",
+      "sha256": "569C3DFD752961BF69269FADB491569F445B86D1E585511DDF0EDC13F36DAC1A",
       "size": 432640
     },
     {
@@ -95,6 +95,1061 @@
       "path": "_hdr-preview-patch/tools/mpv/mpv.exe",
       "sha256": "D07A4431E3B44CA62ACB5127656A9505780CBBA50350C05332B4B00070D5B585",
       "size": 118056960
+    },
+    {
+      "path": "_launcher-patch/PluginIngress.Core.ps1",
+      "sha256": "B34309919E2D5F606012A6BE0451D9DDAB184240048DC0EB7E8164864A7CBDC6",
+      "size": 2609
+    },
+    {
+      "path": "_launcher-patch/deliver-plugin-package.py",
+      "sha256": "A3A2F8631EA7BB2016F98C54633FF0C43C392796F5E1D455A27A918DD64FB16C",
+      "size": 2557
+    },
+    {
+      "path": "automation/media_transfer.py",
+      "sha256": "56C9EAA445B1384175246FFA039189A82953C28597C79F111EC90C69F4F9B955",
+      "size": 18444
+    },
+    {
+      "path": "automation/browser_native_host.py",
+      "sha256": "199C32DDA7265CA39E62C2D75D05825885ED86829545EDFE49D84DD532DA7F6D",
+      "size": 8331
+    },
+    {
+      "path": "browser-extension/maintained/background.js",
+      "sha256": "6341364BBBAFDA4A2ADB8A8A98B0C12749A58031019AF0B681059E4BD1871398",
+      "size": 263105
+    },
+    {
+      "path": "browser-extension/maintained/build-fork.cjs",
+      "sha256": "2DA92CB41491F6C3B879DAA24F09F51967A84B35707BB8FB96E778C8506570FE",
+      "size": 7393
+    },
+    {
+      "path": "browser-extension/maintained/content.js",
+      "sha256": "BD7FEC08318857D464B3997335251F7AD7C90630083742CBCE95E8594FDB40C8",
+      "size": 217908
+    },
+    {
+      "path": "browser-extension/maintained/identity.json",
+      "sha256": "704063DABB141A88F46F8FCDFB8DEE633F7383AE4B18230133987FFCD12BF41B",
+      "size": 742
+    },
+    {
+      "path": "browser-extension/maintained/kb-wasm.wasm",
+      "sha256": "6C5C4CDF3AE64938E5C1F33B73BCB3BA33DE307AD4C698C7D115188D67F672A3",
+      "size": 143660
+    },
+    {
+      "path": "browser-extension/maintained/manifest.json",
+      "sha256": "CB2394131A414D2031E8BEB9552DFC843CC5AAAA71DF14D7D419A3D9141FEEF2",
+      "size": 2337
+    },
+    {
+      "path": "browser-extension/maintained/provenance.json",
+      "sha256": "642AF4B967445F46CC564CDEB28E956075DB17D1CB13A14A88AA5F7C29425BFA",
+      "size": 11672
+    },
+    {
+      "path": "browser-extension/maintained/README.md",
+      "sha256": "F452D8013A00C860EEC2B954CFEFCB9C4DE604843954F1A0076031952D297605",
+      "size": 4211
+    },
+    {
+      "path": "browser-extension/maintained/assets/edit.css",
+      "sha256": "26ACF3D16ED8C71787522D9D0A9C2B5E8F9A1EE2FCF1C6B072D8F06C3E20A1D4",
+      "size": 1980
+    },
+    {
+      "path": "browser-extension/maintained/assets/edit.js",
+      "sha256": "AE6ABE5F52F5D406940A4D48147B82673348E1C22E0C3CE87ED861D1BD728788",
+      "size": 9949
+    },
+    {
+      "path": "browser-extension/maintained/assets/exception.css",
+      "sha256": "33B7640A879F9C88ABEF9EB7B7CC8F2410401E2E6BABBE96B682DD0FBDB2BAFD",
+      "size": 278032
+    },
+    {
+      "path": "browser-extension/maintained/assets/exception.js",
+      "sha256": "49EE5BBFD7A8C0726EF59062F3D073CB255C4385A945C1BF93B4158A37A3656D",
+      "size": 5763
+    },
+    {
+      "path": "browser-extension/maintained/assets/file.css",
+      "sha256": "35999820C9B16CC7C63742688151C4F8C1D6033F2388388DEE05B0F1FFD4B579",
+      "size": 2216
+    },
+    {
+      "path": "browser-extension/maintained/assets/file.js",
+      "sha256": "1B43DC58420B790DB20EA6A4A93B94149656A18A5884F444B7941C44F5741A27",
+      "size": 2398
+    },
+    {
+      "path": "browser-extension/maintained/assets/globalThis.js",
+      "sha256": "9C7DC014BA1CF128B3529EE1DDF6D9E6E306065353EAE68EF35547B108BCF2B1",
+      "size": 281
+    },
+    {
+      "path": "browser-extension/maintained/assets/home.css",
+      "sha256": "3273FDE2133E6C2E7C038F4F75B941E7BFED1E6E865F1CC345D462B051D0B19F",
+      "size": 9966
+    },
+    {
+      "path": "browser-extension/maintained/assets/home.js",
+      "sha256": "ED4F1E07AF9F372CD58B30C34E1298A41B9BA86178F6999C96A6D57722A5E0BE",
+      "size": 20893
+    },
+    {
+      "path": "browser-extension/maintained/assets/loadingGif.1d2fa8d6.gif",
+      "sha256": "1D2FA8D6549A6C576FEE19192DABEA51833DB86940A9CAC5F617A289F33E2847",
+      "size": 100392
+    },
+    {
+      "path": "browser-extension/maintained/assets/localStorage.js",
+      "sha256": "5736620B14B1A75E4CECDEE6F488CDFA24B0F7A62CC02FBCDCC8DFBAE3384B45",
+      "size": 2593
+    },
+    {
+      "path": "browser-extension/maintained/assets/message.js",
+      "sha256": "28F44EC15EC8A1DFB9C9031CA1076FD438E04FA7401C54FD4811375F0B2D45F5",
+      "size": 3394
+    },
+    {
+      "path": "browser-extension/maintained/assets/notify.css",
+      "sha256": "5106E03E852581439CDE10CE12A0A06954A15088731298CD28CB902A5A73C5DB",
+      "size": 2267
+    },
+    {
+      "path": "browser-extension/maintained/assets/notify.js",
+      "sha256": "F921F8A56E9AA69528B69AE09BC0BAF3BD33235C634407F9207DF4545DB0E877",
+      "size": 553
+    },
+    {
+      "path": "browser-extension/maintained/assets/popup.css",
+      "sha256": "A745206DF3D5D6DD6CDD81E5B8A12697ADE857071ABD4EC5687817D6C28948E7",
+      "size": 9267
+    },
+    {
+      "path": "browser-extension/maintained/assets/popup.js",
+      "sha256": "3685406236A856B35ED66901A79E73D89FFDCA628222C4535F4CE31937FBCCE9",
+      "size": 53206
+    },
+    {
+      "path": "browser-extension/maintained/assets/testNative.js",
+      "sha256": "C3C68E4E8AD71885E51FACC9CA6382E33C69188295C6D4D9DE60CB1005DF82AF",
+      "size": 2109
+    },
+    {
+      "path": "browser-extension/maintained/assets/vendor.js",
+      "sha256": "C907050904C98E7DF6BA47F182C9E2E916CC1B5A291BDA5C217E4673D14B85F0",
+      "size": 779522
+    },
+    {
+      "path": "browser-extension/maintained/edit/index.html",
+      "sha256": "F25D7BFD6157F07B7803D2814043EE472164AC1947380CDFB3707A36B7EAFA8F",
+      "size": 582
+    },
+    {
+      "path": "browser-extension/maintained/file/index.html",
+      "sha256": "DAA2F7D9F3671EBB2961B0114DD090A56374FA4508D25C3CF4F100E9905AD1A5",
+      "size": 630
+    },
+    {
+      "path": "browser-extension/maintained/home/index.html",
+      "sha256": "4D5C6CB672D25E76B13A6F6929EA0852E410C1DC036D6E865CB9363D6381503E",
+      "size": 778
+    },
+    {
+      "path": "browser-extension/maintained/maintained/video-background.js",
+      "sha256": "BDD444CCEDBB356FB767CEECD600E85BDDEECBEC3885CD7FEB62C8ADFE9789AA",
+      "size": 4076
+    },
+    {
+      "path": "browser-extension/maintained/maintained/video-common.js",
+      "sha256": "2AA3A80FCCE1EF95D2B46A3843AA101A50653554F1FEA46C6B50F523B7FE47C9",
+      "size": 8428
+    },
+    {
+      "path": "browser-extension/maintained/maintained/video-content.js",
+      "sha256": "48FD9698B68674AA206A2FB40B6FAC834953C3300E51036D30995554A5BE6633",
+      "size": 7270
+    },
+    {
+      "path": "browser-extension/maintained/popup/index.html",
+      "sha256": "35F1615F664F9E9109F1871782E80890C461982FF2AD8FF544078155F2F40E87",
+      "size": 856
+    },
+    {
+      "path": "browser-extension/maintained/styles/contentInject.css",
+      "sha256": "DB5DA36B0C9EE439BC5F2516D197E79547AF3A87DA8B1703C1974A17AAFB8A97",
+      "size": 119057
+    },
+    {
+      "path": "browser-extension/maintained/styles/scrollcapture.css",
+      "sha256": "96B0D33CC6DD121EF3B28A1E685523FB6247949F173AC5A0253DF14615661C90",
+      "size": 689
+    },
+    {
+      "path": "browser-extension/maintained/tests/video-capture.test.cjs",
+      "sha256": "66E346AEACAAF3DFA64694940AF396960E3D0CA5A106819C4004BE50DE844A61",
+      "size": 17451
+    },
+    {
+      "path": "browser-extension/maintained/_locales/en/messages.json",
+      "sha256": "CFBF67898C9F0E250D8AEBFC44EE32678969C70BF299DF238F0E7DC44716BF94",
+      "size": 387
+    },
+    {
+      "path": "browser-extension/maintained/_locales/zh_CN/messages.json",
+      "sha256": "64A1088233022493FFAA1ACA736F6E418D09CCB3AF4D5E0245D7707C17AEF904",
+      "size": 387
+    },
+    {
+      "path": "browser-extension/maintained/assets/background/bacScoll.png",
+      "sha256": "7EA1F9D643906CD0902EE1EF9C00E5E06F80A474C82F56BDEAEEC42F98593369",
+      "size": 63180
+    },
+    {
+      "path": "browser-extension/maintained/assets/background/iconOpen.png",
+      "sha256": "F5A752575C77F7144CDEBEBF4798433FC60518F889F146B178E2C5711AD3D39E",
+      "size": 1655
+    },
+    {
+      "path": "browser-extension/maintained/assets/icons/1024.png",
+      "sha256": "044B658CAEBC938DFA19D0728AC1D5B710594EEDFC813B408EE188034A456115",
+      "size": 44322
+    },
+    {
+      "path": "browser-extension/maintained/assets/icons/128.png",
+      "sha256": "9108D8A6DBAF053BA0FEC4C8D2FCAE69398921035AD394E60DEF954573BB400A",
+      "size": 4626
+    },
+    {
+      "path": "browser-extension/maintained/assets/icons/16.png",
+      "sha256": "CED274ADA746E6BB4F4044D9E2660426C1231AAC80206F8486AFCB62CCFC239B",
+      "size": 557
+    },
+    {
+      "path": "browser-extension/maintained/assets/icons/256.png",
+      "sha256": "92F2AE21A723D32E0F552EE028FF640F313C9A8B6E9C15A0F927D293BA815AE8",
+      "size": 9753
+    },
+    {
+      "path": "browser-extension/maintained/assets/icons/32.png",
+      "sha256": "98D9E69DF8C90E52CFB03ACFEA10B2DA5694E248F9F04A951A635D4EF53A868E",
+      "size": 1066
+    },
+    {
+      "path": "browser-extension/maintained/assets/icons/48.png",
+      "sha256": "D47B204E57A65030B9DE55B89304054A355EDF7631F6B4BA2CBC996C3B67BFBC",
+      "size": 1531
+    },
+    {
+      "path": "browser-extension/maintained/assets/icons/512.png",
+      "sha256": "6C58246514FEC114614F00B7CF6BCD4B97A044C9265BC6C13E82786CF5E7EA88",
+      "size": 20680
+    },
+    {
+      "path": "browser-extension/maintained/assets/icons/64.png",
+      "sha256": "CA49FDC69029F900F3B442E3F2969573739DDD2830E398D1FFFB1BE2005A7932",
+      "size": 2070
+    },
+    {
+      "path": "browser-extension/maintained/assets/picturePopup/drop-down-hover.png",
+      "sha256": "DA325D316348B7D9851939C8826BBAB101547B2F003B9219F4B9006A2A3D6487",
+      "size": 5032
+    },
+    {
+      "path": "browser-extension/maintained/assets/picturePopup/drop-down.png",
+      "sha256": "5681ECD043ABDE2D47A329C129F5B6354B736A59D7042533CEDC567DBD950220",
+      "size": 5215
+    },
+    {
+      "path": "browser-extension/maintained/assets/picturePopup/drop-no-hover.png",
+      "sha256": "8CB9BBC57C419BB40FCE73CA3FCCFE94CAB8AFA8338CC5834FEA0EA0C0F77F26",
+      "size": 4872
+    },
+    {
+      "path": "browser-extension/maintained/assets/picturePopup/drop-no.png",
+      "sha256": "49665E279BE91379FFCAB29F577C3A2A3CD7F99028CA1AD1BB328151CC2DAB8E",
+      "size": 5219
+    },
+    {
+      "path": "browser-extension/maintained/assets/picturePopup/drop-other-hover.png",
+      "sha256": "AFD3FC6F2190947C66B8800DFFE55B82831BED6067E49DEABF117E2419162F1F",
+      "size": 5635
+    },
+    {
+      "path": "browser-extension/maintained/assets/picturePopup/drop-other.png",
+      "sha256": "E84964DEB2C7DE7394165EE52FE834E1A55BE9775CA2B4048ABBD0681F6AA324",
+      "size": 6055
+    },
+    {
+      "path": "browser-extension/maintained/assets/picturePopup/feedback.png",
+      "sha256": "8A2EE1C4F1BEF20A6EF85BC736502DEF9701CD8F12C238E6C701345685B4AB6C",
+      "size": 574
+    },
+    {
+      "path": "browser-extension/maintained/assets/picturePopup/hover-grooup.png",
+      "sha256": "39339E1C33D69626828C3FFF66CD5940A39835DEDA231639E9094FE68EB6E914",
+      "size": 1120
+    },
+    {
+      "path": "browser-extension/maintained/assets/picturePopup/hover-ones.png",
+      "sha256": "CF7A73477B15127E7D72AECAC6AC48060CC3163C466CC0FFD55CF4271703B981",
+      "size": 1359
+    },
+    {
+      "path": "browser-extension/maintained/assets/picturePopup/hover-three.png",
+      "sha256": "48CB9E51D7AF730BF388B340DFFCA7939A97762F6A9A2F226A5769C4CD59BCC4",
+      "size": 826
+    },
+    {
+      "path": "browser-extension/maintained/assets/picturePopup/hover-two.png",
+      "sha256": "25876618AB85069362259A72405F04B537E06EDEF460F21D1726A67C8CC82861",
+      "size": 578
+    },
+    {
+      "path": "browser-extension/maintained/assets/picturePopup/icon-shiyongshuomings.png",
+      "sha256": "BBFF3379D18CB5C3F8768B295471C6C52F61D56FD4BBFDA724E3F1399955B00D",
+      "size": 1368
+    },
+    {
+      "path": "browser-extension/maintained/assets/picturePopup/icon-yonghuqun1.png",
+      "sha256": "9BE6A70F65590916FC355E155C9E8EB8006BD94ECC2C1B324FF5A0281AEF62E4",
+      "size": 1106
+    },
+    {
+      "path": "browser-extension/maintained/assets/picturePopup/loadingGif.gif",
+      "sha256": "1D2FA8D6549A6C576FEE19192DABEA51833DB86940A9CAC5F617A289F33E2847",
+      "size": 100392
+    },
+    {
+      "path": "browser-extension/maintained/assets/picturePopup/logo.png",
+      "sha256": "F04DB5E3ACF36AFCD47F71F34579C3BF60C002686929C13EB311EBD786645B2C",
+      "size": 1171
+    },
+    {
+      "path": "browser-extension/maintained/assets/picturePopup/new.png",
+      "sha256": "B4E89F292CB0BFE69376B78BE978AE1DF4E924667A04CECDA9C58FBA2F57BB55",
+      "size": 1457
+    },
+    {
+      "path": "browser-extension/maintained/assets/picturePopup/setting.png",
+      "sha256": "DD761FD85921F8C06AC6540DD10E9143A368B8AACBBED175D9797480F3BB5789",
+      "size": 818
+    },
+    {
+      "path": "tools/video-download/LICENSE",
+      "sha256": "7E12E5DF4BAE12CB21581BA157CED20E1986A0508DD10D0E8A4AB9A4CF94E85C",
+      "size": 1211
+    },
+    {
+      "path": "tools/video-download/PROVENANCE.md",
+      "sha256": "29EFD982C33D6342B3EB889F1AF15E60CB5C2EB60C2471C91C4AA2F7DFF4A3DF",
+      "size": 1727
+    },
+    {
+      "path": "tools/video-download/SHA2-256SUMS",
+      "sha256": "A63701F30755CB4D9317950D69703E9D751D490CB1B7059E1BB501A353FE7DCB",
+      "size": 1595
+    },
+    {
+      "path": "tools/video-download/THIRD_PARTY_LICENSES.txt",
+      "sha256": "472AEFE951C7DB35E1657C1D13FD337140511ED6F2B329205105AD441C5A02B7",
+      "size": 243550
+    },
+    {
+      "path": "tools/video-download/yt-dlp.exe",
+      "sha256": "66674953FE251B89F4D08C5F0E35E0728679BD67AB3D7D05C0562AF101DD3E7A",
+      "size": 17840399
+    },
+    {
+      "path": "browser-extension/native-host/billfish-capture-host.cmd.in",
+      "sha256": "2EC67EAE3A6171C87B9CC51BA5575D7E32672ECFB289B1AD0CB1D4BB93B20E4B",
+      "size": 242
+    },
+    {
+      "path": "browser-extension/native-host/com.billfish.capture.json.in",
+      "sha256": "B19639A105A9060A07B74796B9A73889F8A9F694047BCA33A83A81FBB6FDA9C4",
+      "size": 231
+    },
+    {
+      "path": "browser-extension/native-host/manage-native-host.ps1",
+      "sha256": "E76FF860F9EDFCE9EFDB1ADA331D3813993D6630EE928333C17755BF243C8F75",
+      "size": 8034
+    },
+    {
+      "path": "browser-extension/native-host/README.md",
+      "sha256": "D2FF04F657703F7536BD6018B858F626E5EAFBBAD906622251A217DABAA6639A",
+      "size": 4459
+    },
+    {
+      "path": "start-billfish.ps1",
+      "sha256": "4B21AB9C38CAFFEAB29A291C5D7B2A92CE9064A564E51AAA3D2F1575A9054EDF",
+      "size": 7348
+    },
+    {
+      "path": "billfish-cli.cmd",
+      "sha256": "4CA916EFC27BDC14E3F7EA3B3A4A5426BEA74E37B270D49A0F8AD6CB72A0E956",
+      "size": 229
+    },
+    {
+      "path": "tools/initialize-portable.ps1",
+      "sha256": "904A1E36CC4853A2EACAF1AD1CEE6F74C4827C5D1FE21FC96E45366C9D2009EA",
+      "size": 3271
+    },
+    {
+      "path": "tools/initialize-portable.cmd",
+      "sha256": "0EB73CAB7D166FDD12999A92F7C5B1D7DDD40A4EE4D65EB0B9AB26BDE37ED025",
+      "size": 286
+    },
+    {
+      "path": "tools/export-portable.py",
+      "sha256": "A47521A55A8305D1BE38B775A1541AB55480CF0B7F466B7A1629586F7DF7BDBF",
+      "size": 9040
+    },
+    {
+      "path": "docs/portable-migration.md",
+      "sha256": "20463D0D76ED1971E7450520F97099658A327B93D045ECB43873DD756E17F94F",
+      "size": 6301
+    },
+    {
+      "path": "browser-extension/maintained/tests/automatic-capture.test.cjs",
+      "sha256": "DB7C30353B8969FEF1C9E69C6378332978F1165A4026303AAC24B90EAB4918AD",
+      "size": 11410
+    },
+    {
+      "path": "tools/python/libcrypto-3.dll",
+      "sha256": "75495FE0E079AB00D49BE740D3C710A0B94E3F74F9648CB7CC9F768FC7F52319",
+      "size": 6021880
+    },
+    {
+      "path": "tools/python/libffi-8.dll",
+      "sha256": "EFF52743773EB550FCC6CE3EFC37C85724502233B6B002A35496D828BD7B280A",
+      "size": 39696
+    },
+    {
+      "path": "tools/python/libssl-3.dll",
+      "sha256": "8957182A9C385BFD9F3F790921DE2DDC614CF91F99EDBED4E9E5446A46504E32",
+      "size": 1308920
+    },
+    {
+      "path": "tools/python/libtommath.dll",
+      "sha256": "AAEA8A20DB7A7A96D4BEF74AD724C4A02595A9C47659F6CBD6F145AF0C97AA78",
+      "size": 95456
+    },
+    {
+      "path": "tools/python/LICENSE.txt",
+      "sha256": "935CF13E19F8C31B497D20B05D73623431A226B230C3599BC30FA3348979BC68",
+      "size": 35407
+    },
+    {
+      "path": "tools/python/PROVENANCE.md",
+      "sha256": "9523CFD56CEBCC239C9782D9BFAAD9001070DD417AC65DF46A398775605864A8",
+      "size": 1716
+    },
+    {
+      "path": "tools/python/pyexpat.pyd",
+      "sha256": "36D775E2C2FA5BBDA86DDC7C6EA632414DF04F7A403B9E17587C99088D29CD7B",
+      "size": 201440
+    },
+    {
+      "path": "tools/python/python.cat",
+      "sha256": "8D723CF908852E0AE02D6AD4451A0214CE7C7A09AA6D9A4A7FC48024583F8494",
+      "size": 601161
+    },
+    {
+      "path": "tools/python/python.exe",
+      "sha256": "434B361FE0C5960D404974FEED493DB47F2603A1ACE2574312104FBED0182C6F",
+      "size": 106208
+    },
+    {
+      "path": "tools/python/python3.dll",
+      "sha256": "F9ACDBCF3383A52353F8D7DB3CBDA3D3701B1CF7AC3053985FDAC766C29E7808",
+      "size": 73952
+    },
+    {
+      "path": "tools/python/python314.dll",
+      "sha256": "854FE7549EB4B2AC478935A38AE2CA1B774C6FDC3D87F0263FBD697FF86D7149",
+      "size": 6792928
+    },
+    {
+      "path": "tools/python/python314.zip",
+      "sha256": "DFA08B46CE09089B7E6BC139784D5609A07770BAB66DF8D37938CA9BD508E436",
+      "size": 4152838
+    },
+    {
+      "path": "tools/python/python314._pth",
+      "sha256": "2ED7CCDA80E9E28AB5877902A9A325586C8A7B7B3E6731D944565BEE082E216C",
+      "size": 80
+    },
+    {
+      "path": "tools/python/pythonw.exe",
+      "sha256": "4E24680BCE514188C85AE91323691DCB0364990DA0D6319558519E50CBB5A43C",
+      "size": 104672
+    },
+    {
+      "path": "tools/python/runtime-files.json",
+      "sha256": "DC2E20FE5803EA18D0BA0862737322449A06B065D21F4CA9DF9DB17D3EDFEF4F",
+      "size": 5820
+    },
+    {
+      "path": "tools/python/select.pyd",
+      "sha256": "A341519A00BEFC3B86DFDDF5938915FED52DED1AD5AAB518C57D0B3C8969E835",
+      "size": 33504
+    },
+    {
+      "path": "tools/python/sqlite3.dll",
+      "sha256": "5C47DF970D2E8CC41239754FF167056FCECB1089F876736E51DAB5D89F980300",
+      "size": 1584864
+    },
+    {
+      "path": "tools/python/unicodedata.pyd",
+      "sha256": "0527FEE5192AB4567451D1296533600661571F6EBF9E8F4E0F60B63A4A4FD2E8",
+      "size": 758496
+    },
+    {
+      "path": "tools/python/vcruntime140.dll",
+      "sha256": "D1F4225DF2CD877DBF130D5668A021DCE3F94118455FF5EC952061C30AFC9CE7",
+      "size": 178616
+    },
+    {
+      "path": "tools/python/vcruntime140_1.dll",
+      "sha256": "A7146C08F89FE5B04541AB507CDB59FF7B44534D4BA3C668A426C6450A03434E",
+      "size": 50112
+    },
+    {
+      "path": "tools/python/winsound.pyd",
+      "sha256": "7681B4D88AC96763BB89F018D1C658FEECA782D8BFC6D223B06D2EF125780579",
+      "size": 32992
+    },
+    {
+      "path": "tools/python/_asyncio.pyd",
+      "sha256": "58B3E50104DB6BF9D76E3D8106F9F477D34109A887D547EE086B0289E6A4E224",
+      "size": 78560
+    },
+    {
+      "path": "tools/python/_bz2.pyd",
+      "sha256": "B02F580DAA0B390B2228D2A8186EF119BE658C89CC64D0BD909550786ED993F2",
+      "size": 87776
+    },
+    {
+      "path": "tools/python/_ctypes.pyd",
+      "sha256": "B96680C6BCAD9E9403711EC0977866325E8E5AAB93B56E83C3DF6280AE72A82A",
+      "size": 143072
+    },
+    {
+      "path": "tools/python/_decimal.pyd",
+      "sha256": "196C42414C16E804874988783B8A356BF1D012D32E99EFBC6E360E94920C46EC",
+      "size": 290016
+    },
+    {
+      "path": "tools/python/_elementtree.pyd",
+      "sha256": "31AFF8DCA815A05904B5D3020FBDD5BDB596B6A07A36F31728996F28E06DAB24",
+      "size": 138976
+    },
+    {
+      "path": "tools/python/_hashlib.pyd",
+      "sha256": "5DEE7B9FFF3E6D0ABE20601B9E62F3A14CD048167EE0B80781131DC81DEC9469",
+      "size": 69344
+    },
+    {
+      "path": "tools/python/_lzma.pyd",
+      "sha256": "9099EF451FE61D8FEEF9E02894902B88FDC8EE404E3F8B7412B150878C973803",
+      "size": 160992
+    },
+    {
+      "path": "tools/python/_multiprocessing.pyd",
+      "sha256": "18041441B3F558925F903BC7AF644A4D84B1CD746A4998748B4FFFD82E767A6B",
+      "size": 38624
+    },
+    {
+      "path": "tools/python/_overlapped.pyd",
+      "sha256": "ECA5D3DF23B762C846801194B6C971AAE4EB288E1FC2914752B3A6C2DF5AEBFB",
+      "size": 58080
+    },
+    {
+      "path": "tools/python/_queue.pyd",
+      "sha256": "1E2E1EDE7EEAF30A80ECE546420DEC67A02716E25D3A7C638E4DEB0C21E973A1",
+      "size": 36576
+    },
+    {
+      "path": "tools/python/_remote_debugging.pyd",
+      "sha256": "0497EE6846CD92419ADA56C091AB675AB6896AD3BFDCF88EEC4DCDA2CDFD5A4D",
+      "size": 93408
+    },
+    {
+      "path": "tools/python/_socket.pyd",
+      "sha256": "18A77C4E1F4A71CA60B9DBBBA809E98CD324F3E1470D091689B87754A8C65588",
+      "size": 87776
+    },
+    {
+      "path": "tools/python/_sqlite3.pyd",
+      "sha256": "E69CAEADB409777BCE26F78622653558BBB86F08479B412399EAA0E6FD1E44F1",
+      "size": 133344
+    },
+    {
+      "path": "tools/python/_ssl.pyd",
+      "sha256": "49DF86FE76ED8FD97BB11A485286B49F5F5EBE953383648976A39C9DE6F0524D",
+      "size": 192224
+    },
+    {
+      "path": "tools/python/_uuid.pyd",
+      "sha256": "7E2CDD954B44B1BE1FAC1C354F774DAB5F5BECFCE59688E62338427B125C62BF",
+      "size": 28384
+    },
+    {
+      "path": "tools/python/_wmi.pyd",
+      "sha256": "5366924C1C96D9C9F82F95967FBF73244D4B4930F39103D7E7BA2B01046E0A46",
+      "size": 40160
+    },
+    {
+      "path": "tools/python/_zoneinfo.pyd",
+      "sha256": "CDF82FAA904E557B847A0AC6E97B4274945615FDBD319A28BCAA1F70F740636F",
+      "size": 51936
+    },
+    {
+      "path": "tools/python/_zstd.pyd",
+      "sha256": "526D977236CC63895902977F216BF3CA93A4233489240656B295EAFB6F518D07",
+      "size": 503520
+    },
+    {
+      "path": "automation/billfish_api/replacements.py",
+      "sha256": "6486237FA02E45E8F83408F9B199E05890CD7134D40A8C09226A4D6C640AD556",
+      "size": 14359
+    },
+    {
+      "path": "tools/plugin-packages/ai-image-enlarger-1.0.9.eagleplugin",
+      "sha256": "000D69144EFDD407F8D8682035329A1F16E78A02C27704089F0DC01F1E9A9B53",
+      "size": 42067561
+    },
+    {
+      "path": "tools/plugin-packages/AI-IMAGE-ENLARGER.md",
+      "sha256": "929A95ECD3D7419C07DCDD090F08BB64393A3F42F4D821510D3A75280A63CB9D",
+      "size": 3099
+    },
+    {
+      "path": "tools/plugin-packages/ai-image-enlarger-provenance/archive-manifest.json",
+      "sha256": "12C6975F837156FDC2CAF76FE936CEA246CC1898F7498E692B8913FE64199E9B",
+      "size": 26461
+    },
+    {
+      "path": "tools/plugin-packages/ai-image-enlarger-provenance/payload-manifest.json",
+      "sha256": "A71CF0151A07107BFA40C5E068F3F76BD655322046EA961AF6C4459687C9B9CE",
+      "size": 3819
+    },
+    {
+      "path": "tools/plugin-packages/ai-image-enlarger-provenance/Real-ESRGAN-LICENSE",
+      "sha256": "4A699EC4863D96A91FC265948A0C90033F7E8735D515524DCF3444736406E0C2",
+      "size": 1519
+    },
+    {
+      "path": "tools/plugin-packages/ai-image-enlarger-provenance/realesrgan-ncnn-vulkan-LICENSE",
+      "sha256": "5ABB941454DE437B0E90D78DCB72E3688F74E14BCD4E24393273CB5CD0E9C937",
+      "size": 2228
+    },
+    {
+      "path": "tools/plugin-packages/ai-image-enlarger-provenance/sources.json",
+      "sha256": "593F9E37219696E6A6C15E9444D267A89221BD0D2D6505925A618840BE8D9E68",
+      "size": 1112
+    },
+    {
+      "path": "automation/billfish-ui.cjs",
+      "sha256": "0C9DF7AB6CE592D9F8F2C51FEF3F02646A5FE6D7A6A0486603EA49F09992B3AF",
+      "size": 6805
+    },
+    {
+      "path": "automation/billfish_api/previews.py",
+      "sha256": "2E411B6A9839611606534793E44F042C7CB44974479DACC27969FABF8C7A99B7",
+      "size": 15590
+    },
+    {
+      "path": "automation/plugin_runtime/preview-runtime.cjs",
+      "sha256": "C3840C3D2D9C42B31B81D417C19434694EE85F0457C727B7AEBB2CAB0822ACBE",
+      "size": 11776
+    },
+    {
+      "path": "automation/plugin_runtime/preview-preload.cjs",
+      "sha256": "F66A00FDE3B4D31C06F939383807A20A0E07ED2E7AC8E01B661EE706B92D338E",
+      "size": 4805
+    },
+    {
+      "path": "automation/plugin_runtime/preview-host.html",
+      "sha256": "1E03EF33727C845120D63663D28EDE07532009EBF5318C6050BA2D05414ACBDE",
+      "size": 126
+    },
+    {
+      "path": "docs/billfish-ui-control.md",
+      "sha256": "3A8BBECC7E31A250374C7A2E17ADF3E4F39533E53FC0903F24195B20232FB275",
+      "size": 4869
+    },
+    {
+      "path": "automation/plugin_runtime/context-menu.cjs",
+      "sha256": "4A2EDC33BF6066E036A0112951C2AE7113BB9141E1269CD1446A9F4805F07285",
+      "size": 2347
+    },
+    {
+      "path": "automation/plugin_runtime/eagle-sdk.cjs",
+      "sha256": "B2A152D26F2A5A049FA17F6B32E017680C07A778F3A4C71307239C5C864AA241",
+      "size": 15701
+    },
+    {
+      "path": "automation/plugin_runtime/extra-modules.cjs",
+      "sha256": "2E5715A5D2D72661E9D9AD987C0982F71C86BDC8D3404FA2BA2656E5A9502F21",
+      "size": 1800
+    },
+    {
+      "path": "automation/plugin_runtime/main.cjs",
+      "sha256": "18DBB3B8619968FC388AAAD305E754218D685259F0A06F3CD0D8689047EB01AA",
+      "size": 22593
+    },
+    {
+      "path": "automation/plugin_runtime/preload.cjs",
+      "sha256": "6A64FD43DBDADA6435DECBFB7A3C3EC8043A210DD2AE95C2307F668E2694A292",
+      "size": 10021
+    },
+    {
+      "path": "automation/plugin_runtime/schema.cjs",
+      "sha256": "1B555848E4C43DCEC6B2B3D0F4BD9C90124F0BD5749E551B44B5B4E890297A76",
+      "size": 4482
+    },
+    {
+      "path": "tools/plugin-packages/3d-format-extension-1.9.0.eagleplugin",
+      "sha256": "FB3C10D7DA4E8F971847ADBD5F247A9AA238A05FEA6AEDA154E6D95AC5C60811",
+      "size": 10903622
+    },
+    {
+      "path": "tools/plugin-packages/3d-format-extension-1.9.0.md",
+      "sha256": "042CA3F3CCDFBE5E57F821F9D965B44031A453B1051F17268FA48218E7D5EBBC",
+      "size": 2116
+    },
+    {
+      "path": "automation/plugin_runtime/window-owner.cjs",
+      "sha256": "8540055242203FF469EC24E15A9767A69573876C67E77860DB9A890747EF0701",
+      "size": 3150
+    },
+    {
+      "path": "automation/plugin_runtime/animation-controller.cjs",
+      "sha256": "657125ADC86DFE4D04C5833150CB18995DFBB397658CF1928509237B87DCE4C4",
+      "size": 7317
+    },
+    {
+      "path": "automation/plugin_runtime/animation-controls.cjs",
+      "sha256": "BC7F44838BA20C295389453CB46ADB31D67B3D3EF07660668828F49DEF4F7B4E",
+      "size": 8831
+    },
+    {
+      "path": "automation/plugin_runtime/preview-cover.cjs",
+      "sha256": "847DE6210DE164138ACF83AEDE54E4BAB92996CDB7754F1D4C2306BA1CE1D76A",
+      "size": 6980
+    },
+    {
+      "path": "automation/plugin_runtime/animation-controls.css",
+      "sha256": "3FDF030EC62819FDBF18DA46D35DFB68D8982D18C5855A886BA4ABD0946AB179",
+      "size": 2228
+    },
+    {
+      "path": "automation/plugin_runtime/animation-browser-assets.cjs",
+      "sha256": "341C0A265D4B8E93BF49672A51BB7F43BC3A4BE710C4CBA3F28F76DEB607B2C0",
+      "size": 8372
+    },
+    {
+      "path": "automation/plugin_runtime/animation-browser-preload.cjs",
+      "sha256": "12413C355BA17BEB429FD7DEF43FE55B30386ED99E9BAF091DDA096B1E6E369D",
+      "size": 2994
+    },
+    {
+      "path": "automation/plugin_runtime/animation-browser-runtime.cjs",
+      "sha256": "0E0D1D9CC8EC7AD4A9A1848E671E10149D5AA1366AAF9D3251B6FF3388C4555A",
+      "size": 31216
+    },
+    {
+      "path": "automation/animation_browser/manifest.json",
+      "sha256": "1B43B224124ECE90BAB1CD7C0B3EDDB674D0A63236DE25DD2929BBB5B1168A28",
+      "size": 667
+    },
+    {
+      "path": "automation/animation_browser/backend/coordinates.cjs",
+      "sha256": "9364624FB16B6A18C3C3D3A2C31A0F58A44B19EC91B069AC9F96DC120023F972",
+      "size": 4087
+    },
+    {
+      "path": "automation/animation_browser/backend/glb.cjs",
+      "sha256": "15114E57F4A5A496F5EEB84B71E668A06C94C834FD2C1D9C642D67BF77AEC608",
+      "size": 14837
+    },
+    {
+      "path": "automation/animation_browser/backend/matching.cjs",
+      "sha256": "6155DDCF32EB465C294D89A889615ABF5A0730B6B7FAE2FF2B5797E9051A52DB",
+      "size": 5388
+    },
+    {
+      "path": "automation/animation_browser/backend/parser-jobs.cjs",
+      "sha256": "203F7823C0C2BAFE2357A94D42C9A258AEC18912B371465AE4F4362D75D0ABAB",
+      "size": 2388
+    },
+    {
+      "path": "automation/animation_browser/backend/profiles.cjs",
+      "sha256": "9ED00B093DC0D0399EB1666314421CC2D197B8E5DBDC99FE721CF71E82779055",
+      "size": 3014
+    },
+    {
+      "path": "automation/animation_browser/backend/service.cjs",
+      "sha256": "7BFF3C3A312FBB977AD5AABF908EC1CC04C4979A6327CDC1F5C0B6620B05A636",
+      "size": 60309
+    },
+    {
+      "path": "automation/animation_browser/ui/app.mjs",
+      "sha256": "846C9B4102744878EA0CC1AE1C5E5F57820C0142AC19D2D386D48C2899112812",
+      "size": 42756
+    },
+    {
+      "path": "automation/animation_browser/ui/index.html",
+      "sha256": "35B667AEA2DE4CE8D5B800AEF8F672017DB984E0A2274BFF9030B058CE41144F",
+      "size": 13079
+    },
+    {
+      "path": "automation/animation_browser/ui/list.mjs",
+      "sha256": "5768CD5757AF1FE67C9E5537447371ECB0D6B4F59FA49578DC36F049C0595536",
+      "size": 1226
+    },
+    {
+      "path": "automation/animation_browser/ui/playback.mjs",
+      "sha256": "09BEA414640FD5682472EEB3EB52F83A2406BA041398035DE071FC7FF77A5A52",
+      "size": 10645
+    },
+    {
+      "path": "automation/animation_browser/ui/style.css",
+      "sha256": "AAD9261BE634E92471A6A9015561F5E94454AD60F05162E9AA08AD78BB9E3483",
+      "size": 11696
+    },
+    {
+      "path": "automation/animation_browser/ui/viewport.mjs",
+      "sha256": "0657AE375C5049E72BE8DC05ECFCB1753D2803B7B3738B58662746B07F45A27C",
+      "size": 10898
+    },
+    {
+      "path": "automation/animation_browser/vendor/PROVENANCE.json",
+      "sha256": "919FEFF4893C842E59234268AFE7E0248ED428F9A3DDE9F6E8150CC140CF7BE2",
+      "size": 517
+    },
+    {
+      "path": "automation/animation_browser/vendor/three/LICENSE",
+      "sha256": "BFE119EA4FD413F5F7CA3FCD63ADB0C4A073ED39DAA2FE7D3E6B769E21272601",
+      "size": 1081
+    },
+    {
+      "path": "automation/animation_browser/vendor/three/package.json",
+      "sha256": "986562CC6A89C270ECA9F12C23201599EE7F2C83288832ECC09C822D40624E6F",
+      "size": 68
+    },
+    {
+      "path": "automation/animation_browser/vendor/three/build/three.core.js",
+      "sha256": "EB077D2417F61D3E6D9264C317CABC4EA35769ED6B0AB533067292A550784C20",
+      "size": 1403455
+    },
+    {
+      "path": "automation/animation_browser/vendor/three/build/three.module.js",
+      "sha256": "C8211C69345D2E9949DC7A8AC969380497AA0600A5A8AC6A459C8CD02DD9CB8A",
+      "size": 603113
+    },
+    {
+      "path": "automation/animation_browser/vendor/three/addons/controls/OrbitControls.js",
+      "sha256": "B97879C748170BAADEB3FB84CEA1FFDF4674E283DC06042F34E2ACB95A76042C",
+      "size": 38703
+    },
+    {
+      "path": "automation/animation_browser/vendor/three/addons/loaders/GLTFLoader.js",
+      "sha256": "67AC5551FDAFA6E349BD80C8F8E5E39C136D6B2FB1AD647DB9ABB21DC86F9E4A",
+      "size": 114739
+    },
+    {
+      "path": "automation/animation_browser/vendor/three/addons/utils/BufferGeometryUtils.js",
+      "sha256": "FDA7E946B8E0B5AB39B779206589E7A1079A22EB24EFB89D7223E03FDFB1F751",
+      "size": 35539
+    },
+    {
+      "path": "tools/animation-parser/billfish-animation-parser.exe",
+      "sha256": "F515154FC4F1480136AFEFB7ECCDCAF30B2E2861B24A8AC105D9EB97B374DE3B",
+      "size": 910336
+    },
+    {
+      "path": "tools/animation-parser/provenance.json",
+      "sha256": "5FA81D3C5D7839BE20383A957FC2CA4C36007200F651A8B4C9B869E9142541F5",
+      "size": 1792
+    },
+    {
+      "path": "tools/animation-parser/README.md",
+      "sha256": "A12E29E38CF7B9F672321D72483A6EACC1022BD443816E6F4DEA0DD0F7AD8E86",
+      "size": 5865
+    },
+    {
+      "path": "automation/plugin_runtime/animation-browser-catalog.cjs",
+      "sha256": "8AC735BFAAB77D6FF52C6C6C21D5425E2C5E86FF0A01C1A3E5C59EEA470925F3",
+      "size": 7487
+    },
+    {
+      "path": "automation/plugin_runtime/core-viewport.cjs",
+      "sha256": "7151B4BF0CF9F707105F29D106BF93B20D4E0588DE0DB1FAC41EF8BD76C18EE4",
+      "size": 14098
+    },
+    {
+      "path": "automation/plugin_runtime/core-workers.cjs",
+      "sha256": "D7461060470D6C7E988CE1BAF9CAD72E41F73438230E0692BB445FE9966C2426",
+      "size": 2085
+    },
+    {
+      "path": "automation/animation_browser/ui/core-viewport.mjs",
+      "sha256": "C459FA6F17C6ED3C329BDE705DB4F8BC0F299770C0CBD3A34FB2B02A1C9DD67D",
+      "size": 5382
+    },
+    {
+      "path": "automation/animation_browser/vendor/core/PROVENANCE.json",
+      "sha256": "2FF4A8D46ECD0670F4951367C1A8E58203ADED45D3F4423603D4B1A2247763F9",
+      "size": 1368
+    },
+    {
+      "path": "automation/animation_browser/vendor/core/resources.sha256.json",
+      "sha256": "D891BA40B176F22C7B32D51493EB2A96CE477E5B4BEAF6F908CF7BEF8835CB41",
+      "size": 3016
+    },
+    {
+      "path": "automation/animation_browser/vendor/core/lib/core.cjs",
+      "sha256": "8ADB5FFE1AF73C5808397B8DE590FB7DBC6389D24144660DA60728E2C33A38FF",
+      "size": 9715919
+    },
+    {
+      "path": "automation/animation_browser/vendor/core/lib/3dm/rhino3dm.js",
+      "sha256": "9E0629A6888CCDF55F1A86D3C130F903AC02F461766A999BA965EF7A7800FD66",
+      "size": 142575
+    },
+    {
+      "path": "automation/animation_browser/vendor/core/lib/3dm/rhino3dm.wasm",
+      "sha256": "610EBB224ECAFC7A4978BDCE30E626897C24DE66AE2F6BDD6F485A386A011E73",
+      "size": 2535180
+    },
+    {
+      "path": "automation/animation_browser/vendor/core/lib/basis/basis_transcoder.js",
+      "sha256": "8478B5B6D6B74E7D3082B89F6417321D8D1DC0307F2B30D4484BB11B441696A1",
+      "size": 57529
+    },
+    {
+      "path": "automation/animation_browser/vendor/core/lib/basis/basis_transcoder.wasm",
+      "sha256": "6CF17DC889352C42E9ACF8897107978D127005FE3386C36A0E3845E27967630A",
+      "size": 527333
+    },
+    {
+      "path": "automation/animation_browser/vendor/core/lib/draco/draco_decoder.js",
+      "sha256": "30E4D486FA020737AF10E3C56197693E5B904BDC05B8BFA5D7B06751DEC6DA04",
+      "size": 719410
+    },
+    {
+      "path": "automation/animation_browser/vendor/core/lib/draco/draco_decoder.wasm",
+      "sha256": "C55A594E8FFD18426D36B27FEA9618AF3DF5E173640A3E56D46F09D76F0574F2",
+      "size": 285747
+    },
+    {
+      "path": "automation/animation_browser/vendor/core/lib/draco/draco_encoder.js",
+      "sha256": "D5C653CAF242556DDFF9370E86979B8B5C6131BC196BE388698A85DC2E1BB59B",
+      "size": 928718
+    },
+    {
+      "path": "automation/animation_browser/vendor/core/lib/draco/draco_wasm_wrapper.js",
+      "sha256": "E8049906EF3F8F75D3456C22A3F31BFDFE5B5B5BD09CCDEC613B9E9A49D554D8",
+      "size": 58763
+    },
+    {
+      "path": "automation/animation_browser/vendor/core/lib/hdr/background.hdr",
+      "sha256": "9B3D611CADC32C3A0C7E084CE5611C0650293881C4A041E7FA13748FE0DC6451",
+      "size": 1672140
+    },
+    {
+      "path": "automation/animation_browser/vendor/core/lib/ifc/web-ifc.wasm",
+      "sha256": "8BF8221734DECF3404F7A23B0DFB952DE2B92EBF382804EAA60FC27DDD79B74F",
+      "size": 664780
+    },
+    {
+      "path": "automation/animation_browser/vendor/core/lib/usdz/emHdBindings.data",
+      "sha256": "5E3F4F81D4C69B29FCDD45307D05523A019E216BC396A9EE8BD64FC506562BF8",
+      "size": 849069
+    },
+    {
+      "path": "automation/animation_browser/vendor/core/lib/usdz/emHdBindings.js",
+      "sha256": "12BD6750BC3E8B40C1302908EFC169B126B1EAC239A9E23BA1EDDCD1D4A51549",
+      "size": 360351
+    },
+    {
+      "path": "automation/animation_browser/vendor/core/lib/usdz/emHdBindings.wasm",
+      "sha256": "2AB4F5A240647ECDDC97CE452207F9BF6A28C5EAEC613152BFD289D7087871A0",
+      "size": 16394889
+    },
+    {
+      "path": "automation/animation_browser/vendor/core/lib/usdz/emHdBindings.worker.js",
+      "sha256": "56BA82E82CC02ED7084DCCC30C693F524352D8521C2ADB21326D1D9022F40BE2",
+      "size": 3868
+    },
+    {
+      "path": "automation/animation_browser/vendor/core/lib/draco/gltf/draco_decoder.js",
+      "sha256": "8625489DA79A805F4F2A7D511C3E52D8B4085608A9D2A4D5F4F9DE5DB0AEA04F",
+      "size": 512465
+    },
+    {
+      "path": "automation/animation_browser/vendor/core/lib/draco/gltf/draco_decoder.wasm",
+      "sha256": "A680D927BED9CB864DDBD63521868891AF2BFBE755092761B4837487618DF8AC",
+      "size": 192420
+    },
+    {
+      "path": "automation/animation_browser/vendor/core/lib/draco/gltf/draco_encoder.js",
+      "sha256": "6D4132D7B68D26D20A43A1ED59FF4B4A694FBAAD41B339158DB050DBD0E68F56",
+      "size": 954360
+    },
+    {
+      "path": "automation/animation_browser/vendor/core/lib/draco/gltf/draco_wasm_wrapper.js",
+      "sha256": "8BB2952D2BA7D67E1414F8DF819410CB0434A666BE53F671FFF75F68843D76F6",
+      "size": 58456
+    },
+    {
+      "path": "automation/animation_browser/ui/skeleton-overlay.mjs",
+      "sha256": "BA36AA583BB6C6A17AB5DFF9EE479753D3B3E30958C44FA1E13C37386A065D53",
+      "size": 2456
+    },
+    {
+      "path": "automation/animation_browser/ui/full-skin.mjs",
+      "sha256": "957B47C7E8F3AC8F0CB8BFE513F2591B078432E95234B4A3DEC6D0AAE686BA6C",
+      "size": 8532
+    },
+    {
+      "path": "automation/animation_browser/backend/clip-codec.cjs",
+      "sha256": "3788B4A7FECACF387DF581DADA06F409779F48C7C56152C1638A92D7D6CA737E",
+      "size": 2610
+    },
+    {
+      "path": "automation/animation_browser/ui/clip-binary.mjs",
+      "sha256": "830D68A9003C68755B834E81F96A9F7C0487B3346CE1077375E5AABA62B1C01D",
+      "size": 1938
+    },
+    {
+      "path": "automation/animation_browser/ui/deferred-materials.mjs",
+      "sha256": "1387DBA8187AB5EE864252029F463A4204722D360E9059BDF926B19149BD2675",
+      "size": 7155
+    },
+    {
+      "path": "automation/animation_browser/ui/model-culling.mjs",
+      "sha256": "284F94F28EB4DD1D4572ED2473C28D253C46F50F4AEA4D4DEF561F55BE00A1B3",
+      "size": 1206
+    },
+    {
+      "path": "automation/animation_browser/ui/walk-controls.mjs",
+      "sha256": "966B3EA2B536391F0CFD4BBC69F866FCF308DA9F6B7462C6B8B973D791F02397",
+      "size": 8114
+    },
+    {
+      "path": "automation/animation_catalog_helper.py",
+      "sha256": "03D1CAC741A43B0A7E0ECF07D8680AE6406FA9B0C7B861A9DC7F48C20B03F834",
+      "size": 2283
     }
   ]
 }

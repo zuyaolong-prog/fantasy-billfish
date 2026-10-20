@@ -1,0 +1,9 @@
+{
+  "package": "three",
+  "version": "0.180.0",
+  "source": "https://registry.npmjs.org/three/-/three-0.180.0.tgz",
+  "archiveSha256": "ad66d724565ee29a2467277fa84daa5ed0211d6b8d446e9ef29f6bae0cd14144",
+  "license": "MIT",
+  "files": ["build/three.module.js", "build/three.core.js", "examples/jsm/loaders/GLTFLoader.js", "examples/jsm/controls/OrbitControls.js", "examples/jsm/utils/BufferGeometryUtils.js"],
+  "modifications": "None. examples/jsm is stored as addons. Only the required runtime subset is shipped."
+}

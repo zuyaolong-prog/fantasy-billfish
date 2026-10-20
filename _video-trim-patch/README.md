@@ -58,6 +58,10 @@ The seek step is shared across preview modes during the current application sess
 
 Seeking or frame stepping shows a two-line overlay at the upper-left of the video for 2 seconds. It displays current time and frame, followed by total duration and frame count. Time includes milliseconds; frame counts come directly from the SDK and show `--` when unavailable. Keyboard operations, native frame buttons, and the native timeline share this feedback. Repeated operations extend its visibility, and asynchronous decoding updates the displayed values without extending the timeout.
 
+## Local compact shell
+
+The maintained proxy also hosts the local compact shell: the material toolbar occupies the former web-tab row, and Resource Cloud Library, KuQue and Creative Inspiration entry points are removed. The header omits the Billfish logo/name, avatar and observed login entries, while retaining the native main menu, sidebar toggle and window controls. Import History lives in the main menu with its original action and Alt+L shortcut. Native local-library controls, automation and Billfish plugins remain available. See [compact shell](../docs/compact-shell.md) for the feature boundary and runtime evidence.
+
 ## Bounded diagnostics
 
 Runtime diagnostics are disabled by default. Set `BILLFISH_TRIM_DEBUG=1` only while troubleshooting; any other value, including an unset variable, keeps diagnostics off. The log is written to `%LOCALAPPDATA%/Billfish/VideoTrim/diagnostic.log` and contains concise path-resolution and playback-transfer summaries. It never dumps the QObject tree or enumerates methods into the log.

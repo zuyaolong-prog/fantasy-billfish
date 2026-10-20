@@ -20,6 +20,7 @@
 /_video-trim-patch/.prepared-*/
 /_video-trim-patch/diagnostics/
 **/__pycache__/
+**/node_modules/
 *.pyc
 *.obj
 *.pdb
@@ -66,3 +67,6 @@
 /x86/
 /_hdr-preview-patch/tools/mpv/
 /tools/ffmpeg/bin/
+/tools/electron/
+/tools/python/*.pyd
+/tools/python/*.cat

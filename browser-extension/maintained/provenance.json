@@ -1,0 +1,168 @@
+{
+  "source_path": "C:/Users/Administrator/AppData/Local/Microsoft/Edge/User Data/Default/Extensions/kjjmbhmmbfgbaannpbpoaabponeogaop/4.0.5_1",
+  "source_extension_id": "kjjmbhmmbfgbaannpbpoaabponeogaop",
+  "source_version": "4.0.5",
+  "maintained_version": "4.2.0",
+  "source_hashes": {
+    "assets/background/bacScoll.png": "7ea1f9d643906cd0902ee1ef9c00e5e06f80a474c82f56bdeaeec42f98593369",
+    "assets/background/iconOpen.png": "f5a752575c77f7144cdebebf4798433fc60518f889f146b178e2c5711ad3d39e",
+    "assets/edit.css": "26acf3d16ed8c71787522d9d0a9c2b5e8f9a1ee2fcf1c6b072d8f06c3e20a1d4",
+    "assets/edit.js": "ae6abe5f52f5d406940a4d48147b82673348e1c22e0c3ce87ed861d1bd728788",
+    "assets/exception.css": "33b7640a879f9c88abef9eb7b7cc8f2410401e2e6babbe96b682dd0fbdb2bafd",
+    "assets/exception.js": "49ee5bbfd7a8c0726ef59062f3d073cb255c4385a945c1bf93b4158a37a3656d",
+    "assets/file.css": "35999820c9b16cc7c63742688151c4f8c1d6033f2388388dee05b0f1ffd4b579",
+    "assets/file.js": "1b43dc58420b790db20ea6a4a93b94149656a18a5884f444b7941c44f5741a27",
+    "assets/globalThis.js": "9c7dc014ba1cf128b3529ee1ddf6d9e6e306065353eae68ef35547b108bcf2b1",
+    "assets/home.css": "3273fde2133e6c2e7c038f4f75b941e7bfed1e6e865f1cc345d462b051d0b19f",
+    "assets/home.js": "ed4f1e07af9f372cd58b30c34e1298a41b9ba86178f6999c96a6d57722a5e0be",
+    "assets/icons/1024.png": "044b658caebc938dfa19d0728ac1d5b710594eedfc813b408ee188034a456115",
+    "assets/icons/128.png": "9108d8a6dbaf053ba0fec4c8d2fcae69398921035ad394e60def954573bb400a",
+    "assets/icons/16.png": "ced274ada746e6bb4f4044d9e2660426c1231aac80206f8486afcb62ccfc239b",
+    "assets/icons/256.png": "92f2ae21a723d32e0f552ee028ff640f313c9a8b6e9c15a0f927d293ba815ae8",
+    "assets/icons/32.png": "98d9e69df8c90e52cfb03acfea10b2da5694e248f9f04a951a635d4ef53a868e",
+    "assets/icons/48.png": "d47b204e57a65030b9de55b89304054a355edf7631f6b4ba2cbc996c3b67bfbc",
+    "assets/icons/512.png": "6c58246514fec114614f00b7cf6bcd4b97a044c9265bc6c13e82786cf5e7ea88",
+    "assets/icons/64.png": "ca49fdc69029f900f3b442e3f2969573739ddd2830e398d1fffb1be2005a7932",
+    "assets/loadingGif.1d2fa8d6.gif": "1d2fa8d6549a6c576fee19192dabea51833db86940a9cac5f617a289f33e2847",
+    "assets/localStorage.js": "5736620b14b1a75e4cecdee6f488cdfa24b0f7a62cc02fbcdcc8dfbae3384b45",
+    "assets/message.js": "28f44ec15ec8a1dfb9c9031ca1076fd438e04fa7401c54fd4811375f0b2d45f5",
+    "assets/notify.css": "5106e03e852581439cde10ce12a0a06954a15088731298cd28cb902a5a73c5db",
+    "assets/notify.js": "f921f8a56e9aa69528b69ae09bc0baf3bd33235c634407f9207df4545db0e877",
+    "assets/picturePopup/drop-down-hover.png": "da325d316348b7d9851939c8826bbab101547b2f003b9219f4b9006a2a3d6487",
+    "assets/picturePopup/drop-down.png": "5681ecd043abde2d47a329c129f5b6354b736a59d7042533cedc567dbd950220",
+    "assets/picturePopup/drop-no-hover.png": "8cb9bbc57c419bb40fce73ca3fccfe94cab8afa8338cc5834fea0ea0c0f77f26",
+    "assets/picturePopup/drop-no.png": "49665e279be91379ffcab29f577c3a2a3cd7f99028ca1ad1bb328151cc2dab8e",
+    "assets/picturePopup/drop-other-hover.png": "afd3fc6f2190947c66b8800dffe55b82831bed6067e49deabf117e2419162f1f",
+    "assets/picturePopup/drop-other.png": "e84964deb2c7de7394165ee52fe834e1a55be9775ca2b4048abbd0681f6aa324",
+    "assets/picturePopup/feedback.png": "8a2ee1c4f1bef20a6ef85bc736502def9701cd8f12c238e6c701345685b4ab6c",
+    "assets/picturePopup/hover-grooup.png": "39339e1c33d69626828c3fff66cd5940a39835deda231639e9094fe68eb6e914",
+    "assets/picturePopup/hover-ones.png": "cf7a73477b15127e7d72aecac6ac48060cc3163c466cc0ffd55cf4271703b981",
+    "assets/picturePopup/hover-three.png": "48cb9e51d7af730bf388b340dffca7939a97762f6a9a2f226a5769c4cd59bcc4",
+    "assets/picturePopup/hover-two.png": "25876618ab85069362259a72405f04b537e06edef460f21d1726a67c8cc82861",
+    "assets/picturePopup/icon-shiyongshuomings.png": "bbff3379d18cb5c3f8768b295471c6c52f61d56fd4bbfda724e3f1399955b00d",
+    "assets/picturePopup/icon-yonghuqun1.png": "9be6a70f65590916fc355e155c9e8eb8006bd94ecc2c1b324ff5a0281aef62e4",
+    "assets/picturePopup/loadingGif.gif": "1d2fa8d6549a6c576fee19192dabea51833db86940a9cac5f617a289f33e2847",
+    "assets/picturePopup/logo.png": "f04db5e3acf36afcd47f71f34579c3bf60c002686929c13eb311ebd786645b2c",
+    "assets/picturePopup/new.png": "b4e89f292cb0bfe69376b78be978ae1df4e924667a04cecda9c58fba2f57bb55",
+    "assets/picturePopup/setting.png": "dd761fd85921f8c06ac6540dd10e9143a368b8aacbbed175d9797480f3bb5789",
+    "assets/popup.css": "a745206df3d5d6dd6cdd81e5b8a12697ade857071abd4ec5687817d6c28948e7",
+    "assets/popup.js": "3685406236a856b35ed66901a79e73d89ffdca628222c4535f4ce31937fbcce9",
+    "assets/testNative.js": "c3c68e4e8ad71885e51facc9ca6382e33c69188295c6d4d9de60cb1005df82af",
+    "assets/vendor.js": "c907050904c98e7df6ba47f182c9e2e916cc1b5a291bda5c217e4673d14b85f0",
+    "background.js": "9842a680627c9463a0c7791b5a3afc95fbc527600a1eb4345bf607e2c7a1559e",
+    "content.js": "7115b1e26e1df17fbac02c1bc51bd0cd532aca860625a97e857f3e2671a711e2",
+    "edit/index.html": "f25d7bfd6157f07b7803d2814043ee472164ac1947380cdfb3707a36b7eafa8f",
+    "file/index.html": "daa2f7d9f3671ebb2961b0114dd090a56374fa4508d25c3cf4f100e9905ad1a5",
+    "home/index.html": "4d5c6cb672d25e76b13a6f6929ea0852e410c1dc036d6e865cb9363d6381503e",
+    "kb-wasm.wasm": "6c5c4cdf3ae64938e5c1f33b73bcb3ba33de307ad4c698c7d115188d67f672a3",
+    "manifest.json": "5a01e64218386b2fcfbf17b9cb441c19122e5208a3b8b59ba4a6e52ef2b024d7",
+    "popup/index.html": "35f1615f664f9e9109f1871782e80890c461982ff2ad8ff544078155f2f40e87",
+    "styles/contentInject.css": "db5da36b0c9ee439bc5f2516d197e79547af3a87da8b1703c1974a17aafb8a97",
+    "styles/scrollcapture.css": "96b0d33cc6dd121ef3b28a1e685523fb6247949f173ac5a0253df14615661c90",
+    "_locales/en/messages.json": "cfbf67898c9f0e250d8aebfc44ee32678969c70bf299df238f0e7dc44716bf94",
+    "_locales/zh_CN/messages.json": "64a1088233022493ffaa1aca736f6e418d09ccb3af4d5e0245d7707c17aef904"
+  },
+  "patches": [
+    {
+      "file": "content.js",
+      "before": "\"dragstart\",\"img, a\"",
+      "after": "\"dragstart\",\"img, a, video\"",
+      "count": 2
+    },
+    {
+      "file": "content.js",
+      "before": "this.onDragStart=async e=>{var t;if(!(await this.backCaller.call(Z.GetHostIncludes,{host:location.host})).output&&(",
+      "after": "this.onDragStart=async e=>{var t;const v=globalThis.BillfishCaptureVideo.fromElement(e.target,location.href,document.title),p=this.captureDrag,d={candidate:v,policy:null,finalized:!1};this.captureDrag=d,this.captureVideoCandidate=null,this.canDrag=!1,this.collectImgSrc=\"\",this.collectTitle=\"\",this.screenshotArea=!1,this.chose=void 0,this.otherFile=!1;p&&this.removeDom(p.frame);d.policy=v?globalThis.BillfishCaptureVideo.checkPolicy(this.backCaller.call(Z.GetHostIncludes,{host:location.host})):null;if(!(v?false:(await this.backCaller.call(Z.GetHostIncludes,{host:location.host})).output)&&(",
+      "count": 1
+    },
+    {
+      "file": "content.js",
+      "before": "try{if(this.settings.dropType===E.disableDrop)return!1;",
+      "after": "try{if(this.captureDrag!==d)return;if(this.settings.dropType===E.disableDrop)return!1;",
+      "count": 1
+    },
+    {
+      "file": "content.js",
+      "before": "if(document.getElementById(\"show-scoll-mouse-top\")){Math.abs",
+      "after": "if(this.captureDrag===d&&document.getElementById(\"show-scoll-mouse-top\")){Math.abs",
+      "count": 1
+    },
+    {
+      "file": "content.js",
+      "before": "const n=this.dragTransfer.transfer(e);let i=null==n?void 0:n.src;",
+      "after": "this.captureVideoCandidate=v;v&&(this.chose=void 0,this.otherFile=!1,this.screenshotArea=!1);const n=this.captureVideoCandidate||this.dragTransfer.transfer(e);let i=null==n?void 0:n.src;",
+      "count": 1
+    },
+    {
+      "file": "content.js",
+      "before": "this.canDrag=!0,this.scollShow(),this.timers=",
+      "after": "this.canDrag=!0,this.scollShow(),d.frame=document.getElementById(\"newSocllMouse\"),this.captureVideoCandidate&&globalThis.BillfishCaptureVideoUi.decorate(d.frame),this.timers=",
+      "count": 1
+    },
+    {
+      "file": "content.js",
+      "before": "this.timers=setTimeout((()=>{const e=document.getElementById(\"maskBillfishDrag\");",
+      "after": "this.timers=setTimeout((()=>{if(this.captureDrag!==d)return;const e=document.getElementById(\"maskBillfishDrag\");",
+      "count": 1
+    },
+    {
+      "file": "content.js",
+      "before": "await this.getFile()}}),100);",
+      "after": "this.captureVideoCandidate||await this.getFile()}}),100);",
+      "count": 1
+    },
+    {
+      "file": "content.js",
+      "before": "this.collectTitle=null==n?void 0:n.alt",
+      "after": "this.collectTitle=this.captureVideoCandidate?this.captureVideoCandidate.title:null==n?void 0:n.alt",
+      "count": 1
+    },
+    {
+      "file": "content.js",
+      "before": "async setMessage(e){try{const t=this.collectImgSrc,",
+      "after": "async setMessage(e){try{const d=this.captureDrag;if(d&&d.candidate)return globalThis.BillfishCaptureVideo.finalizeDrag(d,this.screenshotArea,{collectReffer:this.collectReffer},()=>{if(this.captureDrag===d){this.captureDrag=null,this.captureVideoCandidate=null,this.canDrag=!1,this.collectImgSrc=\"\",this.collectTitle=\"\",this.screenshotArea=!1,this.chose=void 0,this.otherFile=!1,this.removeDom(d.frame),document.documentElement.style.overflow=\"\"}},e=>this.backCaller.call(Z.SendSingleCollect,e),globalThis.BillfishCaptureVideoNotice);const t=this.collectImgSrc,",
+      "count": 1
+    },
+    {
+      "file": "content.js",
+      "before": "const{output:i}=await this.backCaller.call(Z.GetBillfishStatus);i||this.onShowOPenBillfish(),ie(i)?",
+      "after": "const{output:i}=await this.backCaller.call(Z.GetBillfishStatus);if(this.captureDrag!==d)return;i||this.onShowOPenBillfish(),ie(i)?",
+      "count": 1
+    },
+    {
+      "file": "content.js",
+      "before": "getBackgroundImage(e){var t;",
+      "after": "getBackgroundImage(e){const v=globalThis.BillfishCaptureVideo.fromElement(e,location.href,document.title);if(v)return v;var t;",
+      "count": 1
+    },
+    {
+      "file": "background.js",
+      "before": "async directSendImage(e,t){if(\"image\"===e.contentType)",
+      "after": "async directSendImage(e,t){if(\"video\"===e.contentType)return globalThis.BillfishCaptureNative.capture(e);if(\"image\"===e.contentType)",
+      "count": 1
+    },
+    {
+      "file": "background.js",
+      "before": "files:[\"content.js\"]",
+      "after": "files:[\"maintained/video-common.js\",\"maintained/video-content.js\",\"content.js\"]",
+      "count": 1
+    },
+    {
+      "file": "background.js",
+      "before": "vr.listenNotify(_),wn.init(),",
+      "after": "vr.listenNotify(_),globalThis.BillfishCaptureNative.setPolicyReader(async e=>{const t=(await zr.get(Vr.DragHostList)||\"\").includes(e),r=wn.getSitePolicies.disableDarg;if(!Array.isArray(r))return{allowed:!1,code:\"site_policy_unavailable\",message:\"无法确认当前网站的采集设置, 请稍后重试.\"};const n=r.find(t=>e.includes(t));return t?{allowed:!1,code:\"user_site_disabled\",message:\"你已禁用当前网站的采集.\"}:n?{allowed:!1,code:\"vendor_site_disabled\",message:\"当前网站在采集器的网站禁用列表中.\"}:{allowed:!0,code:\"allowed\",message:\"\"}}),wn.init(),",
+      "count": 1
+    },
+    {
+      "file": "background.js",
+      "scope": "prefix",
+      "after": "importScripts(\"maintained/video-background.js\");",
+      "count": 1
+    }
+  ],
+  "notes": [
+    "Signed _metadata excluded from unpacked fork.",
+    "Only public RSA key retained; extension ID is stable.",
+    "Video uses nativeMessaging; existing image HTTP path retained."
+  ]
+}

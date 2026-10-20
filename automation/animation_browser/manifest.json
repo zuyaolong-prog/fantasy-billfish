@@ -1,0 +1,26 @@
+{
+  "id": "billfish.animation-browser",
+  "name": "3D 预览",
+  "version": "1.0.0",
+  "platform": "win",
+  "arch": "x64",
+  "main": {
+    "url": "ui/index.html",
+    "width": 1280,
+    "height": 860,
+    "minWidth": 900,
+    "minHeight": 620
+  },
+  "preview": {
+    "glb,gltf,fbx,vtk,obj,stl,dae,ply,spline,splinecode,usdz,usdc,3dm,3mf,amf,lwo,3ds,pcd,vox,xyz,bvh,ifc,kmz": {
+      "viewer": { "path": "ui/index.html" },
+      "thumbnail": { "path": "ui/index.html", "size": 400 }
+    },
+    "hdr,exr": { "viewer": { "path": "ui/index.html" } }
+  },
+  "billfish": {
+    "builtin": true,
+    "previewEngine": "billfish-animation-browser",
+    "permissions": []
+  }
+}

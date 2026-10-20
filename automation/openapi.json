@@ -1,0 +1,1475 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Billfish local API",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://127.0.0.1:27393"
+    }
+  ],
+  "security": [
+    {
+      "localToken": []
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "localToken": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  },
+  "paths": {
+    "/health": {
+      "get": {
+        "operationId": "health",
+        "responses": {
+          "200": {
+            "description": "JSON envelope: ok + data, or ok=false + error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/capabilities": {
+      "get": {
+        "operationId": "capabilities",
+        "responses": {
+          "200": {
+            "description": "JSON envelope: ok + data, or ok=false + error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/openapi.json": {
+      "get": {
+        "operationId": "openapi",
+        "responses": {
+          "200": {
+            "description": "OpenAPI 3.1 document, without an envelope.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/execute": {
+      "post": {
+        "operationId": "execute",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "oneOf": [
+                  {
+                    "type": "object",
+                    "properties": {
+                      "operation": {
+                        "type": "string",
+                        "enum": [
+                          "library.info"
+                        ]
+                      },
+                      "arguments": {
+                        "type": "object",
+                        "properties": {},
+                        "required": [],
+                        "additionalProperties": false
+                      }
+                    },
+                    "required": [
+                      "operation",
+                      "arguments"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "operation": {
+                        "type": "string",
+                        "enum": [
+                          "items.search"
+                        ]
+                      },
+                      "arguments": {
+                        "type": "object",
+                        "properties": {
+                          "query": {
+                            "type": "string",
+                            "maxLength": 4096,
+                            "default": ""
+                          },
+                          "limit": {
+                            "type": "integer",
+                            "minimum": 1,
+                            "maximum": 500,
+                            "default": 100
+                          },
+                          "offset": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "default": 0
+                          },
+                          "folder_id": {
+                            "type": "string",
+                            "pattern": "^(0|[1-9][0-9]*)$",
+                            "maxLength": 19
+                          },
+                          "tag_id": {
+                            "type": "string",
+                            "pattern": "^[1-9][0-9]*$",
+                            "maxLength": 19,
+                            "description": "Positive signed 64-bit Billfish ID, encoded as a decimal string."
+                          },
+                          "extensions": {
+                            "type": "array",
+                            "maxItems": 100,
+                            "items": {
+                              "type": "string",
+                              "maxLength": 32
+                            }
+                          },
+                          "include_recycled": {
+                            "type": "boolean",
+                            "default": false
+                          }
+                        },
+                        "required": [],
+                        "additionalProperties": false
+                      }
+                    },
+                    "required": [
+                      "operation",
+                      "arguments"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "operation": {
+                        "type": "string",
+                        "enum": [
+                          "items.get"
+                        ]
+                      },
+                      "arguments": {
+                        "type": "object",
+                        "properties": {
+                          "item_id": {
+                            "type": "string",
+                            "pattern": "^[1-9][0-9]*$",
+                            "maxLength": 19,
+                            "description": "Positive signed 64-bit Billfish ID, encoded as a decimal string."
+                          }
+                        },
+                        "required": [
+                          "item_id"
+                        ],
+                        "additionalProperties": false
+                      }
+                    },
+                    "required": [
+                      "operation",
+                      "arguments"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "operation": {
+                        "type": "string",
+                        "enum": [
+                          "items.selected"
+                        ]
+                      },
+                      "arguments": {
+                        "type": "object",
+                        "properties": {},
+                        "required": [],
+                        "additionalProperties": false
+                      }
+                    },
+                    "required": [
+                      "operation",
+                      "arguments"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "operation": {
+                        "type": "string",
+                        "enum": [
+                          "items.replace_file"
+                        ]
+                      },
+                      "arguments": {
+                        "type": "object",
+                        "properties": {
+                          "item_id": {
+                            "type": "string",
+                            "pattern": "^[1-9][0-9]*$",
+                            "maxLength": 19,
+                            "description": "Positive signed 64-bit Billfish ID, encoded as a decimal string."
+                          },
+                          "source_path": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 32767,
+                            "pattern": "^(?:[A-Za-z]:[\\\\/]|\\\\\\\\|/).+"
+                          },
+                          "dry_run": {
+                            "type": "boolean",
+                            "default": true
+                          }
+                        },
+                        "required": [
+                          "item_id",
+                          "source_path"
+                        ],
+                        "additionalProperties": false
+                      }
+                    },
+                    "required": [
+                      "operation",
+                      "arguments"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "operation": {
+                        "type": "string",
+                        "enum": [
+                          "items.import_path"
+                        ]
+                      },
+                      "arguments": {
+                        "type": "object",
+                        "properties": {
+                          "source_path": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 32767,
+                            "pattern": "^(?:[A-Za-z]:[\\\\/]|\\\\\\\\|/).+"
+                          },
+                          "name": {
+                            "type": "string",
+                            "maxLength": 32767
+                          },
+                          "origin": {
+                            "type": "string",
+                            "maxLength": 8192,
+                            "pattern": "^(?:[hH][tT][tT][pP][sS]?://[^\\s]+)?$"
+                          },
+                          "folder_id": {
+                            "type": "string",
+                            "maxLength": 10,
+                            "default": "0",
+                            "description": "Decimal folder ID from 0 through 2147483647. Defaults to the library root for imports.",
+                            "pattern": "^(?:0|[1-9][0-9]{0,8}|1[0-9]{9}|20[0-9]{8}|21[0-3][0-9]{7}|214[0-6][0-9]{6}|2147[0-3][0-9]{5}|21474[0-7][0-9]{4}|214748[0-2][0-9]{3}|2147483[0-5][0-9]{2}|21474836[0-3][0-9]|214748364[0-7])$"
+                          }
+                        },
+                        "required": [
+                          "source_path"
+                        ],
+                        "additionalProperties": false
+                      }
+                    },
+                    "required": [
+                      "operation",
+                      "arguments"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "operation": {
+                        "type": "string",
+                        "enum": [
+                          "items.import_url"
+                        ]
+                      },
+                      "arguments": {
+                        "type": "object",
+                        "properties": {
+                          "url": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 32767,
+                            "pattern": "^[hH][tT][tT][pP][sS]?://[^\\s]+$"
+                          },
+                          "name": {
+                            "type": "string",
+                            "maxLength": 32767
+                          },
+                          "origin": {
+                            "type": "string",
+                            "maxLength": 8192,
+                            "pattern": "^(?:[hH][tT][tT][pP][sS]?://[^\\s]+)?$"
+                          },
+                          "folder_id": {
+                            "type": "string",
+                            "maxLength": 10,
+                            "default": "0",
+                            "description": "Decimal folder ID from 0 through 2147483647. Defaults to the library root for imports.",
+                            "pattern": "^(?:0|[1-9][0-9]{0,8}|1[0-9]{9}|20[0-9]{8}|21[0-3][0-9]{7}|214[0-6][0-9]{6}|2147[0-3][0-9]{5}|21474[0-7][0-9]{4}|214748[0-2][0-9]{3}|2147483[0-5][0-9]{2}|21474836[0-3][0-9]|214748364[0-7])$"
+                          }
+                        },
+                        "required": [
+                          "url"
+                        ],
+                        "additionalProperties": false
+                      }
+                    },
+                    "required": [
+                      "operation",
+                      "arguments"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "operation": {
+                        "type": "string",
+                        "enum": [
+                          "video.capture"
+                        ]
+                      },
+                      "arguments": {
+                        "type": "object",
+                        "properties": {
+                          "url": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 32767,
+                            "pattern": "^[hH][tT][tT][pP][sS]?://[^\\s]+$"
+                          },
+                          "page_url": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 32767,
+                            "pattern": "^[hH][tT][tT][pP][sS]?://[^\\s]+$"
+                          },
+                          "title": {
+                            "type": "string",
+                            "maxLength": 32767
+                          },
+                          "media_url": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 32767,
+                            "pattern": "^[hH][tT][tT][pP][sS]?://[^\\s]+$"
+                          }
+                        },
+                        "required": [
+                          "url"
+                        ],
+                        "additionalProperties": false
+                      }
+                    },
+                    "required": [
+                      "operation",
+                      "arguments"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "operation": {
+                        "type": "string",
+                        "enum": [
+                          "folders.list"
+                        ]
+                      },
+                      "arguments": {
+                        "type": "object",
+                        "properties": {},
+                        "required": [],
+                        "additionalProperties": false
+                      }
+                    },
+                    "required": [
+                      "operation",
+                      "arguments"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "operation": {
+                        "type": "string",
+                        "enum": [
+                          "tags.list"
+                        ]
+                      },
+                      "arguments": {
+                        "type": "object",
+                        "properties": {},
+                        "required": [],
+                        "additionalProperties": false
+                      }
+                    },
+                    "required": [
+                      "operation",
+                      "arguments"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "operation": {
+                        "type": "string",
+                        "enum": [
+                          "items.export"
+                        ]
+                      },
+                      "arguments": {
+                        "type": "object",
+                        "properties": {
+                          "item_ids": {
+                            "type": "array",
+                            "minItems": 1,
+                            "maxItems": 500,
+                            "items": {
+                              "type": "string",
+                              "pattern": "^[1-9][0-9]*$",
+                              "maxLength": 19,
+                              "description": "Positive signed 64-bit Billfish ID, encoded as a decimal string."
+                            }
+                          },
+                          "destination": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 32767
+                          },
+                          "dry_run": {
+                            "type": "boolean",
+                            "default": true
+                          }
+                        },
+                        "required": [
+                          "item_ids",
+                          "destination"
+                        ],
+                        "additionalProperties": false
+                      }
+                    },
+                    "required": [
+                      "operation",
+                      "arguments"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "operation": {
+                        "type": "string",
+                        "enum": [
+                          "items.update"
+                        ]
+                      },
+                      "arguments": {
+                        "type": "object",
+                        "properties": {
+                          "updates": {
+                            "type": "array",
+                            "minItems": 1,
+                            "maxItems": 500,
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "item_id": {
+                                  "type": "string",
+                                  "pattern": "^[1-9][0-9]*$",
+                                  "maxLength": 19,
+                                  "description": "Positive signed 64-bit Billfish ID, encoded as a decimal string."
+                                },
+                                "note": {
+                                  "type": "string",
+                                  "maxLength": 100000
+                                },
+                                "origin": {
+                                  "type": "string",
+                                  "maxLength": 8192
+                                }
+                              },
+                              "required": [
+                                "item_id"
+                              ],
+                              "additionalProperties": false
+                            }
+                          },
+                          "dry_run": {
+                            "type": "boolean",
+                            "default": true
+                          }
+                        },
+                        "required": [
+                          "updates"
+                        ],
+                        "additionalProperties": false
+                      }
+                    },
+                    "required": [
+                      "operation",
+                      "arguments"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "operation": {
+                        "type": "string",
+                        "enum": [
+                          "tags.create"
+                        ]
+                      },
+                      "arguments": {
+                        "type": "object",
+                        "properties": {
+                          "name": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 256
+                          },
+                          "pid": {
+                            "type": "string",
+                            "pattern": "^(0|[1-9][0-9]*)$",
+                            "maxLength": 19,
+                            "default": "0"
+                          },
+                          "dry_run": {
+                            "type": "boolean",
+                            "default": true
+                          }
+                        },
+                        "required": [
+                          "name"
+                        ],
+                        "additionalProperties": false
+                      }
+                    },
+                    "required": [
+                      "operation",
+                      "arguments"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "operation": {
+                        "type": "string",
+                        "enum": [
+                          "tags.assign"
+                        ]
+                      },
+                      "arguments": {
+                        "type": "object",
+                        "properties": {
+                          "item_ids": {
+                            "type": "array",
+                            "minItems": 1,
+                            "maxItems": 500,
+                            "items": {
+                              "type": "string",
+                              "pattern": "^[1-9][0-9]*$",
+                              "maxLength": 19,
+                              "description": "Positive signed 64-bit Billfish ID, encoded as a decimal string."
+                            }
+                          },
+                          "tag_ids": {
+                            "type": "array",
+                            "minItems": 1,
+                            "maxItems": 100,
+                            "items": {
+                              "type": "string",
+                              "pattern": "^[1-9][0-9]*$",
+                              "maxLength": 19,
+                              "description": "Positive signed 64-bit Billfish ID, encoded as a decimal string."
+                            }
+                          },
+                          "mode": {
+                            "type": "string",
+                            "enum": [
+                              "add",
+                              "remove"
+                            ],
+                            "default": "add"
+                          },
+                          "dry_run": {
+                            "type": "boolean",
+                            "default": true
+                          }
+                        },
+                        "required": [
+                          "item_ids",
+                          "tag_ids"
+                        ],
+                        "additionalProperties": false
+                      }
+                    },
+                    "required": [
+                      "operation",
+                      "arguments"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "operation": {
+                        "type": "string",
+                        "enum": [
+                          "host.info"
+                        ]
+                      },
+                      "arguments": {
+                        "type": "object",
+                        "properties": {},
+                        "required": [],
+                        "additionalProperties": false
+                      }
+                    },
+                    "required": [
+                      "operation",
+                      "arguments"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "operation": {
+                        "type": "string",
+                        "enum": [
+                          "jobs.list"
+                        ]
+                      },
+                      "arguments": {
+                        "type": "object",
+                        "properties": {},
+                        "required": [],
+                        "additionalProperties": false
+                      }
+                    },
+                    "required": [
+                      "operation",
+                      "arguments"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "operation": {
+                        "type": "string",
+                        "enum": [
+                          "jobs.get"
+                        ]
+                      },
+                      "arguments": {
+                        "type": "object",
+                        "properties": {
+                          "job_id": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 128
+                          }
+                        },
+                        "required": [
+                          "job_id"
+                        ],
+                        "additionalProperties": false
+                      }
+                    },
+                    "required": [
+                      "operation",
+                      "arguments"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "operation": {
+                        "type": "string",
+                        "enum": [
+                          "plugins.list"
+                        ]
+                      },
+                      "arguments": {
+                        "type": "object",
+                        "properties": {},
+                        "required": [],
+                        "additionalProperties": false
+                      }
+                    },
+                    "required": [
+                      "operation",
+                      "arguments"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "operation": {
+                        "type": "string",
+                        "enum": [
+                          "plugins.install"
+                        ]
+                      },
+                      "arguments": {
+                        "type": "object",
+                        "properties": {
+                          "source_path": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 32767
+                          }
+                        },
+                        "required": [
+                          "source_path"
+                        ],
+                        "additionalProperties": false
+                      }
+                    },
+                    "required": [
+                      "operation",
+                      "arguments"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "operation": {
+                        "type": "string",
+                        "enum": [
+                          "plugins.enable"
+                        ]
+                      },
+                      "arguments": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 128
+                          },
+                          "enabled": {
+                            "type": "boolean"
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "enabled"
+                        ],
+                        "additionalProperties": false
+                      }
+                    },
+                    "required": [
+                      "operation",
+                      "arguments"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "operation": {
+                        "type": "string",
+                        "enum": [
+                          "plugins.run"
+                        ]
+                      },
+                      "arguments": {
+                        "type": "object",
+                        "properties": {
+                          "plugin_id": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 128
+                          },
+                          "command": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 128
+                          },
+                          "arguments": {
+                            "type": "object",
+                            "additionalProperties": true
+                          }
+                        },
+                        "required": [
+                          "plugin_id",
+                          "command",
+                          "arguments"
+                        ],
+                        "additionalProperties": false
+                      }
+                    },
+                    "required": [
+                      "operation",
+                      "arguments"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "operation": {
+                        "type": "string",
+                        "enum": [
+                          "plugins.preview"
+                        ]
+                      },
+                      "arguments": {
+                        "type": "object",
+                        "properties": {
+                          "item_id": {
+                            "type": "string",
+                            "pattern": "^[1-9][0-9]*$",
+                            "maxLength": 19,
+                            "description": "Positive signed 64-bit Billfish ID, encoded as a decimal string."
+                          },
+                          "plugin_id": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 128
+                          }
+                        },
+                        "required": [
+                          "item_id"
+                        ],
+                        "additionalProperties": false
+                      }
+                    },
+                    "required": [
+                      "operation",
+                      "arguments"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "operation": {
+                        "type": "string",
+                        "enum": [
+                          "plugins.thumbnail"
+                        ]
+                      },
+                      "arguments": {
+                        "type": "object",
+                        "properties": {
+                          "item_id": {
+                            "type": "string",
+                            "pattern": "^[1-9][0-9]*$",
+                            "maxLength": 19,
+                            "description": "Positive signed 64-bit Billfish ID, encoded as a decimal string."
+                          },
+                          "plugin_id": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 128
+                          }
+                        },
+                        "required": [
+                          "item_id"
+                        ],
+                        "additionalProperties": false
+                      }
+                    },
+                    "required": [
+                      "operation",
+                      "arguments"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "operation": {
+                        "type": "string",
+                        "enum": [
+                          "ui.settings.open"
+                        ]
+                      },
+                      "arguments": {
+                        "type": "object",
+                        "properties": {},
+                        "required": [],
+                        "additionalProperties": false
+                      }
+                    },
+                    "required": [
+                      "operation",
+                      "arguments"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "operation": {
+                        "type": "string",
+                        "enum": [
+                          "ui.snapshot"
+                        ]
+                      },
+                      "arguments": {
+                        "type": "object",
+                        "properties": {
+                          "max_nodes": {
+                            "type": "integer",
+                            "minimum": 1,
+                            "maximum": 4000,
+                            "default": 1000
+                          },
+                          "max_items": {
+                            "type": "integer",
+                            "minimum": 1,
+                            "maximum": 500,
+                            "default": 100
+                          },
+                          "include_hidden": {
+                            "type": "boolean",
+                            "default": false
+                          }
+                        },
+                        "required": [],
+                        "additionalProperties": false
+                      }
+                    },
+                    "required": [
+                      "operation",
+                      "arguments"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "operation": {
+                        "type": "string",
+                        "enum": [
+                          "ui.click"
+                        ]
+                      },
+                      "arguments": {
+                        "type": "object",
+                        "properties": {
+                          "snapshot_id": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 128
+                          },
+                          "ref": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 128
+                          },
+                          "x": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 100000
+                          },
+                          "y": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 100000
+                          },
+                          "button": {
+                            "type": "string",
+                            "enum": [
+                              "left",
+                              "right",
+                              "middle"
+                            ],
+                            "default": "left"
+                          },
+                          "count": {
+                            "type": "integer",
+                            "enum": [
+                              1,
+                              2
+                            ],
+                            "default": 1
+                          },
+                          "modifiers": {
+                            "type": "array",
+                            "maxItems": 3,
+                            "items": {
+                              "type": "string",
+                              "enum": [
+                                "Ctrl",
+                                "Shift",
+                                "Alt"
+                              ]
+                            }
+                          }
+                        },
+                        "required": [
+                          "snapshot_id",
+                          "ref"
+                        ],
+                        "additionalProperties": false
+                      }
+                    },
+                    "required": [
+                      "operation",
+                      "arguments"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "operation": {
+                        "type": "string",
+                        "enum": [
+                          "ui.type"
+                        ]
+                      },
+                      "arguments": {
+                        "type": "object",
+                        "properties": {
+                          "snapshot_id": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 128
+                          },
+                          "ref": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 128
+                          },
+                          "text": {
+                            "type": "string",
+                            "maxLength": 65536
+                          },
+                          "replace": {
+                            "type": "boolean",
+                            "default": true
+                          }
+                        },
+                        "required": [
+                          "snapshot_id",
+                          "ref",
+                          "text"
+                        ],
+                        "additionalProperties": false
+                      }
+                    },
+                    "required": [
+                      "operation",
+                      "arguments"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "operation": {
+                        "type": "string",
+                        "enum": [
+                          "ui.key"
+                        ]
+                      },
+                      "arguments": {
+                        "type": "object",
+                        "properties": {
+                          "snapshot_id": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 128
+                          },
+                          "ref": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 128
+                          },
+                          "key": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 128
+                          }
+                        },
+                        "required": [
+                          "snapshot_id",
+                          "ref",
+                          "key"
+                        ],
+                        "additionalProperties": false
+                      }
+                    },
+                    "required": [
+                      "operation",
+                      "arguments"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "operation": {
+                        "type": "string",
+                        "enum": [
+                          "ui.scroll"
+                        ]
+                      },
+                      "arguments": {
+                        "type": "object",
+                        "properties": {
+                          "snapshot_id": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 128
+                          },
+                          "ref": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 128
+                          },
+                          "delta_x": {
+                            "type": "integer",
+                            "minimum": -12000,
+                            "maximum": 12000
+                          },
+                          "delta_y": {
+                            "type": "integer",
+                            "minimum": -12000,
+                            "maximum": 12000
+                          },
+                          "x": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 100000
+                          },
+                          "y": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 100000
+                          }
+                        },
+                        "required": [
+                          "snapshot_id",
+                          "ref",
+                          "delta_x",
+                          "delta_y"
+                        ],
+                        "additionalProperties": false
+                      }
+                    },
+                    "required": [
+                      "operation",
+                      "arguments"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "operation": {
+                        "type": "string",
+                        "enum": [
+                          "ui.drag"
+                        ]
+                      },
+                      "arguments": {
+                        "type": "object",
+                        "properties": {
+                          "snapshot_id": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 128
+                          },
+                          "ref": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 128
+                          },
+                          "from": {
+                            "type": "object",
+                            "properties": {
+                              "x": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 100000
+                              },
+                              "y": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 100000
+                              }
+                            },
+                            "required": [
+                              "x",
+                              "y"
+                            ],
+                            "additionalProperties": false
+                          },
+                          "to": {
+                            "type": "object",
+                            "properties": {
+                              "x": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 100000
+                              },
+                              "y": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 100000
+                              }
+                            },
+                            "required": [
+                              "x",
+                              "y"
+                            ],
+                            "additionalProperties": false
+                          },
+                          "steps": {
+                            "type": "integer",
+                            "minimum": 2,
+                            "maximum": 64,
+                            "default": 12
+                          },
+                          "modifiers": {
+                            "type": "array",
+                            "maxItems": 3,
+                            "items": {
+                              "type": "string",
+                              "enum": [
+                                "Ctrl",
+                                "Shift",
+                                "Alt"
+                              ]
+                            }
+                          }
+                        },
+                        "required": [
+                          "snapshot_id",
+                          "ref",
+                          "from",
+                          "to"
+                        ],
+                        "additionalProperties": false
+                      }
+                    },
+                    "required": [
+                      "operation",
+                      "arguments"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "operation": {
+                        "type": "string",
+                        "enum": [
+                          "ui.capture"
+                        ]
+                      },
+                      "arguments": {
+                        "type": "object",
+                        "properties": {
+                          "snapshot_id": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 128
+                          },
+                          "ref": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 128
+                          }
+                        },
+                        "required": [
+                          "snapshot_id",
+                          "ref"
+                        ],
+                        "additionalProperties": false
+                      }
+                    },
+                    "required": [
+                      "operation",
+                      "arguments"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "operation": {
+                        "type": "string",
+                        "enum": [
+                          "ui.invoke"
+                        ]
+                      },
+                      "arguments": {
+                        "type": "object",
+                        "properties": {
+                          "snapshot_id": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 128
+                          },
+                          "ref": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 128
+                          }
+                        },
+                        "required": [
+                          "snapshot_id",
+                          "ref"
+                        ],
+                        "additionalProperties": false
+                      }
+                    },
+                    "required": [
+                      "operation",
+                      "arguments"
+                    ],
+                    "additionalProperties": false
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "JSON envelope: ok + data, or ok=false + error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "JSON envelope: ok + data, or ok=false + error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "JSON envelope: ok + data, or ok=false + error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "JSON envelope: ok + data, or ok=false + error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "JSON envelope: ok + data, or ok=false + error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "JSON envelope: ok + data, or ok=false + error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "JSON envelope: ok + data, or ok=false + error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "JSON envelope: ok + data, or ok=false + error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "JSON envelope: ok + data, or ok=false + error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

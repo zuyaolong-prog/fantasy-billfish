@@ -1,0 +1,4 @@
+# These are pinned upstream runtime sources, not local compiler output.
+!build/
+!build/three.module.js
+!build/three.core.js

@@ -1,0 +1,26 @@
+
+body.bf-scrollcapture,
+html.bf-scrollcapture,
+html.bf-scrollcapture * {
+  scrollbar-color: transparent transparent !important;
+  scrollbar-width: none !important;
+}
+
+html.bf-scrollcapture::-webkit-scrollbar,
+html.bf-scrollcapture::-webkit-scrollbar-thumb,
+html.bf-scrollcapture::-webkit-scrollbar-track,
+
+html.bf-scrollcapture *::-webkit-scrollbar,
+html.bf-scrollcapture *::-webkit-scrollbar-thumb,
+html.bf-scrollcapture *::-webkit-scrollbar-track
+{
+  background   : transparent !important;
+  with: 0 !important;
+  height: 0px !important;
+}
+
+*[bf-scrollcapture-hidden] {
+  visibility: hidden !important;
+  opacity: 0 !important;
+  transition: none !important;
+}

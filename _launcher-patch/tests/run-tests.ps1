@@ -19,6 +19,7 @@ if($PSVersionTable.PSVersion.Major-ne5){
 & (Join-Path $PSScriptRoot 'root-topology.ps1') | Out-Host
 & (Join-Path $PSScriptRoot 'library-health.ps1') | Out-Host
 & (Join-Path $PSScriptRoot 'portable-runtime.ps1') | Out-Host
+& (Join-Path $PSScriptRoot 'plugin-ingress.ps1') | Out-Host
 
 $savedFlags = $env:QTWEBENGINE_CHROMIUM_FLAGS
 try {
