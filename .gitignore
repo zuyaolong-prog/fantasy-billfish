@@ -8,6 +8,7 @@
 **/latest-*.txt
 **/latest.txt
 /$detailLog
+/$detail
 
 # Developer build products. Installed runtime DLLs remain versioned.
 **/build/

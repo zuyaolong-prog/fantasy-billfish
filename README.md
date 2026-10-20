@@ -21,6 +21,12 @@ The first launch creates the current user's Billfish preferences under `%APPDATA
 
 Git clone and GitHub's source-code ZIP contain source, not the complete runtime. Use the release asset above to run the software. Git LFS is not used by the published source repository.
 
+## Edge capture extension
+
+The portable ZIP includes the maintained Edge capture extension 4.2.0 under `browser-extension/maintained`. After extracting to the final location, run `tools/initialize-portable.cmd` to register the current user's Native Messaging bridge with bundled Python. In `edge://extensions`, enable Developer mode, choose **Load unpacked**, and select that directory. Disable the old official Billfish capture extension. The maintained extension ID is `aloippladlgkfkcabiknfpokgcppcjkp`.
+
+For an update in the same directory, reload the maintained extension and refresh the webpage. Before moving an existing installation, run `tools/initialize-portable.ps1 -Action RestoreBrowserHost` from the old directory, then initialize the new directory and load its extension. Registration contains absolute paths and is not copied between computers. The optional extension-only ZIP contains the same extension files; video capture still requires the complete Billfish runtime and its registered bridge. See [portable migration](./docs/portable-migration.md) for checks and recovery boundaries.
+
 ## Verify the portable release
 
 The release provides `SHA256SUMS.txt` for the ZIP. Compare its value with:

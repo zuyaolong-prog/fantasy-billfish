@@ -14,7 +14,8 @@ Native Messaging 注册脚本. 新电脑不需要另外安装 Python、Node 或 
 2. 在 Edge 的 `edge://extensions` 开启开发人员模式, 选择 `加载解压缩的扩展`,
    指向本目录的 `browser-extension\maintained`. 固定 ID 应为
    `aloippladlgkfkcabiknfpokgcppcjkp`. 如果装有旧 Billfish 采集器, 手动停用旧版.
-   初始化和加载完成后, 从 Edge 菜单完整退出浏览器再打开一次.
+   同目录更新后在扩展页点击重新加载, 再刷新网页. 扩展目录改变时,
+   移除旧维护版并从新目录重新加载.
 3. 从根目录 `Billfish.exe` 启动, 打开公司已有素材库或创建新库.
    软件包不包含个人素材库、账号或插件的本机启用状态.
 
@@ -23,7 +24,8 @@ Native Messaging 注册脚本. 新电脑不需要另外安装 Python、Node 或 
 文件夹, 完整标题、来源、缩略图和播放均已验证. 首次初始化或重新注册后,
 本机曾出现 `Specified native messaging host not found`, 完全退出 Edge 再打开后
 恢复; 具体失败原因尚未捕获, 不将静态注册检查视为浏览器端到端保证.
-若新电脑也出现此错误, 先完整退出并重开 Edge, 再运行本页的 Check 检查.
+若新电脑也出现此错误, 先运行本页的 Check 检查注册和路径;
+确认注册正常后可完整退出并重开 Edge, 但重启不保证修复注册问题.
 公司电脑如果禁止加载开发人员扩展, 需遵循公司的现有浏览器管理规则.
 初始化脚本不会修改该规则.
 
@@ -38,6 +40,9 @@ Native Messaging 注册脚本. 新电脑不需要另外安装 Python、Node 或 
 默认操作只检查. Initialize 复用已有 Native Messaging 注册/备份机制,
 为新目录重新生成绝对路径. RestoreBrowserHost 撤销本工具拥有的当前用户注册,
 保留备份. 若之后再次移动本机安装目录, 先在旧位置撤销注册, 再到新位置初始化.
+新目录不会覆盖无法验证归属的旧注册, 因此确认迁移完成前保留旧目录.
+Release 的独立扩展 ZIP 与完整包内目录相同, 便于仅更新扩展;
+视频采集仍依赖完整包及其 Native Messaging bridge, 无需同时加载两份维护版.
 
 `.eagleplugin` 的默认打开方式属于每台电脑的用户设置, 不随复制自动迁移.
 需要在新电脑启用时, 使用 `_launcher-patch\plugin-package-association.ps1`
@@ -72,7 +77,9 @@ Billfish host 的 named pipe, 不需要在新机器配置全局桌面控制或�
 [billfish-ui-control.md](billfish-ui-control.md). 本轮的部署/验收状态见
 [task_state.md](../task-memory/task-billfish-independent-control-3d-trim/task_state.md).
 
-3D 格式扩展维护包为
+当前完整包内置 3D/动画 viewer, 资料库就绪后自动启动, 支持的模型可直接双击打开.
+Solid/Material 双按钮, 动画发现与切换, 播放速度/逐帧/骨架和自由漫游均随包提供.
+不需要先安装额外插件才能使用内置 viewer. 既有 3D 格式扩展维护包为
 `tools\plugin-packages\3d-format-extension-1.9.0.eagleplugin`.
 它保留原插件本地资源, 不复制 Eagle 账号, 私密设置或付费模块.
 在 Billfish 设置的插件页安装本地包, 然后手动开启. 新装默认关闭,
@@ -85,7 +92,8 @@ Billfish host 的 named pipe, 不需要在新机器配置全局桌面控制或�
 全部声明后缀及公司电脑 GPU/驱动尚未完成实测, 详细覆盖见
 [eagle-plugin-compatibility.md](eagle-plugin-compatibility.md).
 
-维护机最终运行基线为 phase8, preview DLL SHA-256
-`780B6DEC7931D8A40F6C1A471B502BF8E02C3FDC1AED09A517A11900AB3E465A`,
-1,483,776 bytes, 166 项 runtime fingerprints, unified `Healthy:true`.
-这些指纹用于核对本次完整维护包, 不代表既有 GitHub Release 已重新发布.
+2026-10-20 便携版运行基线的 preview DLL SHA-256 为
+`002C700DEA52448467AD18C61CDD04957DB34E68D785B9D73AFFAE6372943B95`,
+1,665,536 bytes, 230 项 runtime fingerprints, unified `Healthy:true`.
+包内 `_launcher-patch/portable-runtime.json` 是逐文件校验依据,
+Release 的 `SHA256SUMS.txt` 用于核对下载的 ZIP.
